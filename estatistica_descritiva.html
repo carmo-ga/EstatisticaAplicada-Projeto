@@ -6,7 +6,14 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
         <title>Estatística Descritiva</title>
     </head>
-
+    <style>
+        table tr td {
+            border: solid 1px #000;
+        }
+        table thead tr th {
+            border: solid 1px #000;
+        }
+    </style>
     <body>
 
         <header class="header">
@@ -32,6 +39,390 @@
                     <h1 class="title">Estatístiva Descritiva</h1>
                 </div>
             </div>
+
+            <section>
+                <div class="upload">
+                    <label>Importar Dados</label>
+                    <input type="file" class="importarArquivo" accept=".csv, .xlsx, .xlsm">
+                    <button class="importarArquivo">Salvar</button>
+                </div>
+
+                <div class="manual">
+                    <label>Inserir Dados</label>
+                    <input type="text" id="inserirManual" class="inserirManual" placeholder="Inserir Dados Manualmente">
+                    <small>Os dados devem ser separados por ponto e vírgula(;)</small>
+                </div>
+
+                <div class="nomeVariavel">
+                    <label>Nome da Variável</label>
+                    <input type="text" id="nomeVariavel" class="nomeVariavel" placeholder="Inserir Nome da Variável">
+                </div>
+
+                <div class="amostraPopulacao">
+                    <button class="amostra">Amostra</button>
+                    <button class="populacao">População</button>
+                </div>
+
+                <div class="tipoVariavel">
+                    <label>Tipo de Variável</label>
+                    <select id="tipoVariavel">
+                        <option>(Selecione)</option>
+                        <option>Qualitativa Nominal</option>
+                        <option>Qualitativa Ordinal</option>
+                        <option>Quantitativa Discreta</option>
+                        <option>Quantitativa Contínua</option>
+                    </select>
+                </div>
+
+                <div class="calcular">
+                    <button id="botaoCalcular" class="calcular">Calcular</button>
+                </div>
+
+                <div class="exibirTabela">
+                    <table id="tabela" class="tabela" style="display: none">
+                        <thead id="cabecalhoTabela">
+                            <tr>
+                                <th id="tituloTabela"></th>
+                            </tr>
+                            <tr>
+                                <th id="freqSimples"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="corpoTabela">
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+            </section>
+
+            <!-- 
+                Entrada de dados (manualmente ou por upload)
+                Nome da variável (funcionando)
+
+                Ícones amostra ou população (sem funcionar)
+                Ícones tipos de variáveis (funcionando)
+
+                Botão de Calcular (funcionando)
+                Tabelas montadas aparecendo para o usuário (funcionando)
+
+            -->
+
+            <script>
+
+                const dadoManual = document.querySelector('#inserirManual')
+                const botaoCalcular = document.querySelector('#botaoCalcular')
+                const nomeVariavel = document.querySelector('#nomeVariavel')
+                const tabela = document.querySelector('#tabela')
+                const tituloTabela = document.querySelector('#tituloTabela')
+                const corpoTabela = document.querySelector('#corpoTabela')
+                const tipoVariavel = document.querySelector('#tipoVariavel')
+                const freqSimples = document.querySelector('#freqSimples')
+                const cabecalhoTabela = document.querySelector('#cabecalhoTabela')
+
+                function exibirManual() {
+
+                    let valido = true
+
+                    let stringManual = dadoManual.value
+                    console.log(stringManual)
+
+                    let vetorDados = stringManual.split(';')
+
+                    for(let i = 0; i < vetorDados.length; i++) {
+                        vetorDados[i] = vetorDados[i].trim()
+                    }
+
+                    if(nomeVariavel.value == '') {
+                        alert('Informe o nome da variável.')
+                        nomeVariavel.focus()
+                        valido = false
+                    }
+                    else if(tipoVariavel.selectedIndex <= 0) {
+                        alert('Selecione o tipo de variável.')
+                        tipoVariavel.focus()
+                        valido = false
+                    }
+
+
+                    if(valido == true) {
+
+                        tituloTabela.innerHTML = nomeVariavel.value
+                        cabecalhoTabela.appendChild(tituloTabela)
+
+                        freqSimples.innerHTML = "Frequência Simples"
+                        cabecalhoTabela.appendChild(freqSimples)
+
+                        if(tipoVariavel.selectedIndex == 1 || tipoVariavel.selectedIndex == 2) {
+                            vetorDados.sort()
+                            console.log(vetorDados)
+
+
+                            let vetorVariavel = []
+                            for(let i = 0; i < vetorDados.length; i++) {
+                                if(vetorDados[i] !== vetorDados[i + 1]) {
+                                    vetorVariavel.push(vetorDados[i])
+                                }
+                            }
+                            console.log('Vetor Variável: ' + vetorVariavel)
+
+
+                            let vetorTotal = []
+                            for(let i = 0; i < vetorVariavel.length; i++) {
+                                
+                                let linha = document.createElement('tr')
+
+                                let cont = 0
+                                for(let j = 0; j < vetorDados.length; j++) {
+
+                                    if (vetorVariavel[i] == vetorDados[j]) {
+                                        cont = cont + 1
+                                    }                                
+                                }
+
+                                vetorTotal.push(cont)
+
+                                
+                                let celulaVariavel = document.createElement('td')
+                                let celulaFreqSim = document.createElement('td')
+                                
+                                celulaVariavel.innerHTML = vetorVariavel[i]
+                                celulaFreqSim.innerHTML = cont
+
+                                corpoTabela.appendChild(linha)
+                                linha.appendChild(celulaVariavel)
+                                linha.appendChild(celulaFreqSim)
+                            }
+                        
+
+                            let linhaTotal = document.createElement('tr')
+                            linhaTotal.innerHTML = "Total"
+                            corpoTabela.appendChild(linhaTotal)
+
+                            function somaTotal() {
+                                let soma = 0
+                                for(let i in vetorTotal) {
+                                    soma += vetorTotal[i]
+                                }
+                                return soma
+                            }
+
+                            let total = document.createElement('td')
+                            total.innerHTML = somaTotal()
+                            linhaTotal.appendChild(total)
+
+                        }
+
+
+                        // QUANTITATIVA DISCRETA
+                        if(tipoVariavel.selectedIndex == 3) {
+
+                            
+                            for(let i = 0; i < vetorDados.length; i++) {
+
+                                if(vetorDados[i].indexOf(',')) {
+                                    vetorDados[i] = vetorDados[i].replace(",", ".")
+                                    vetorDados[i] = parseFloat(vetorDados[i])
+                                }
+                                else {
+                                    vetorDados[i] = parseInt(vetorDados[i])
+                                }
+                            }
+                            
+                            vetorDados.sort(function(a, b) {
+                                return a - b;
+                            });
+
+                            console.log(vetorDados)
+
+
+                            let vetorVariavel = []
+                            for(let i = 0; i < vetorDados.length; i++) {
+                                if(vetorDados[i] !== vetorDados[i + 1]) {
+                                    vetorVariavel.push(vetorDados[i])
+                                }
+                            }
+                            console.log('Vetor Variável: ' + vetorVariavel)
+
+
+                            let vetorTotal = []
+                            for(let i = 0; i < vetorVariavel.length; i++) {
+                                
+                                let linha = document.createElement('tr')
+
+                                let cont = 0
+                                for(let j = 0; j < vetorDados.length; j++) {
+
+                                    if (vetorVariavel[i] == vetorDados[j]) {
+                                        cont = cont + 1
+                                }                                
+                            }
+
+                            vetorTotal.push(cont)
+
+                            
+                            let celulaVariavel = document.createElement('td')
+                            let celulaFreqSim = document.createElement('td')
+                            
+                            celulaVariavel.innerHTML = vetorVariavel[i]
+                            celulaFreqSim.innerHTML = cont
+
+                            corpoTabela.appendChild(linha)
+                            linha.appendChild(celulaVariavel)
+                            linha.appendChild(celulaFreqSim)
+                        }
+                        
+
+                        let linhaTotal = document.createElement('tr')
+                        linhaTotal.innerHTML = "Total"
+                        corpoTabela.appendChild(linhaTotal)
+
+                        function somaTotal() {
+                            let soma = 0
+                            for(let i in vetorTotal) {
+                                soma += vetorTotal[i]
+                            }
+                            return soma
+                        }
+
+                        let total = document.createElement('td')
+                        total.innerHTML = somaTotal()
+                        linhaTotal.appendChild(total)
+                            
+                        } 
+
+                        // QUANTITATIVA CONTÍNUA
+                        if(tipoVariavel.selectedIndex == 4) {
+
+                                                        
+                            for(let i = 0; i < vetorDados.length; i++) {
+
+                                if(vetorDados[i].indexOf(',')) {
+                                    vetorDados[i] = vetorDados[i].replace(",", ".")
+                                    vetorDados[i] = parseFloat(vetorDados[i])
+                                }
+                                else {
+                                    vetorDados[i] = parseInt(vetorDados[i])
+                                }
+                            }
+
+                            vetorDados.sort(function(a, b) {
+                                return a - b;
+                            });
+
+                            console.log('Vetor Dados: ' + vetorDados)
+
+                            // AMPLITUDE TOTAL DA SEQUÊNCIA (MAIOR NÚMERO DA DISTRIBUIÇÃO - MENOR NÚMERO DA DISTRIBUIÇÃO)
+                            let amplitude = (vetorDados[vetorDados.length - 1]) - vetorDados[0]
+                            console.log(amplitude) 
+
+                            // QUANTIDADE DE CLASSES (QUANTIDADE DE LINHAS)
+                            let k = Math.trunc(Math.sqrt(vetorDados.length)) // Raiz quadrada de n, n é a quantidade total pesquisada
+                            let kMenos1 = k - 1
+                            let kMais1 = k + 1
+                        
+                            console.log(kMenos1, k, kMais1)
+
+                            // INTERVALO DE CLASSE = AMPLITUDE + 1(PELO MENOS) / QUANTIDADE DE CLASSES                            
+                            let intervalo
+                            let qtLinhas
+                            let controle = false
+                            while(controle === false) {
+
+                                amplitude = amplitude + 1
+
+                                if(amplitude % k === 0) {
+                                    intervalo = (amplitude) / k
+                                    qtLinhas = k
+                                    controle = true
+                                }
+                                else if(amplitude % kMenos1 === 0) {
+                                    intervalo = (amplitude) / kMenos1
+                                    qtLinhas = kMenos1
+                                    controle = true
+                                }
+                                else if(amplitude % kMenos1 === 0) {
+                                    intervalo = (amplitude) / kMais1
+                                    qtLinhas = kMais1
+                                    controle = true
+                                }                                
+                            }   
+                            console.log("Amplitude: " + amplitude)
+                            console.log("Quantidade de Classe: " + qtLinhas)
+                            console.log("Intervalo: " + intervalo)
+                            console.log(vetorDados)
+
+
+                            let vetorVariavel = []
+                            for(let i = 0; i < vetorDados.length; i++) {
+                                if(vetorDados[i] !== vetorDados[i + 1]) {
+                                    vetorVariavel.push(vetorDados[i])
+                                }
+                            }
+                            console.log('Vetor Variável: ' + vetorVariavel)
+
+                            let inferior = vetorDados[0]
+                            let vetorTotal = []
+                            for(let i = 0; i < qtLinhas; i++) {
+                                let superior = inferior + intervalo
+
+
+                                function contTotal() {
+                                    let cont = 0
+
+                                    for(let i = 0; i < vetorDados.length; i++) {
+                                        if((vetorDados[i] >= inferior) && (vetorDados[i] < superior)) {
+                                            cont = cont + 1
+                                        }
+                                    }
+                                    return cont
+                                }
+
+                                vetorTotal.push(contTotal())
+
+                                let linha = document.createElement('tr')
+                                let celula = document.createElement('td')
+
+                                celula.innerHTML = inferior + " &#8866; " + superior
+                                corpoTabela.appendChild(linha)
+                                linha.appendChild(celula)
+
+                                let celulaCont = document.createElement('td')
+                                celulaCont.innerHTML = contTotal()
+                                
+                                linha.appendChild(celulaCont)
+
+                                inferior = superior
+                            }
+
+                            let linhaTotal = document.createElement('tr')
+                            linhaTotal.innerHTML = "Total"
+                            corpoTabela.appendChild(linhaTotal)
+
+                            function somaTotal() {
+                                let soma = 0
+                                for(let i in vetorTotal) {
+                                    soma += vetorTotal[i]
+                                }
+                                return soma
+                            }
+
+                            let total = document.createElement('td')
+                            total.innerHTML = somaTotal()
+                            linhaTotal.appendChild(total)
+                        } 
+                    
+                        // FIM DA QUANTITATIVA CONTÍNUA
+
+                        tabela.style="display: normal"                        
+                    }
+                }
+
+                botaoCalcular.addEventListener('click', exibirManual)
+                
+            </script>
+
         </main>
     </body>
 </html>
