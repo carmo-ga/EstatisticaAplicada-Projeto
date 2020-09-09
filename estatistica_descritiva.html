@@ -87,6 +87,9 @@
                             <tr>
                                 <th id="freqSimples"></th>
                             </tr>
+                            <tr>
+                                <th id="freqRelativa"></th>
+                            </tr>
                         </thead>
 
                         <tbody id="corpoTabela">
@@ -94,7 +97,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
             </section>
 
             <!-- 
@@ -106,7 +109,6 @@
 
                 Botão de Calcular (funcionando)
                 Tabelas montadas aparecendo para o usuário (funcionando)
-
             -->
 
             <script>
@@ -120,8 +122,12 @@
                 const tipoVariavel = document.querySelector('#tipoVariavel')
                 const freqSimples = document.querySelector('#freqSimples')
                 const cabecalhoTabela = document.querySelector('#cabecalhoTabela')
+                const freqRelativa = document.querySelector('#freqRelativa')
 
                 function exibirManual() {
+
+                    cabecalhoTabela.innerHTML = ""
+                    corpoTabela.innerHTML = ""
 
                     let valido = true
 
@@ -154,12 +160,17 @@
                         freqSimples.innerHTML = "Frequência Simples"
                         cabecalhoTabela.appendChild(freqSimples)
 
+                        freqRelativa.innerHTML = "Frequência Relativa"
+                        cabecalhoTabela.appendChild(freqRelativa)
+
+
                         if(tipoVariavel.selectedIndex == 1 || tipoVariavel.selectedIndex == 2) {
                             vetorDados.sort()
                             console.log(vetorDados)
 
 
                             let vetorVariavel = []
+                            let percentualTotal = 0
                             for(let i = 0; i < vetorDados.length; i++) {
                                 if(vetorDados[i] !== vetorDados[i + 1]) {
                                     vetorVariavel.push(vetorDados[i])
@@ -178,21 +189,27 @@
 
                                     if (vetorVariavel[i] == vetorDados[j]) {
                                         cont = cont + 1
-                                    }                                
+                                    }                            
                                 }
+
+                                // FREQUÊNCIA RELATIVA
+                                let freqRelativa = (cont * 100) / vetorDados.length
+                                percentualTotal = percentualTotal + freqRelativa
 
                                 vetorTotal.push(cont)
 
-                                
                                 let celulaVariavel = document.createElement('td')
                                 let celulaFreqSim = document.createElement('td')
+                                let celulaFreqRelativa = document.createElement('td')
                                 
                                 celulaVariavel.innerHTML = vetorVariavel[i]
                                 celulaFreqSim.innerHTML = cont
+                                celulaFreqRelativa.innerHTML = freqRelativa + '%'
 
                                 corpoTabela.appendChild(linha)
                                 linha.appendChild(celulaVariavel)
                                 linha.appendChild(celulaFreqSim)
+                                linha.appendChild(celulaFreqRelativa)
                             }
                         
 
@@ -212,6 +229,9 @@
                             total.innerHTML = somaTotal()
                             linhaTotal.appendChild(total)
 
+                            let totalPercentual = document.createElement('td')
+                            totalPercentual.innerHTML = percentualTotal + '%'
+                            linhaTotal.appendChild(totalPercentual)
                         }
 
 
@@ -238,6 +258,7 @@
 
 
                             let vetorVariavel = []
+                            let percentualTotal = 0
                             for(let i = 0; i < vetorDados.length; i++) {
                                 if(vetorDados[i] !== vetorDados[i + 1]) {
                                     vetorVariavel.push(vetorDados[i])
@@ -256,45 +277,54 @@
 
                                     if (vetorVariavel[i] == vetorDados[j]) {
                                         cont = cont + 1
-                                }                                
+                                    }                            
+                                }
+
+                                // FREQUÊNCIA RELATIVA
+                                let freqRelativa = (cont * 100) / vetorDados.length
+                                percentualTotal = percentualTotal + freqRelativa
+
+                                vetorTotal.push(cont)
+
+                                let celulaVariavel = document.createElement('td')
+                                let celulaFreqSim = document.createElement('td')
+                                let celulaFreqRelativa = document.createElement('td')
+                                
+                                celulaVariavel.innerHTML = vetorVariavel[i]
+                                celulaFreqSim.innerHTML = cont
+                                celulaFreqRelativa.innerHTML = freqRelativa + '%'
+
+                                corpoTabela.appendChild(linha)
+                                linha.appendChild(celulaVariavel)
+                                linha.appendChild(celulaFreqSim)
+                                linha.appendChild(celulaFreqRelativa)
                             }
-
-                            vetorTotal.push(cont)
-
-                            
-                            let celulaVariavel = document.createElement('td')
-                            let celulaFreqSim = document.createElement('td')
-                            
-                            celulaVariavel.innerHTML = vetorVariavel[i]
-                            celulaFreqSim.innerHTML = cont
-
-                            corpoTabela.appendChild(linha)
-                            linha.appendChild(celulaVariavel)
-                            linha.appendChild(celulaFreqSim)
-                        }
                         
 
-                        let linhaTotal = document.createElement('tr')
-                        linhaTotal.innerHTML = "Total"
-                        corpoTabela.appendChild(linhaTotal)
+                            let linhaTotal = document.createElement('tr')
+                            linhaTotal.innerHTML = "Total"
+                            corpoTabela.appendChild(linhaTotal)
 
-                        function somaTotal() {
-                            let soma = 0
-                            for(let i in vetorTotal) {
-                                soma += vetorTotal[i]
+                            function somaTotal() {
+                                let soma = 0
+                                for(let i in vetorTotal) {
+                                    soma += vetorTotal[i]
+                                }
+                                return soma
                             }
-                            return soma
-                        }
 
-                        let total = document.createElement('td')
-                        total.innerHTML = somaTotal()
-                        linhaTotal.appendChild(total)
+                            let total = document.createElement('td')
+                            total.innerHTML = somaTotal()
+                            linhaTotal.appendChild(total)
+
+                            let totalPercentual = document.createElement('td')
+                            totalPercentual.innerHTML = percentualTotal + '%'
+                            linhaTotal.appendChild(totalPercentual)
                             
                         } 
 
                         // QUANTITATIVA CONTÍNUA
                         if(tipoVariavel.selectedIndex == 4) {
-
                                                         
                             for(let i = 0; i < vetorDados.length; i++) {
 
@@ -364,6 +394,7 @@
 
                             let inferior = vetorDados[0]
                             let vetorTotal = []
+                            let percentualTotal = 0
                             for(let i = 0; i < qtLinhas; i++) {
                                 let superior = inferior + intervalo
 
@@ -381,6 +412,11 @@
 
                                 vetorTotal.push(contTotal())
 
+                                // FREQUÊNCIA RELATIVA
+                                let freqRelativa = (contTotal() * 100) / vetorDados.length
+                                percentualTotal = percentualTotal + freqRelativa
+
+
                                 let linha = document.createElement('tr')
                                 let celula = document.createElement('td')
 
@@ -392,6 +428,11 @@
                                 celulaCont.innerHTML = contTotal()
                                 
                                 linha.appendChild(celulaCont)
+
+                                let celulaFreqRelativa = document.createElement('td')
+                                celulaFreqRelativa.innerHTML = freqRelativa + '%'
+                                
+                                linha.appendChild(celulaFreqRelativa)
 
                                 inferior = superior
                             }
@@ -411,8 +452,12 @@
                             let total = document.createElement('td')
                             total.innerHTML = somaTotal()
                             linhaTotal.appendChild(total)
+
+                            let totalPercentual = document.createElement('td')
+                            totalPercentual.innerHTML = percentualTotal + '%'
+                            linhaTotal.appendChild(totalPercentual)
+                            
                         } 
-                    
                         // FIM DA QUANTITATIVA CONTÍNUA
 
                         tabela.style="display: normal"                        
