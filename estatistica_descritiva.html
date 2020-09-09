@@ -25,7 +25,7 @@
                             <a href="index.html" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Estatísta Descritiva</a>
+                            <a href="#" class="nav-link">Estatística Descritiva</a>
                         </li>
                     </ul>
 
@@ -36,7 +36,7 @@
         <main>
             <div class="container">
                 <div class="heading">
-                    <h1 class="title">Estatístiva Descritiva</h1>
+                    <h1 class="title">Estatística Descritiva</h1>
                 </div>
             </div>
 
@@ -90,6 +90,12 @@
                             <tr>
                                 <th id="freqRelativa"></th>
                             </tr>
+                            <tr>
+                                <th id="freqAcumulada"></th>
+                            </tr>
+                            <tr>
+                                <th id="freqAcumuladaPerc"></th>
+                            </tr>
                         </thead>
 
                         <tbody id="corpoTabela">
@@ -100,16 +106,6 @@
 
             </section>
 
-            <!-- 
-                Entrada de dados (manualmente ou por upload)
-                Nome da variável (funcionando)
-
-                Ícones amostra ou população (sem funcionar)
-                Ícones tipos de variáveis (funcionando)
-
-                Botão de Calcular (funcionando)
-                Tabelas montadas aparecendo para o usuário (funcionando)
-            -->
 
             <script>
 
@@ -123,6 +119,8 @@
                 const freqSimples = document.querySelector('#freqSimples')
                 const cabecalhoTabela = document.querySelector('#cabecalhoTabela')
                 const freqRelativa = document.querySelector('#freqRelativa')
+                const freqAcumulada = document.querySelector('#freqAcumulada')
+                const freqAcumuladaPerc = document.querySelector('#freqAcumuladaPerc')
 
                 function exibirManual() {
 
@@ -157,12 +155,17 @@
                         tituloTabela.innerHTML = nomeVariavel.value
                         cabecalhoTabela.appendChild(tituloTabela)
 
-                        freqSimples.innerHTML = "Frequência Simples"
+                        freqSimples.innerHTML = "Freq. Simples"
                         cabecalhoTabela.appendChild(freqSimples)
 
-                        freqRelativa.innerHTML = "Frequência Relativa"
+                        freqRelativa.innerHTML = "Freq. Relativa (%)"
                         cabecalhoTabela.appendChild(freqRelativa)
 
+                        freqAcumulada.innerHTML = "Freq. Acumulada"
+                        cabecalhoTabela.appendChild(freqAcumulada)
+
+                        freqAcumuladaPerc.innerHTML = "Freq. Acumulada (%)"
+                        cabecalhoTabela.appendChild(freqAcumuladaPerc)
 
                         if(tipoVariavel.selectedIndex == 1 || tipoVariavel.selectedIndex == 2) {
                             vetorDados.sort()
@@ -180,6 +183,7 @@
 
 
                             let vetorTotal = []
+                            let vetorFreqTotal = []
                             for(let i = 0; i < vetorVariavel.length; i++) {
                                 
                                 let linha = document.createElement('tr')
@@ -193,40 +197,49 @@
                                 }
 
                                 // FREQUÊNCIA RELATIVA
-                                let freqRelativa = (cont * 100) / vetorDados.length
+                                let freqRelativa = (cont / vetorDados.length) * 100
                                 percentualTotal = percentualTotal + freqRelativa
 
                                 vetorTotal.push(cont)
+                                vetorFreqTotal.push(freqRelativa)
 
                                 let celulaVariavel = document.createElement('td')
                                 let celulaFreqSim = document.createElement('td')
                                 let celulaFreqRelativa = document.createElement('td')
+                                let celulaFreqAcum = document.createElement('td')
+                                let celulaFreqAcumPer = document.createElement('td')
                                 
                                 celulaVariavel.innerHTML = vetorVariavel[i]
                                 celulaFreqSim.innerHTML = cont
-                                celulaFreqRelativa.innerHTML = freqRelativa + '%'
+                                celulaFreqRelativa.innerHTML = freqRelativa.toFixed(2) + '%'
+                                // FREQUÊNCIA ACUMULADA
+                                celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
+
+                                // FREQUÊNCIA ACUMULADA PERCENTUAL
+                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal) + '%'
 
                                 corpoTabela.appendChild(linha)
                                 linha.appendChild(celulaVariavel)
                                 linha.appendChild(celulaFreqSim)
                                 linha.appendChild(celulaFreqRelativa)
+                                linha.appendChild(celulaFreqAcum)
+                                linha.appendChild(celulaFreqAcumPer)
                             }
-                        
 
                             let linhaTotal = document.createElement('tr')
                             linhaTotal.innerHTML = "Total"
                             corpoTabela.appendChild(linhaTotal)
 
-                            function somaTotal() {
+                            function somaTotal(vetor) {
                                 let soma = 0
-                                for(let i in vetorTotal) {
-                                    soma += vetorTotal[i]
+                                for(let i in vetor) {
+                                    soma += vetor[i]
                                 }
                                 return soma
                             }
 
                             let total = document.createElement('td')
-                            total.innerHTML = somaTotal()
+                            total.innerHTML = somaTotal(vetorTotal)
                             linhaTotal.appendChild(total)
 
                             let totalPercentual = document.createElement('td')
@@ -235,7 +248,7 @@
                         }
 
 
-                        // QUANTITATIVA DISCRETA
+                        // QUANTITATIVA DISCRETA ---------------------------
                         if(tipoVariavel.selectedIndex == 3) {
 
                             
@@ -268,6 +281,7 @@
 
 
                             let vetorTotal = []
+                            let vetorFreqTotal = []
                             for(let i = 0; i < vetorVariavel.length; i++) {
                                 
                                 let linha = document.createElement('tr')
@@ -281,23 +295,33 @@
                                 }
 
                                 // FREQUÊNCIA RELATIVA
-                                let freqRelativa = (cont * 100) / vetorDados.length
+                                let freqRelativa = (cont / vetorDados.length) * 100
                                 percentualTotal = percentualTotal + freqRelativa
 
                                 vetorTotal.push(cont)
+                                vetorFreqTotal.push(freqRelativa)
 
                                 let celulaVariavel = document.createElement('td')
                                 let celulaFreqSim = document.createElement('td')
                                 let celulaFreqRelativa = document.createElement('td')
+                                let celulaFreqAcum = document.createElement('td')
+                                let celulaFreqAcumPer = document.createElement('td')
                                 
                                 celulaVariavel.innerHTML = vetorVariavel[i]
                                 celulaFreqSim.innerHTML = cont
-                                celulaFreqRelativa.innerHTML = freqRelativa + '%'
+                                celulaFreqRelativa.innerHTML = freqRelativa.toFixed(2) + '%'
+                                // FREQUÊNCIA ACUMULADA
+                                celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
+
+                                // FREQUÊNCIA ACUMULADA PERCENTUAL
+                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal) + '%'
 
                                 corpoTabela.appendChild(linha)
                                 linha.appendChild(celulaVariavel)
                                 linha.appendChild(celulaFreqSim)
                                 linha.appendChild(celulaFreqRelativa)
+                                linha.appendChild(celulaFreqAcum)
+                                linha.appendChild(celulaFreqAcumPer)
                             }
                         
 
@@ -305,20 +329,20 @@
                             linhaTotal.innerHTML = "Total"
                             corpoTabela.appendChild(linhaTotal)
 
-                            function somaTotal() {
+                            function somaTotal(vetor) {
                                 let soma = 0
-                                for(let i in vetorTotal) {
-                                    soma += vetorTotal[i]
+                                for(let i in vetor) {
+                                    soma += vetor[i]
                                 }
                                 return soma
                             }
 
                             let total = document.createElement('td')
-                            total.innerHTML = somaTotal()
+                            total.innerHTML = somaTotal(vetorTotal)
                             linhaTotal.appendChild(total)
 
                             let totalPercentual = document.createElement('td')
-                            totalPercentual.innerHTML = percentualTotal + '%'
+                            totalPercentual.innerHTML = Math.round(percentualTotal) + '%'
                             linhaTotal.appendChild(totalPercentual)
                             
                         } 
@@ -394,6 +418,7 @@
 
                             let inferior = vetorDados[0]
                             let vetorTotal = []
+                            let vetorFreqTotal = []
                             let percentualTotal = 0
                             for(let i = 0; i < qtLinhas; i++) {
                                 let superior = inferior + intervalo
@@ -411,11 +436,13 @@
                                 }
 
                                 vetorTotal.push(contTotal())
+                                console.log(vetorTotal)
 
                                 // FREQUÊNCIA RELATIVA
-                                let freqRelativa = (contTotal() * 100) / vetorDados.length
+                                let freqRelativa = (contTotal() / vetorDados.length) * 100
                                 percentualTotal = percentualTotal + freqRelativa
 
+                                vetorFreqTotal.push(freqRelativa)
 
                                 let linha = document.createElement('tr')
                                 let celula = document.createElement('td')
@@ -430,9 +457,21 @@
                                 linha.appendChild(celulaCont)
 
                                 let celulaFreqRelativa = document.createElement('td')
-                                celulaFreqRelativa.innerHTML = freqRelativa + '%'
-                                
+                                celulaFreqRelativa.innerHTML = freqRelativa.toFixed(2) + '%'
+
                                 linha.appendChild(celulaFreqRelativa)
+
+                                // FREQUÊNCIA ACUMULADA
+                                let celulaFreqAcum = document.createElement('td')
+                                celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
+                                
+                                linha.appendChild(celulaFreqAcum)
+
+                                // FREQUÊNCIA ACUMULADA PERCENTUAL
+                                let celulaFreqAcumPer = document.createElement('td')
+                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal) + '%'
+
+                                linha.appendChild(celulaFreqAcumPer)
 
                                 inferior = superior
                             }
@@ -441,16 +480,16 @@
                             linhaTotal.innerHTML = "Total"
                             corpoTabela.appendChild(linhaTotal)
 
-                            function somaTotal() {
+                            function somaTotal(vetor) {
                                 let soma = 0
-                                for(let i in vetorTotal) {
-                                    soma += vetorTotal[i]
+                                for(let i in vetor) {
+                                    soma += vetor[i]
                                 }
                                 return soma
                             }
 
                             let total = document.createElement('td')
-                            total.innerHTML = somaTotal()
+                            total.innerHTML = somaTotal(vetorTotal)
                             linhaTotal.appendChild(total)
 
                             let totalPercentual = document.createElement('td')
