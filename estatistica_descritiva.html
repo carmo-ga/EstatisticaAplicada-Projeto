@@ -13,6 +13,9 @@
         table thead tr th {
             border: solid 1px #000;
         }
+
+
+
     </style>
     <body>
 
@@ -104,6 +107,22 @@
                     </table>
                 </div>
 
+                <div class="container">
+                    <h1>Medidas de Tendência Central</h1>
+                    <div class="media" id="media">
+                        
+                    </div>
+
+                    <div class="mediana" id="mediana">
+
+                    </div>
+
+                    <div class="moda" id="moda">
+                        
+                    </div>
+
+                </div>
+
             </section>
 
 
@@ -121,6 +140,9 @@
                 const freqRelativa = document.querySelector('#freqRelativa')
                 const freqAcumulada = document.querySelector('#freqAcumulada')
                 const freqAcumuladaPerc = document.querySelector('#freqAcumuladaPerc')
+                const resultMedia = document.querySelector('#media')
+                const resultModa = document.querySelector('#moda')
+                const resultMediana = document.querySelector('#mediana')
 
                 function exibirManual() {
 
@@ -245,6 +267,46 @@
                             let totalPercentual = document.createElement('td')
                             totalPercentual.innerHTML = percentualTotal + '%'
                             linhaTotal.appendChild(totalPercentual)
+
+
+                            // MEDIANA
+                            let mediana
+                            let posicao = 0
+                            if((vetorDados.length % 2) === 0) {
+                                posicao = vetorDados.length / 2
+                                console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
+                                mediana = vetorDados[posicao - 1] 
+                                console.log(posicao)                            
+                            }
+                            else {
+                                posicao = ((vetorDados.length - 1) / 2) + 1
+                                console.log('É ímpar. Posição: ' + posicao)
+                                mediana = vetorDados[posicao]
+                            }
+
+                            resultMediana.innerHTML = 'Mediana: ' + mediana 
+                            
+                            // MODA
+                            console.log(vetorTotal)
+
+                            let maior = vetorTotal[0]
+                            for(let i = 1; i < vetorTotal.length; i++) {
+                                if(vetorTotal[i] > maior) {
+                                    maior = vetorTotal[i]
+                                }
+                            } 
+
+                            let vetorModa = []
+                            for(let i = 0; i < vetorTotal.length; i++) {
+                                if(vetorTotal[i] === maior) {
+                                    vetorModa.push(vetorVariavel[i])
+                                }
+                            }
+
+                            resultModa.innerHTML = 'Moda: ' + vetorModa
+
+                            console.log(maior)
+                            console.log(vetorModa)
                         }
 
 
@@ -272,13 +334,13 @@
 
                             let vetorVariavel = []
                             let percentualTotal = 0
+                            let vetorFac = []
                             for(let i = 0; i < vetorDados.length; i++) {
                                 if(vetorDados[i] !== vetorDados[i + 1]) {
                                     vetorVariavel.push(vetorDados[i])
                                 }
                             }
                             console.log('Vetor Variável: ' + vetorVariavel)
-
 
                             let vetorTotal = []
                             let vetorFreqTotal = []
@@ -293,6 +355,8 @@
                                         cont = cont + 1
                                     }                            
                                 }
+
+                                vetorTotal.push(cont)
 
                                 // FREQUÊNCIA RELATIVA
                                 let freqRelativa = (cont / vetorDados.length) * 100
@@ -312,6 +376,7 @@
                                 celulaFreqRelativa.innerHTML = freqRelativa.toFixed(2) + '%'
                                 // FREQUÊNCIA ACUMULADA
                                 celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
+                                vetorFac.push(somaTotal(vetorTotal))
 
                                 // FREQUÊNCIA ACUMULADA PERCENTUAL
                                 celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal) + '%'
@@ -324,7 +389,6 @@
                                 linha.appendChild(celulaFreqAcumPer)
                             }
                         
-
                             let linhaTotal = document.createElement('tr')
                             linhaTotal.innerHTML = "Total"
                             corpoTabela.appendChild(linhaTotal)
@@ -345,6 +409,55 @@
                             totalPercentual.innerHTML = Math.round(percentualTotal) + '%'
                             linhaTotal.appendChild(totalPercentual)
                             
+                            // MÉDIA PONDERADA SIMPLES
+                            let somaMedia = 0
+                            for(let i = 0; i < vetorVariavel.length; i++) {
+                                somaMedia += vetorVariavel[i] * vetorTotal[i]
+                            }
+                            
+                            let media = somaMedia / somaTotal(vetorTotal)
+
+                            resultMedia.innerHTML = 'Média: ' + media.toFixed(2)
+
+
+                            // MEDIANA
+                            let mediana
+                            let posicao = 0
+                            if((vetorDados.length % 2) === 0) {
+                                posicao = vetorDados.length / 2
+                                console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
+                                mediana = vetorDados[posicao - 1] 
+                                console.log(posicao)                            
+                            }
+                            else {
+                                posicao = ((vetorDados.length - 1) / 2) + 1
+                                console.log('É ímpar. Posição: ' + posicao)
+                                mediana = vetorDados[posicao]
+                            }
+
+                            resultMediana.innerHTML = 'Mediana: ' + mediana 
+                            
+                            // MODA
+                            console.log(vetorTotal)
+
+                            let maior = vetorTotal[0]
+                            for(let i = 1; i < vetorTotal.length; i++) {
+                                if(vetorTotal[i] > maior) {
+                                    maior = vetorTotal[i]
+                                }
+                            } 
+
+                            let vetorModa = []
+                            for(let i = 0; i < vetorTotal.length; i++) {
+                                if(vetorTotal[i] === maior) {
+                                    vetorModa.push(vetorVariavel[i])
+                                }
+                            }
+
+                            resultModa.innerHTML = 'Moda: ' + vetorModa
+
+                            console.log(maior)
+                            console.log(vetorModa)
                         } 
 
                         // QUANTITATIVA CONTÍNUA
@@ -420,9 +533,15 @@
                             let vetorTotal = []
                             let vetorFreqTotal = []
                             let percentualTotal = 0
+                            let vetorMediaIC = []
                             for(let i = 0; i < qtLinhas; i++) {
                                 let superior = inferior + intervalo
 
+                                let mediaIC = (inferior + superior) / 2
+                                vetorMediaIC.push(mediaIC)
+
+                                //console.log(mediaIC)
+                                //console.log(vetorMediaIC)
 
                                 function contTotal() {
                                     let cont = 0
@@ -437,6 +556,7 @@
 
                                 vetorTotal.push(contTotal())
                                 console.log(vetorTotal)
+                                console.log(vetorMediaIC)
 
                                 // FREQUÊNCIA RELATIVA
                                 let freqRelativa = (contTotal() / vetorDados.length) * 100
@@ -496,6 +616,40 @@
                             totalPercentual.innerHTML = percentualTotal + '%'
                             linhaTotal.appendChild(totalPercentual)
                             
+                            // MÉDIA PONDERA SIMPLES
+                            let prodSum = 0
+                            let media = 0
+                            for(let i = 0; i < vetorMediaIC.length; i++) {
+                                prodSum += vetorMediaIC[i] * vetorTotal[i]
+                            }
+                
+                            media = prodSum / somaTotal(vetorTotal)
+
+                            resultMedia.innerHTML = 'Média: ' + media
+
+
+                            // MODA
+                            console.log(vetorTotal)
+
+                            let maior = vetorTotal[0]
+                            for(let i = 1; i < vetorTotal.length; i++) {
+                                if(vetorTotal[i] > maior) {
+                                    maior = vetorTotal[i]
+                                }
+                            } 
+
+                            let vetorModa = []
+                            for(let i = 0; i < vetorTotal.length; i++) {
+                                if(vetorTotal[i] === maior) {
+                                    vetorModa.push(vetorMediaIC[i])
+                                }
+                            }
+
+                            resultModa.innerHTML = 'Moda: ' + vetorModa
+
+                            console.log(vetorMediaIC)
+                            console.log(maior)
+                            console.log(vetorModa)
                         } 
                         // FIM DA QUANTITATIVA CONTÍNUA
 
