@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+        <script src="./plotly.min.js">//https://cdn.plot.ly/plotly-latest.min.js</script> 
         <title>Estatística Descritiva</title>
     </head>
     <style>
@@ -13,9 +14,6 @@
         table thead tr th {
             border: solid 1px #000;
         }
-
-
-
     </style>
     <body>
 
@@ -123,6 +121,12 @@
 
                 </div>
 
+                <div class="container">
+                    <div id="grafico">
+                        
+                    </div>
+                </div>
+
             </section>
 
 
@@ -143,6 +147,7 @@
                 const resultMedia = document.querySelector('#media')
                 const resultModa = document.querySelector('#moda')
                 const resultMediana = document.querySelector('#mediana')
+                const grafico = document.querySelector('#grafico')
 
                 function exibirManual() {
 
@@ -307,6 +312,27 @@
 
                             console.log(maior)
                             console.log(vetorModa)
+
+
+                            // GRÁFICO    
+                            let dados = [{
+                                values: vetorFreqTotal,
+                                labels: vetorVariavel,
+                                hoverinfo: 'label+percent',
+                                type: 'pie'
+                            }];
+
+                            let layout = {
+                                title: '<i><b>' + nomeVariavel.value + '<b><i>',
+                                titlefont: {
+                                    size: 15,
+                                    color: 'rgb(0, 0, 0)'
+                                },
+                                height: 400,
+                                width: 500
+                            };
+
+                            Plotly.newPlot('grafico', dados, layout);
                         }
 
 
@@ -362,7 +388,6 @@
                                 let freqRelativa = (cont / vetorDados.length) * 100
                                 percentualTotal = percentualTotal + freqRelativa
 
-                                vetorTotal.push(cont)
                                 vetorFreqTotal.push(freqRelativa)
 
                                 let celulaVariavel = document.createElement('td')
@@ -438,7 +463,7 @@
                             resultMediana.innerHTML = 'Mediana: ' + mediana 
                             
                             // MODA
-                            console.log(vetorTotal)
+                            console.log('Vetortotal: ' + vetorTotal)
 
                             let maior = vetorTotal[0]
                             for(let i = 1; i < vetorTotal.length; i++) {
@@ -458,6 +483,38 @@
 
                             console.log(maior)
                             console.log(vetorModa)
+
+
+                            // GRÁFICO
+                            console.log('Vetor da freq. para ser usado no gráfico ' + vetorFreqTotal)
+                            console.log('Vetor de labels para ser usado no gráfico ' + vetorVariavel)
+    
+                            let dados = [{
+                                x: vetorVariavel,
+                                y: vetorFreqTotal,
+                                hoverinfo: 'label+percent',
+                                type: 'bar'
+                            }];
+
+                            let layout = {
+                                title: '<i><b>' + nomeVariavel.value + '<b><i>',
+                                titlefont: {
+                                    size: 15,
+                                    color: 'rgb(0, 0, 0)'
+                                },
+                                height: 400,
+                                width: 500,
+                                xaxis: {
+                                    title: nomeVariavel.value,
+                                    color: 'rgb(0, 0, 0)'
+                                },
+                                yaxis: {
+                                    title: 'Frequência Relativa (%)',
+                                    color: 'rgb(0, 0, 0)'
+                                }
+                            };
+
+                            Plotly.newPlot('grafico', dados, layout);
                         } 
 
                         // QUANTITATIVA CONTÍNUA
@@ -534,6 +591,7 @@
                             let vetorFreqTotal = []
                             let percentualTotal = 0
                             let vetorMediaIC = []
+                            let vetorGrafico = []
                             for(let i = 0; i < qtLinhas; i++) {
                                 let superior = inferior + intervalo
 
@@ -593,8 +651,13 @@
 
                                 linha.appendChild(celulaFreqAcumPer)
 
+                                vetorGrafico.push(inferior)
+
                                 inferior = superior
                             }
+
+                            vetorGrafico.push(inferior)
+                            console.log('Versão final: ' + vetorGrafico)
 
                             let linhaTotal = document.createElement('tr')
                             linhaTotal.innerHTML = "Total"
@@ -650,6 +713,66 @@
                             console.log(vetorMediaIC)
                             console.log(maior)
                             console.log(vetorModa)
+
+
+                            // GRÁFICO
+                            console.log('Vetor da freq. para ser usado no gráfico ' + vetorFreqTotal)
+                            console.log('Vetor de labels para ser usado no gráfico ' + vetorMediaIC)
+                            console.log('Start: ' +  vetorGrafico[0])
+                            console.log('Size: ' +  vetorGrafico.length)
+                            console.log('end: ' +  vetorGrafico[vetorGrafico.length -  1])
+                            console.log('Vetor grafico: ' +  vetorGrafico)
+
+                            /*
+                            let tracex = {
+                                x: vetorGrafico,
+                                type: 'histogram',
+                                start: vetorGrafico[0],
+                                size: vetorGrafico,
+                            };
+                            let tracey = {
+                                y: vetorFreqTotal,
+                                type: 'histogram',
+                            };
+                            let data = ([tracex], [tracey]);
+                            Plotly.newPlot('grafico', data);
+                            */
+                            
+                            let dados = [{
+                                x: vetorGrafico,
+                                //y: vetorFreqTotal,
+                                hoverinfo: 'label+percent',
+                                type: 'histogram',
+                                xbins: {
+                                    start: vetorGrafico[0],
+                                    size: vetorGrafico,
+                                },
+                                ybins: {
+                                    start: vetorFreqTotal[0],
+                                    size: vetorFreqTotal,
+                                }
+                            }];
+
+                            let layout = {
+                                title: '<i><b>' + nomeVariavel.value + '<b><i>',
+                                titlefont: {
+                                    size: 15,
+                                    color: 'rgb(0, 0, 0)'
+                                },
+                                height: 400,
+                                width: 500,
+                                xaxis: {
+                                    title: nomeVariavel.value,
+                                    color: 'rgb(0, 0, 0)'
+                                },
+                                yaxis: {
+                                    title: 'Frequência Relativa (%)',
+                                    color: 'rgb(0, 0, 0)'
+                                }
+                            };
+
+                            Plotly.newPlot('grafico', dados, layout);
+
                         } 
                         // FIM DA QUANTITATIVA CONTÍNUA
 
