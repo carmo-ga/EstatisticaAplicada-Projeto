@@ -4,17 +4,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
-        <script src="./plotly.min.js">//https://cdn.plot.ly/plotly-latest.min.js</script> 
+
+        <script src="./plotly.min.js">//https://cdn.plot.ly/plotly-latest.min.js</script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script> 
+        <script type="text/javascript"></script>
+
+        <link rel="stylesheet" href="styles.css">
         <title>Estatística Descritiva</title>
     </head>
-    <style>
-        table tr td {
-            border: solid 1px #000;
-        }
-        table thead tr th {
-            border: solid 1px #000;
-        }
-    </style>
+
     <body>
 
         <header class="header">
@@ -45,7 +46,7 @@
                 <div class="upload">
                     <label>Importar Dados</label>
                     <input type="file" class="importarArquivo" accept=".csv, .xlsx, .xlsm">
-                    <button class="importarArquivo">Salvar</button>
+                    <!--  <button class="importarArquivo">Salvar</button>   -->
                 </div>
 
                 <div class="manual">
@@ -99,9 +100,16 @@
                             </tr>
                         </thead>
 
-                        <tbody id="corpoTabela">
+                        <tbody id="corpoTabela" class="corpoTabela">
                             
                         </tbody>
+
+                        <tfoot id="rodapeTabela" class="rodapeTabela">
+                            <tr id="linhaTotal" class="total">
+
+                            </tr>
+                        </tfoot>
+
                     </table>
                 </div>
 
@@ -122,9 +130,44 @@
                 </div>
 
                 <div class="container">
+                    <h1>Medidas Separatrizes</h1>
+
+                    <div class="medidasSeparatriz" id="medidasSeparatriz">
+                        <label>Medida Separatriz</label>
+                        <select id="medidaSeparatriz">
+                            <option>(Selecione)</option>
+                            <option>Quartil</option>
+                            <option>Quintil</option>
+                            <option>Decil</option>
+                            <option>Porcentil</option>
+                        </select>
+                    </div>
+
+                    <label>Partes</label>
+
+                    <div class="medidas" id="medidas">
+                        <select id="medidaQKD">
+                            <option>(Selecione)</option>
+                        </select>
+
+                        <input id="percentil" type="number" min="1" max="100">
+
+                        <div id="resultMedSeparatriz">
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container">
                     <div id="grafico">
                         
                     </div>
+                </div>
+
+                <div class="container">
+                    <canvas id="histograma" max-width="400px" height="300"></canvas>
+                    
                 </div>
 
             </section>
@@ -140,6 +183,7 @@
                 const corpoTabela = document.querySelector('#corpoTabela')
                 const tipoVariavel = document.querySelector('#tipoVariavel')
                 const freqSimples = document.querySelector('#freqSimples')
+                const linhaTotal = document.querySelector('#linhaTotal')
                 const cabecalhoTabela = document.querySelector('#cabecalhoTabela')
                 const freqRelativa = document.querySelector('#freqRelativa')
                 const freqAcumulada = document.querySelector('#freqAcumulada')
@@ -147,12 +191,87 @@
                 const resultMedia = document.querySelector('#media')
                 const resultModa = document.querySelector('#moda')
                 const resultMediana = document.querySelector('#mediana')
+                const medidaSeparatriz = document.querySelector('#medidaSeparatriz')
+                const medidaQKD = document.querySelector('#medidaQKD')
+                const percentil = document.querySelector('#percentil')
+                const resultMedSeparatriz = document.querySelector('#resultMedSeparatriz')
                 const grafico = document.querySelector('#grafico')
+                const chart = document.querySelector('#histograma').getContext('2d')
+
+                function exibeMedSeparatriz() {
+
+                    let valorIndex = medidaSeparatriz.selectedIndex
+
+                    if(valorIndex <= 0) {
+                        resultMedSeparatriz.innerHTML = ""
+                        medidaQKD.style.visibility = 'hidden'
+                        percentil.style.visibility = 'hidden'
+
+                    }
+                    else if(valorIndex == 1) {
+                        percentil.style.visibility = 'hidden'
+                        medidaQKD.style.visibility = 'visible'
+                        medidaQKD.innerText = ""
+
+                        let primeiro = document.createElement('option')
+                        primeiro.innerText = "(Selecione)"
+                        medidaQKD.appendChild(primeiro)
+
+                        for(i = 1; i <= 4; i++) {
+                            let option = document.createElement('option')
+                            option.innerText = i
+                            medidaQKD.appendChild(option)
+                        }
+                    }
+                    else if(valorIndex == 2) {
+                        percentil.style.visibility = 'hidden'
+                        medidaQKD.style.visibility = 'visible'
+                        medidaQKD.innerText = ""
+
+                        let primeiro = document.createElement('option')
+                        primeiro.innerText = "(Selecione)"
+                        medidaQKD.appendChild(primeiro)
+
+                        
+                        for(let i = 1; i <= 5; i++) {
+                            let option = document.createElement('option')
+                            option.innerText = i
+                            medidaQKD.appendChild(option)
+                        }
+                    }
+                    else if(valorIndex == 3) {
+                        percentil.style.visibility = 'hidden'
+                        medidaQKD.style.visibility = 'visible'
+                        medidaQKD.innerText = ""
+
+                        let primeiro = document.createElement('option')
+                        primeiro.innerText = "(Selecione)"
+                        medidaQKD.appendChild(primeiro)
+
+                        
+                        for(let i = 1; i <= 10; i++) {
+                            let option = document.createElement('option')
+                            option.innerText = i
+                            medidaQKD.appendChild(option)
+                        }
+                    }
+                    else if(valorIndex == 4) {
+                        medidaQKD.style.visibility = 'hidden'
+                        percentil.style.visibility = 'visible'                        
+                    }
+
+                    console.log(valorIndex)
+                }
 
                 function exibirManual() {
 
                     cabecalhoTabela.innerHTML = ""
                     corpoTabela.innerHTML = ""
+                    linhaTotal.innerHTML = ""
+                    resultMedia.innerHTML = ""
+                    resultModa.innerHTML = ""
+                    resultMediana.innerHTML = ""
+                    resultMedSeparatriz.innerHTML = ""
 
                     let valido = true
 
@@ -194,9 +313,23 @@
                         freqAcumuladaPerc.innerHTML = "Freq. Acumulada (%)"
                         cabecalhoTabela.appendChild(freqAcumuladaPerc)
 
+                        function somaTotal(vetor) {
+                            let soma = 0
+                            for(let i in vetor) {
+                                    soma += vetor[i]
+                            }
+                            return soma
+                        }
+
                         if(tipoVariavel.selectedIndex == 1 || tipoVariavel.selectedIndex == 2) {
                             vetorDados.sort()
                             console.log(vetorDados)
+
+                            let celulaVariavel
+                            let celulaFreqSim
+                            let celulaFreqRelativa
+                            let celulaFreqAcum
+                            let celulaFreqAcumPer
 
 
                             let vetorVariavel = []
@@ -214,6 +347,9 @@
                             for(let i = 0; i < vetorVariavel.length; i++) {
                                 
                                 let linha = document.createElement('tr')
+                                linha.className = "linhaTabela"
+                                linha.id = "linhaOriginal"
+                                //linha.draggable = true
 
                                 let cont = 0
                                 for(let j = 0; j < vetorDados.length; j++) {
@@ -229,8 +365,9 @@
 
                                 vetorTotal.push(cont)
                                 vetorFreqTotal.push(freqRelativa)
-
+                                
                                 let celulaVariavel = document.createElement('td')
+                                celulaVariavel.id = "variavel" + i
                                 let celulaFreqSim = document.createElement('td')
                                 let celulaFreqRelativa = document.createElement('td')
                                 let celulaFreqAcum = document.createElement('td')
@@ -253,38 +390,82 @@
                                 linha.appendChild(celulaFreqAcumPer)
                             }
 
-                            let linhaTotal = document.createElement('tr')
-                            linhaTotal.innerHTML = "Total"
-                            corpoTabela.appendChild(linhaTotal)
-
-                            function somaTotal(vetor) {
-                                let soma = 0
-                                for(let i in vetor) {
-                                    soma += vetor[i]
-                                }
-                                return soma
-                            }
-
                             let total = document.createElement('td')
-                            total.innerHTML = somaTotal(vetorTotal)
+                            total.innerHTML = "Total"
                             linhaTotal.appendChild(total)
+                            
+                            let totalDados = document.createElement('td')
+                            totalDados.innerHTML = somaTotal(vetorTotal)
+                            linhaTotal.appendChild(totalDados)
 
                             let totalPercentual = document.createElement('td')
                             totalPercentual.innerHTML = percentualTotal + '%'
                             linhaTotal.appendChild(totalPercentual)
 
+                            $(corpoTabela).sortable()
+
+                            /*
+                            corpoTabela.addEventListener('mouseup', reordenar)
+
+                            function reordenar() {
+                                console.log('Mexeu em alguma linha')
+
+
+                                const linhaOriginal = document.querySelectorAll('#linhaOriginal')
+
+                                for (let i = 0; i < linhaOriginal.length; i++) {
+
+                                    let linha = linhaOriginal[i]
+
+                                    //let variavel = linha.querySelector('#variavel' + i).innerHTML
+
+                                    let variavel = linha.querySelector('td').innerHTML
+
+                                    let freq = linha.querySelector('td').innerHTML
+
+                                    console.log('valor dentro do for ' + variavel)
+
+                                }
+
+
+                                /*
+                                //let linhaTabela = document.querySelector('#linhaTabela')
+                                let variavel = document.querySelector('#variavel0').innerHTML
+
+                                let vetorVarNovo = []
+                                vetorVarNovo.push(variavel)
+
+                                console.log(vetorVarNovo)
+                                //, celulaFreqRelativa, celulaFreqAcum, celulaFreqAcumPer])
+                                
+                                /*let vetorDados = []
+                                vetorDados.push()
+                            
+                            } */
+
 
                             // MEDIANA
                             let mediana
+                            let mediana1
+                            let mediana2
                             let posicao = 0
                             if((vetorDados.length % 2) === 0) {
                                 posicao = vetorDados.length / 2
                                 console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
-                                mediana = vetorDados[posicao - 1] 
-                                console.log(posicao)                            
+                                mediana1 = vetorDados[posicao - 1]
+                                mediana2 = vetorDados[posicao]
+
+                                if(mediana1 == mediana2) {
+                                    mediana = mediana1
+                                }
+                                else {
+                                    mediana = mediana1 + " e " + mediana2
+                                }
+                                console.log(posicao)  
+                                console.log('Mediana 2: ' + mediana2)                          
                             }
                             else {
-                                posicao = ((vetorDados.length - 1) / 2) + 1
+                                posicao = ((vetorDados.length - 1) / 2)
                                 console.log('É ímpar. Posição: ' + posicao)
                                 mediana = vetorDados[posicao]
                             }
@@ -336,7 +517,7 @@
                         }
 
 
-                        // QUANTITATIVA DISCRETA ---------------------------
+                        // QUANTITATIVA DISCRETA ----------------------------------
                         if(tipoVariavel.selectedIndex == 3) {
 
                             
@@ -404,7 +585,7 @@
                                 vetorFac.push(somaTotal(vetorTotal))
 
                                 // FREQUÊNCIA ACUMULADA PERCENTUAL
-                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal) + '%'
+                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal).toFixed(2) + '%'
 
                                 corpoTabela.appendChild(linha)
                                 linha.appendChild(celulaVariavel)
@@ -417,15 +598,7 @@
                             let linhaTotal = document.createElement('tr')
                             linhaTotal.innerHTML = "Total"
                             corpoTabela.appendChild(linhaTotal)
-
-                            function somaTotal(vetor) {
-                                let soma = 0
-                                for(let i in vetor) {
-                                    soma += vetor[i]
-                                }
-                                return soma
-                            }
-
+                            
                             let total = document.createElement('td')
                             total.innerHTML = somaTotal(vetorTotal)
                             linhaTotal.appendChild(total)
@@ -446,16 +619,26 @@
 
 
                             // MEDIANA
+                            let mediana1
+                            let mediana2
                             let mediana
                             let posicao = 0
                             if((vetorDados.length % 2) === 0) {
                                 posicao = vetorDados.length / 2
                                 console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
-                                mediana = vetorDados[posicao - 1] 
+                                mediana1 = vetorDados[posicao - 1]
+                                mediana2 = vetorDados[posicao]
+
+                                if(mediana1 == mediana2) {
+                                    mediana = mediana1
+                                }
+                                else {
+                                    mediana = mediana1 + " e " + mediana2
+                                }
                                 console.log(posicao)                            
                             }
                             else {
-                                posicao = ((vetorDados.length - 1) / 2) + 1
+                                posicao = ((vetorDados.length - 1) / 2)
                                 console.log('É ímpar. Posição: ' + posicao)
                                 mediana = vetorDados[posicao]
                             }
@@ -591,7 +774,9 @@
                             let vetorFreqTotal = []
                             let percentualTotal = 0
                             let vetorMediaIC = []
-                            let vetorGrafico = []
+                            let vetorLimites = []
+                            let vetorTeste = []
+                            let vetorFac = []
                             for(let i = 0; i < qtLinhas; i++) {
                                 let superior = inferior + intervalo
 
@@ -629,6 +814,8 @@
                                 corpoTabela.appendChild(linha)
                                 linha.appendChild(celula)
 
+                                vetorTeste.push(inferior, superior)
+
                                 let celulaCont = document.createElement('td')
                                 celulaCont.innerHTML = contTotal()
                                 
@@ -642,6 +829,7 @@
                                 // FREQUÊNCIA ACUMULADA
                                 let celulaFreqAcum = document.createElement('td')
                                 celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
+                                vetorFac.push(somaTotal(vetorTotal))
                                 
                                 linha.appendChild(celulaFreqAcum)
 
@@ -651,26 +839,18 @@
 
                                 linha.appendChild(celulaFreqAcumPer)
 
-                                vetorGrafico.push(inferior)
+                                vetorLimites.push(inferior)
 
                                 inferior = superior
                             }
 
-                            vetorGrafico.push(inferior)
-                            console.log('Versão final: ' + vetorGrafico)
+                            vetorLimites.push(inferior)
+                            console.log('Versão final: ' + vetorLimites)
 
                             let linhaTotal = document.createElement('tr')
                             linhaTotal.innerHTML = "Total"
                             corpoTabela.appendChild(linhaTotal)
-
-                            function somaTotal(vetor) {
-                                let soma = 0
-                                for(let i in vetor) {
-                                    soma += vetor[i]
-                                }
-                                return soma
-                            }
-
+                            
                             let total = document.createElement('td')
                             total.innerHTML = somaTotal(vetorTotal)
                             linhaTotal.appendChild(total)
@@ -689,6 +869,75 @@
                             media = prodSum / somaTotal(vetorTotal)
 
                             resultMedia.innerHTML = 'Média: ' + media
+
+
+                            // MEDIANA
+                            let mediana
+                            let limiteInferior
+                            let freqAcAnterior
+                            let aux
+                            let fiMediana
+                            if((vetorDados.length % 2) === 0) {
+                                let posicao2 = vetorDados.length / 2
+                                let posicao1 = posicao2 - 1
+                                //posicao = vetorDados.length / 2
+                                console.log('É par. Posição: ' + posicao1 + ' e ' + (posicao2))
+                                //mediana = vetorDados[posicao - 1] 
+                                console.log(posicao1, posicao2)
+
+                                let i
+                                for(i = 0; i < vetorFac.length; i++) {
+                                    if(posicao1 <= vetorFac[i]) {
+                                        console.log('Está na posição ' + i)
+                                        break
+                                    }
+                                }
+
+                                console.log('Valor de i: ' + i)
+                                limiteInferior = vetorLimites[i]
+                                freqAcAnterior = vetorFac[i - 1]
+                                console.log(limiteInferior + ' freqAcAnterior ' + freqAcAnterior) 
+                                console.log('Intervalo ' + intervalo)
+                                console.log('vetorTotal ' + vetorTotal)
+                                fiMediana = vetorTotal[i]
+                                console.log(fiMediana)
+                                aux = ((vetorDados.length / 2) - freqAcAnterior) / fiMediana
+                                console.log('Aux ' + aux)
+                                mediana = limiteInferior + (aux * intervalo)
+                                console.log('Mediana ' + mediana)
+                            }
+                            else {
+                                let posicao = ((vetorDados.length - 1) / 2)
+                                console.log('É ímpar. Posição: ' + posicao)
+                                mediana = vetorDados[posicao]
+                                console.log('Mediana ' + mediana)
+
+
+                                let i
+                                for(i = 0; i < vetorFac.length; i++) {
+                                    if(posicao <= vetorFac[i]) {
+                                        console.log('Está na posição ' + i)
+                                        break
+                                    }
+                                }
+
+                                console.log('Valor de i: ' + i)
+                                limiteInferior = vetorLimites[i]
+                                freqAcAnterior = vetorFac[i - 1]
+                                console.log(limiteInferior + ' freqAcAnterior ' + freqAcAnterior) 
+                                console.log('Intervalo ' + intervalo)
+                                console.log('vetorTotal ' + vetorTotal)
+                                fiMediana = vetorTotal[i]
+                                console.log(fiMediana)
+                                aux = ((vetorDados.length / 2) - freqAcAnterior) / fiMediana
+                                console.log('Aux ' + aux)
+                                mediana = limiteInferior + (aux * intervalo)
+                                console.log('Mediana ' + mediana)
+                            }
+
+                            resultMediana.innerHTML = 'Mediana: ' + mediana
+
+
 
 
                             // MODA
@@ -718,17 +967,18 @@
                             // GRÁFICO
                             console.log('Vetor da freq. para ser usado no gráfico ' + vetorFreqTotal)
                             console.log('Vetor de labels para ser usado no gráfico ' + vetorMediaIC)
-                            console.log('Start: ' +  vetorGrafico[0])
-                            console.log('Size: ' +  vetorGrafico.length)
-                            console.log('end: ' +  vetorGrafico[vetorGrafico.length -  1])
-                            console.log('Vetor grafico: ' +  vetorGrafico)
+                            console.log('Start: ' +  vetorLimites[0])
+                            console.log('Size: ' +  vetorLimites.length)
+                            console.log('end: ' +  vetorLimites[vetorLimites.length -  1])
+                            console.log('Vetor grafico: ' +  vetorLimites)
+                            console.log('Vetor teste: ' +  vetorTeste)
 
                             /*
                             let tracex = {
-                                x: vetorGrafico,
+                                x: vetorLimites,
                                 type: 'histogram',
-                                start: vetorGrafico[0],
-                                size: vetorGrafico,
+                                start: vetorLimites[0],
+                                size: vetorLimites,
                             };
                             let tracey = {
                                 y: vetorFreqTotal,
@@ -737,15 +987,45 @@
                             let data = ([tracex], [tracey]);
                             Plotly.newPlot('grafico', data);
                             */
+                            /*
+                            // Teste
+
+                            var trace0 = {
+                                type: 'bar',
+                                x: vetorLimites,
+                                y: vetorFreqTotal,
+                                //width: [1001, 1001, 1001],
+                                xbins: {
+                                    start: vetorLimites[0],
+                                    size: vetorLimites,
+                                    end: vetorLimites[vetorLimites.length - 1],
+                                }
+                            }
+                            var layout = {
+                                barmode: 'group',
+                                bargap: 0.15,
+                                bargroupgap: 0.1
+                            }
+
+                          
+
+                            var data = [trace0]
+
+                            Plotly.newPlot('grafico', data, layout);
+
+                            */
+
+
+
                             
                             let dados = [{
-                                x: vetorGrafico,
-                                //y: vetorFreqTotal,
+                                x: vetorTeste,
+                                y: vetorFreqTotal,
                                 hoverinfo: 'label+percent',
-                                type: 'histogram',
+                                type: 'bar',
                                 xbins: {
-                                    start: vetorGrafico[0],
-                                    size: vetorGrafico,
+                                    start: vetorLimites[0],
+                                    size: vetorLimites,
                                 },
                                 ybins: {
                                     start: vetorFreqTotal[0],
@@ -771,8 +1051,44 @@
                                 }
                             };
 
-                            Plotly.newPlot('grafico', dados, layout);
+                            Plotly.newPlot('grafico', dados, layout)
 
+                            // Chart.js
+
+
+                            const chart = new Chart(histograma, {
+                            type: 'bar',
+                            data: {
+                                labels: vetorLimites,
+                                datasets: [{
+                                label: 'Number of Arrivals',
+                                data: vetorFreqTotal,
+                                backgroundColor: 'green',
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                /*xAxes: [{
+                                    display: false,
+                                    barPercentage: 1,
+                                    ticks: {
+                                        max: 3,
+                                    }
+                                }, {
+                                    display: true,
+                                    ticks: {
+                                        autoSkip: false,
+                                        max: 7,
+                                    }
+                                }]*///,
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                                }
+                            }
+                            });
                         } 
                         // FIM DA QUANTITATIVA CONTÍNUA
 
@@ -781,8 +1097,14 @@
                 }
 
                 botaoCalcular.addEventListener('click', exibirManual)
+                medidaSeparatriz.addEventListener('change', exibeMedSeparatriz)
                 
             </script>
+
+            <!-- Reordenar as linhas da tabela
+            <script type="text/javascript">
+                $(corpoTabela).sortable()
+            </script> -->
 
         </main>
     </body>
