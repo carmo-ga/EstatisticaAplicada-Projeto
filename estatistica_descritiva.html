@@ -43,78 +43,96 @@
             </div>
 
             <section>
-                <div class="upload">
-                    <label>Importar Dados</label>
-                    <input type="file" class="importarArquivo" accept=".csv, .xlsx, .xlsm">
-                    <!--  <button class="importarArquivo">Salvar</button>   -->
-                </div>
-
-                <div class="manual">
-                    <label>Inserir Dados</label>
-                    <input type="text" id="inserirManual" class="inserirManual" placeholder="Inserir Dados Manualmente">
-                    <small>Os dados devem ser separados por ponto e vírgula(;)</small>
-                </div>
-
-                <div class="nomeVariavel">
-                    <label>Nome da Variável</label>
-                    <input type="text" id="nomeVariavel" class="nomeVariavel" placeholder="Inserir Nome da Variável">
-                </div>
-
-                <div class="amostraPopulacao">
-                    <button class="amostra">Amostra</button>
-                    <button class="populacao">População</button>
-                </div>
-
-                <div class="tipoVariavel">
-                    <label>Tipo de Variável</label>
-                    <select id="tipoVariavel">
-                        <option>(Selecione)</option>
-                        <option>Qualitativa Nominal</option>
-                        <option>Qualitativa Ordinal</option>
-                        <option>Quantitativa Discreta</option>
-                        <option>Quantitativa Contínua</option>
-                    </select>
-                </div>
-
-                <div class="calcular">
-                    <button id="botaoCalcular" class="calcular">Calcular</button>
-                </div>
-
-                <div class="exibirTabela">
-                    <table id="tabela" class="tabela" style="display: none">
-                        <thead id="cabecalhoTabela">
-                            <tr>
-                                <th id="tituloTabela"></th>
-                            </tr>
-                            <tr>
-                                <th id="freqSimples"></th>
-                            </tr>
-                            <tr>
-                                <th id="freqRelativa"></th>
-                            </tr>
-                            <tr>
-                                <th id="freqAcumulada"></th>
-                            </tr>
-                            <tr>
-                                <th id="freqAcumuladaPerc"></th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="corpoTabela" class="corpoTabela">
-                            
-                        </tbody>
-
-                        <tfoot id="rodapeTabela" class="rodapeTabela">
-                            <tr id="linhaTotal" class="total">
-
-                            </tr>
-                        </tfoot>
-
-                    </table>
+                <div class="container"></div>
+                    <div class="upload">
+                        <label>Importar Dados</label>
+                        <input type="file" class="importarArquivo" accept=".csv, .xlsx, .xlsm">
+                        <!--  <button class="importarArquivo">Salvar</button>   -->
+                    </div>
                 </div>
 
                 <div class="container">
-                    <h1>Medidas de Tendência Central</h1>
+                    <div class="manual">
+                        <label>Inserir Dados</label>
+                        <input type="text" id="inserirManual" class="inserirManual" placeholder="Inserir Dados Manualmente">
+                        <small>Os dados devem ser separados por ponto e vírgula(;)</small>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="nomeVariavel">
+                        <label>Nome da Variável</label>
+                        <input type="text" id="nomeVariavel" class="nomeVariavel" placeholder="Inserir Nome da Variável">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="tipoVariavel">
+                        <label>Tipo de Variável</label>
+                        <select id="tipoVariavel">
+                            <option>(Selecione)</option>
+                            <option>Qualitativa Nominal</option>
+                            <option>Qualitativa Ordinal</option>
+                            <option>Quantitativa Discreta</option>
+                            <option>Quantitativa Contínua</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="amostraPopulacao">
+                        <input type="radio" id="radAmostra" name="radAmostPop" class="amostra">
+                        <label for="radAmostra">Amostra</label>
+
+                        <input type="radio" id="radPopulacao" name="radAmostPop" class="populacao">
+                        <label for="radPopulacao">População</label>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="calcular">
+                        <button id="botaoCalcular" class="calcular">Calcular</button>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="exibirTabela">
+                        <table id="tabela" class="tabela" style="display: none">
+                            <thead id="cabecalhoTabela">
+                                <tr>
+                                    <th id="tituloTabela"></th>
+                                </tr>
+                                <tr>
+                                    <th id="freqSimples"></th>
+                                </tr>
+                                <tr>
+                                    <th id="freqRelativa"></th>
+                                </tr>
+                                <tr>
+                                    <th id="freqAcumulada"></th>
+                                </tr>
+                                <tr>
+                                    <th id="freqAcumuladaPerc"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="corpoTabela" class="corpoTabela">
+                                
+                            </tbody>
+
+                            <tfoot id="rodapeTabela" class="rodapeTabela">
+                                <tr id="linhaTotal" class="total">
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div>
+                        <h1>Medidas de Tendência Central</h1>
+                    </div>
                     <div class="media" id="media">
                         
                     </div>
@@ -126,12 +144,25 @@
                     <div class="moda" id="moda">
                         
                     </div>
-
                 </div>
 
                 <div class="container">
-                    <h1>Medidas Separatrizes</h1>
+                    <div>
+                        <h1>Medidas de Dispersão</h1>
+                    </div>
+                    <div class="desvioPadrao" id="resultDesvioPadrao">
+                        
+                    </div>
 
+                    <div class="coefVariacao" id="resultCoefVariacao">
+
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div>
+                        <h1>Medidas Separatrizes</h1>
+                    </div>
                     <div class="medidasSeparatriz" id="medidasSeparatriz">
                         <label>Medida Separatriz</label>
                         <select id="medidaSeparatriz">
@@ -169,9 +200,7 @@
                     <canvas id="histograma" max-width="400px" height="300"></canvas>
                     
                 </div>
-
             </section>
-
 
             <script>
 
@@ -191,12 +220,22 @@
                 const resultMedia = document.querySelector('#media')
                 const resultModa = document.querySelector('#moda')
                 const resultMediana = document.querySelector('#mediana')
+                const radAmostra = document.querySelector('#radAmostra')
+                const radPopulacao = document.querySelector('#populacao')
+                const resultDesvioPadrao = document.querySelector('#resultDesvioPadrao')
+                const resultCoefVariacao = document.querySelector('#resultCoefVariacao')
                 const medidaSeparatriz = document.querySelector('#medidaSeparatriz')
                 const medidaQKD = document.querySelector('#medidaQKD')
                 const percentil = document.querySelector('#percentil')
                 const resultMedSeparatriz = document.querySelector('#resultMedSeparatriz')
                 const grafico = document.querySelector('#grafico')
                 const chart = document.querySelector('#histograma').getContext('2d')
+
+                function iniciar() {
+                    medidaQKD.style.visibility = 'hidden'
+                    percentil.style.visibility = 'hidden'
+                    radAmostra.checked = true
+                }
 
                 function exibeMedSeparatriz() {
 
@@ -272,6 +311,8 @@
                     resultModa.innerHTML = ""
                     resultMediana.innerHTML = ""
                     resultMedSeparatriz.innerHTML = ""
+                    resultDesvioPadrao.innerHTML = ""
+                    resultCoefVariacao.innerHTML = ""
 
                     let valido = true
 
@@ -325,15 +366,13 @@
                             vetorDados.sort()
                             console.log(vetorDados)
 
-                            let celulaVariavel
-                            let celulaFreqSim
-                            let celulaFreqRelativa
-                            let celulaFreqAcum
-                            let celulaFreqAcumPer
-
-
-                            let vetorVariavel = []
-                            let percentualTotal = 0
+                            let celulaVariavel,
+                                celulaFreqSim,
+                                celulaFreqRelativa,
+                                celulaFreqAcum,
+                                celulaFreqAcumPer,
+                                vetorVariavel = [],
+                                percentualTotal = 0
                             for(let i = 0; i < vetorDados.length; i++) {
                                 if(vetorDados[i] !== vetorDados[i + 1]) {
                                     vetorVariavel.push(vetorDados[i])
@@ -342,8 +381,8 @@
                             console.log('Vetor Variável: ' + vetorVariavel)
 
 
-                            let vetorTotal = []
-                            let vetorFreqTotal = []
+                            let vetorTotal = [],
+                                vetorFreqTotal = []
                             for(let i = 0; i < vetorVariavel.length; i++) {
                                 
                                 let linha = document.createElement('tr')
@@ -366,12 +405,11 @@
                                 vetorTotal.push(cont)
                                 vetorFreqTotal.push(freqRelativa)
                                 
-                                let celulaVariavel = document.createElement('td')
-                                celulaVariavel.id = "variavel" + i
-                                let celulaFreqSim = document.createElement('td')
-                                let celulaFreqRelativa = document.createElement('td')
-                                let celulaFreqAcum = document.createElement('td')
-                                let celulaFreqAcumPer = document.createElement('td')
+                                let celulaVariavel = document.createElement('td'),
+                                    celulaFreqSim = document.createElement('td'),
+                                    celulaFreqRelativa = document.createElement('td'),
+                                    celulaFreqAcum = document.createElement('td'),
+                                    celulaFreqAcumPer = document.createElement('td')
                                 
                                 celulaVariavel.innerHTML = vetorVariavel[i]
                                 celulaFreqSim.innerHTML = cont
@@ -380,7 +418,7 @@
                                 celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
 
                                 // FREQUÊNCIA ACUMULADA PERCENTUAL
-                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal) + '%'
+                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal).toFixed(2) + '%'
 
                                 corpoTabela.appendChild(linha)
                                 linha.appendChild(celulaVariavel)
@@ -399,7 +437,7 @@
                             linhaTotal.appendChild(totalDados)
 
                             let totalPercentual = document.createElement('td')
-                            totalPercentual.innerHTML = percentualTotal + '%'
+                            totalPercentual.innerHTML = percentualTotal.toFixed(2) + '%'
                             linhaTotal.appendChild(totalPercentual)
 
                             $(corpoTabela).sortable()
@@ -445,10 +483,10 @@
 
 
                             // MEDIANA
-                            let mediana
-                            let mediana1
-                            let mediana2
-                            let posicao = 0
+                            let mediana,
+                                mediana1,
+                                mediana2,
+                                posicao = 0
                             if((vetorDados.length % 2) === 0) {
                                 posicao = vetorDados.length / 2
                                 console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
@@ -475,24 +513,36 @@
                             // MODA
                             console.log(vetorTotal)
 
-                            let maior = vetorTotal[0]
-                            for(let i = 1; i < vetorTotal.length; i++) {
-                                if(vetorTotal[i] > maior) {
-                                    maior = vetorTotal[i]
-                                }
-                            } 
-
-                            let vetorModa = []
-                            for(let i = 0; i < vetorTotal.length; i++) {
-                                if(vetorTotal[i] === maior) {
-                                    vetorModa.push(vetorVariavel[i])
+                            let moda = false
+                            for(let j = 1; j < vetorTotal.length; j++) {
+                                if(vetorTotal[0] !== vetorTotal[j]) {
+                                    moda = true
+                                    break
                                 }
                             }
+                            console.log({moda})
 
-                            resultModa.innerHTML = 'Moda: ' + vetorModa
-
-                            console.log(maior)
-                            console.log(vetorModa)
+                            if(moda === true) {
+                                let maior = vetorTotal[0]
+                                for(let i = 1; i < vetorTotal.length; i++) {
+                                    if(vetorTotal[i] > maior) {
+                                        maior = vetorTotal[i]
+                                    }
+                                } 
+                                console.log(maior)
+                                let vetorModa = []
+                                for(let i = 0; i < vetorTotal.length; i++) {
+                                    if(vetorTotal[i] === maior) {
+                                        vetorModa.push(vetorVariavel[i])
+                                    }
+                                }
+                                console.log({maior, vetorModa})
+                                
+                                resultModa.innerHTML = 'Moda: ' + vetorModa
+                            }
+                            else {
+                                resultModa.innerHTML = 'Moda: Amodal'                                
+                            }
 
 
                             // GRÁFICO    
@@ -513,7 +563,7 @@
                                 width: 500
                             };
 
-                            Plotly.newPlot('grafico', dados, layout);
+                            Plotly.newPlot('grafico', dados, layout)
                         }
 
 
@@ -538,10 +588,9 @@
 
                             console.log(vetorDados)
 
-
-                            let vetorVariavel = []
-                            let percentualTotal = 0
-                            let vetorFac = []
+                            let vetorVariavel = [],
+                                percentualTotal = 0,
+                                vetorFac = []
                             for(let i = 0; i < vetorDados.length; i++) {
                                 if(vetorDados[i] !== vetorDados[i + 1]) {
                                     vetorVariavel.push(vetorDados[i])
@@ -549,8 +598,8 @@
                             }
                             console.log('Vetor Variável: ' + vetorVariavel)
 
-                            let vetorTotal = []
-                            let vetorFreqTotal = []
+                            let vetorTotal = [],
+                                vetorFreqTotal = []
                             for(let i = 0; i < vetorVariavel.length; i++) {
                                 
                                 let linha = document.createElement('tr')
@@ -571,11 +620,11 @@
 
                                 vetorFreqTotal.push(freqRelativa)
 
-                                let celulaVariavel = document.createElement('td')
-                                let celulaFreqSim = document.createElement('td')
-                                let celulaFreqRelativa = document.createElement('td')
-                                let celulaFreqAcum = document.createElement('td')
-                                let celulaFreqAcumPer = document.createElement('td')
+                                let celulaVariavel = document.createElement('td'),
+                                    celulaFreqSim = document.createElement('td'),
+                                    celulaFreqRelativa = document.createElement('td'),
+                                    celulaFreqAcum = document.createElement('td'),
+                                    celulaFreqAcumPer = document.createElement('td')
                                 
                                 celulaVariavel.innerHTML = vetorVariavel[i]
                                 celulaFreqSim.innerHTML = cont
@@ -619,10 +668,10 @@
 
 
                             // MEDIANA
-                            let mediana1
-                            let mediana2
-                            let mediana
-                            let posicao = 0
+                            let mediana1,
+                                mediana2,
+                                mediana,
+                                posicao = 0
                             if((vetorDados.length % 2) === 0) {
                                 posicao = vetorDados.length / 2
                                 console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
@@ -635,7 +684,7 @@
                                 else {
                                     mediana = mediana1 + " e " + mediana2
                                 }
-                                console.log(posicao)                            
+                                console.log({posicao})                            
                             }
                             else {
                                 posicao = ((vetorDados.length - 1) / 2)
@@ -646,26 +695,63 @@
                             resultMediana.innerHTML = 'Mediana: ' + mediana 
                             
                             // MODA
-                            console.log('Vetortotal: ' + vetorTotal)
+                            console.log({vetorTotal})
 
-                            let maior = vetorTotal[0]
-                            for(let i = 1; i < vetorTotal.length; i++) {
-                                if(vetorTotal[i] > maior) {
-                                    maior = vetorTotal[i]
-                                }
-                            } 
-
-                            let vetorModa = []
-                            for(let i = 0; i < vetorTotal.length; i++) {
-                                if(vetorTotal[i] === maior) {
-                                    vetorModa.push(vetorVariavel[i])
+                            let moda = false
+                            for(let j = 1; j < vetorTotal.length; j++) {
+                                if(vetorTotal[0] !== vetorTotal[j]) {
+                                    moda = true
+                                    break
                                 }
                             }
+                            console.log({moda})
 
-                            resultModa.innerHTML = 'Moda: ' + vetorModa
+                            if(moda === true) {
+                                let maior = vetorTotal[0]
+                                for(let i = 1; i < vetorTotal.length; i++) {
+                                    if(vetorTotal[i] > maior) {
+                                        maior = vetorTotal[i]
+                                    }
+                                } 
+                                console.log(maior)
+                                let vetorModa = []
+                                for(let i = 0; i < vetorTotal.length; i++) {
+                                    if(vetorTotal[i] === maior) {
+                                        vetorModa.push(vetorVariavel[i])
+                                    }
+                                }
+                                console.log({maior, vetorModa})
+                                
+                                resultModa.innerHTML = 'Moda: ' + vetorModa
+                            }
+                            else {
+                                resultModa.innerHTML = 'Moda: Amodal'           
+                            }
 
-                            console.log(maior)
-                            console.log(vetorModa)
+                            // CÁLCULO DO DESVIO PADRÃO
+                            let somatoria = 0,
+                                desvioPadrao = 0
+                            for(let i = 0; i < vetorVariavel.length; i++) {
+                                somatoria += (Math.pow((vetorVariavel[i] - media), 2)) * vetorTotal[i]
+                            }
+                            
+                            if(radAmostra.checked === true) {
+                                let amostra = somaTotal(vetorTotal) - 1
+                                desvioPadrao = Math.sqrt(somatoria / amostra)
+                                console.log({amostra, somatoria, desvioPadrao})
+                            }
+                            else {
+                                let populacao = somaTotal(vetorTotal)
+                                desvioPadrao = Math.sqrt(somatoria / populacao)
+                                console.log({populacao, somatoria, desvioPadrao})
+                            }
+                            resultDesvioPadrao.innerHTML = "Desvio Padrão: " + desvioPadrao.toFixed(2)
+
+                            // CÁLCULO DO COEFICIENTE DE VARIAÇÃO
+                            let coefVariacao = (desvioPadrao / media) * 100
+                            resultCoefVariacao.innerHTML = "Coeficiente de Variação: " + coefVariacao.toFixed(2) + "%"
+                            console.log({coefVariacao, media})
+
 
 
                             // GRÁFICO
@@ -697,7 +783,7 @@
                                 }
                             };
 
-                            Plotly.newPlot('grafico', dados, layout);
+                            Plotly.newPlot('grafico', dados, layout)
                         } 
 
                         // QUANTITATIVA CONTÍNUA
@@ -725,16 +811,16 @@
                             console.log(amplitude) 
 
                             // QUANTIDADE DE CLASSES (QUANTIDADE DE LINHAS)
-                            let k = Math.trunc(Math.sqrt(vetorDados.length)) // Raiz quadrada de n, n é a quantidade total pesquisada
-                            let kMenos1 = k - 1
-                            let kMais1 = k + 1
+                            let k = Math.trunc(Math.sqrt(vetorDados.length)), // Raiz quadrada de n, n é a quantidade total pesquisada
+                                kMenos1 = k - 1,
+                                kMais1 = k + 1
                         
                             console.log(kMenos1, k, kMais1)
 
                             // INTERVALO DE CLASSE = AMPLITUDE + 1(PELO MENOS) / QUANTIDADE DE CLASSES                            
-                            let intervalo
-                            let qtLinhas
-                            let controle = false
+                            let intervalo,
+                                qtLinhas,
+                                controle = false
                             while(controle === false) {
 
                                 amplitude = amplitude + 1
@@ -754,10 +840,8 @@
                                     qtLinhas = kMais1
                                     controle = true
                                 }                                
-                            }   
-                            console.log("Amplitude: " + amplitude)
-                            console.log("Quantidade de Classe: " + qtLinhas)
-                            console.log("Intervalo: " + intervalo)
+                            }
+                            console.table({amplitude, qtLinhas, intervalo})
                             console.log(vetorDados)
 
 
@@ -769,14 +853,14 @@
                             }
                             console.log('Vetor Variável: ' + vetorVariavel)
 
-                            let inferior = vetorDados[0]
-                            let vetorTotal = []
-                            let vetorFreqTotal = []
-                            let percentualTotal = 0
-                            let vetorMediaIC = []
-                            let vetorLimites = []
-                            let vetorTeste = []
-                            let vetorFac = []
+                            let inferior = vetorDados[0],
+                                vetorTotal = [],
+                                vetorFreqTotal = [],
+                                percentualTotal = 0,
+                                vetorMediaIC = [],
+                                vetorLimites = [],
+                                vetorTeste = [],
+                                vetorFac = []
                             for(let i = 0; i < qtLinhas; i++) {
                                 let superior = inferior + intervalo
 
@@ -835,7 +919,7 @@
 
                                 // FREQUÊNCIA ACUMULADA PERCENTUAL
                                 let celulaFreqAcumPer = document.createElement('td')
-                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal) + '%'
+                                celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal).toFixed(2) + '%'
 
                                 linha.appendChild(celulaFreqAcumPer)
 
@@ -856,7 +940,7 @@
                             linhaTotal.appendChild(total)
 
                             let totalPercentual = document.createElement('td')
-                            totalPercentual.innerHTML = percentualTotal + '%'
+                            totalPercentual.innerHTML = percentualTotal.toFixed(2) + '%'
                             linhaTotal.appendChild(totalPercentual)
                             
                             // MÉDIA PONDERA SIMPLES
@@ -868,22 +952,18 @@
                 
                             media = prodSum / somaTotal(vetorTotal)
 
-                            resultMedia.innerHTML = 'Média: ' + media
-
+                            resultMedia.innerHTML = 'Média: ' + media.toFixed(2)
 
                             // MEDIANA
-                            let mediana
-                            let limiteInferior
-                            let freqAcAnterior
-                            let aux
-                            let fiMediana
+                            let mediana,
+                                limiteInferior,
+                                freqAcAnterior,
+                                aux,
+                                fiMediana
                             if((vetorDados.length % 2) === 0) {
-                                let posicao2 = vetorDados.length / 2
-                                let posicao1 = posicao2 - 1
-                                //posicao = vetorDados.length / 2
+                                let posicao2 = vetorDados.length / 2,
+                                    posicao1 = posicao2 - 1
                                 console.log('É par. Posição: ' + posicao1 + ' e ' + (posicao2))
-                                //mediana = vetorDados[posicao - 1] 
-                                console.log(posicao1, posicao2)
 
                                 let i
                                 for(i = 0; i < vetorFac.length; i++) {
@@ -893,14 +973,24 @@
                                     }
                                 }
 
-                                console.log('Valor de i: ' + i)
+                                // Verifica se existe a Frequência Absoluta Acumulada anterior
+                                if(i === 0) {
+                                    alert('Não tem Fac')
+                                    freqAcAnterior = 0
+                                }
+                                else {
+                                    freqAcAnterior = vetorFac[i - 1]
+                                }
+
+                                // Determina o limite inferior da classe da mediana
                                 limiteInferior = vetorLimites[i]
-                                freqAcAnterior = vetorFac[i - 1]
-                                console.log(limiteInferior + ' freqAcAnterior ' + freqAcAnterior) 
-                                console.log('Intervalo ' + intervalo)
+
                                 console.log('vetorTotal ' + vetorTotal)
+                                // Determina a Frequência Absoluta da Mediana 
                                 fiMediana = vetorTotal[i]
-                                console.log(fiMediana)
+
+                                console.log({i, limiteInferior, freqAcAnterior, intervalo, fiMediana})
+
                                 aux = ((vetorDados.length / 2) - freqAcAnterior) / fiMediana
                                 console.log('Aux ' + aux)
                                 mediana = limiteInferior + (aux * intervalo)
@@ -921,9 +1011,17 @@
                                     }
                                 }
 
+                                // Verifica se existe a Frequência Absoluta Acumulada anterior
+                                if(i === 0) {
+                                    alert('Não tem Fac')
+                                    freqAcAnterior = 0
+                                }
+                                else {
+                                    freqAcAnterior = vetorFac[i - 1]
+                                }
+
                                 console.log('Valor de i: ' + i)
                                 limiteInferior = vetorLimites[i]
-                                freqAcAnterior = vetorFac[i - 1]
                                 console.log(limiteInferior + ' freqAcAnterior ' + freqAcAnterior) 
                                 console.log('Intervalo ' + intervalo)
                                 console.log('vetorTotal ' + vetorTotal)
@@ -935,33 +1033,74 @@
                                 console.log('Mediana ' + mediana)
                             }
 
-                            resultMediana.innerHTML = 'Mediana: ' + mediana
-
-
+                            resultMediana.innerHTML = 'Mediana: ' + mediana.toFixed(2)
 
 
                             // MODA
-                            console.log(vetorTotal)
+                            console.log({vetorTotal})
 
-                            let maior = vetorTotal[0]
-                            for(let i = 1; i < vetorTotal.length; i++) {
-                                if(vetorTotal[i] > maior) {
-                                    maior = vetorTotal[i]
-                                }
-                            } 
-
-                            let vetorModa = []
-                            for(let i = 0; i < vetorTotal.length; i++) {
-                                if(vetorTotal[i] === maior) {
-                                    vetorModa.push(vetorMediaIC[i])
+                            let moda = false
+                            for(let j = 1; j < vetorTotal.length; j++) {
+                                if(vetorTotal[0] !== vetorTotal[j]) {
+                                    moda = true
+                                    break
                                 }
                             }
+                            console.log({moda})
 
-                            resultModa.innerHTML = 'Moda: ' + vetorModa
+                            if(moda === true) {
 
-                            console.log(vetorMediaIC)
-                            console.log(maior)
-                            console.log(vetorModa)
+                                let maior = vetorTotal[0]
+                                for(let i = 1; i < vetorTotal.length; i++) {
+                                    if(vetorTotal[i] > maior) {
+                                        maior = vetorTotal[i]
+                                    }
+                                }
+                                console.log(maior)
+
+                                let vetorModa = []
+                                for(let i = 0; i < vetorTotal.length; i++) {
+                                    if(vetorTotal[i] === maior) {
+                                        vetorModa.push(vetorMediaIC[i])
+                                    }
+                                }
+
+                                console.log({maior, vetorModa})
+
+                                resultModa.innerHTML = 'Moda: ' + vetorModa
+
+                                console.log({vetorMediaIC, maior, vetorModa})
+                            }
+                            else {
+                                resultModa.innerHTML = 'Moda: Amodal'
+                            }
+                            
+                            
+                            // CÁLCULO DO DESVIO PADRÃO
+                            let somatoria = 0,
+                                desvioPadrao = 0
+                            for(let i = 0; i < vetorMediaIC.length; i++) {
+                                somatoria += (Math.pow((vetorMediaIC[i] - media), 2)) * vetorTotal[i]
+                            }
+                            
+                            if(radAmostra.checked === true) {
+                                let amostra = somaTotal(vetorTotal) - 1
+                                desvioPadrao = Math.sqrt(somatoria / amostra)
+                                console.log({amostra, somatoria, desvioPadrao})
+                            }
+                            else {
+                                let populacao = somaTotal(vetorTotal)
+                                desvioPadrao = Math.sqrt(somatoria / populacao)
+                                console.log({populacao, somatoria, desvioPadrao})
+                            }
+                            resultDesvioPadrao.innerHTML = "Desvio Padrão: " + desvioPadrao.toFixed(2)
+
+                            // CÁLCULO DO COEFICIENTE DE VARIAÇÃO
+                            let coefVariacao = (desvioPadrao / media) * 100
+                            resultCoefVariacao.innerHTML = "Coeficiente de Variação: " + coefVariacao.toFixed(2) + "%"
+                            console.log({coefVariacao, media})
+
+
 
 
                             // GRÁFICO
@@ -1095,7 +1234,7 @@
                         tabela.style="display: normal"                        
                     }
                 }
-
+                window.onload = iniciar()
                 botaoCalcular.addEventListener('click', exibirManual)
                 medidaSeparatriz.addEventListener('change', exibeMedSeparatriz)
                 
