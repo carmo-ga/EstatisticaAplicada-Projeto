@@ -331,3 +331,9 @@ e Medidas Separatrizes */
 .line {
     display: inline-flex;
 }
+
+.histograma {
+    padding: 5rem;
+    width: 50%;
+    height: 90%;
+}

@@ -194,13 +194,14 @@ function exibirManual() {
 
     cabecalhoTabela.innerHTML = ""
     corpoTabela.innerHTML = ""
-    linhaTotal.innerHTML = ""
+    rodapeTabela.innerHTML = ""
     resultMedia.innerHTML = ""
     resultModa.innerHTML = ""
     resultMediana.innerHTML = ""
     resultMedSeparatriz.innerHTML = ""
     resultDesvioPadrao.innerHTML = ""
     resultCoefVariacao.innerHTML = ""
+    chart.innerHTML = ""
 
     let valido = true
 
@@ -746,7 +747,8 @@ function exibirManual() {
                 vetorMediaIC = [],
                 vetorLimites = [],
                 vetorTeste = [],
-                vetorFac = []
+                vetorFac = [],
+                vetorVarLimites = []
             for(let i = 0; i < qtLinhas; i++) {
                 let superior = inferior + intervalo
 
@@ -779,6 +781,8 @@ function exibirManual() {
                 corpoTabela.appendChild(linha)
                 linha.appendChild(celula)
 
+                vetorVarLimites.push(inferior + " |-- " + superior)
+
                 vetorTeste.push(inferior, superior)
 
                 let celulaCont = document.createElement('td')
@@ -808,6 +812,8 @@ function exibirManual() {
 
                 inferior = superior
             }
+
+            console.log(vetorVarLimites)
 
             vetorLimites.push(inferior)
             console.log('Versão final: ' + vetorLimites)
@@ -1065,114 +1071,29 @@ function exibirManual() {
             console.log('Vetor teste: ' +  vetorTeste)
             */
 
-            /*
-            let tracex = {
-                x: vetorLimites,
-                type: 'histogram',
-                start: vetorLimites[0],
-                size: vetorLimites,
-            };
-            let tracey = {
-                y: vetorFreqTotal,
-                type: 'histogram',
-            };
-            let data = ([tracex], [tracey]);
-            Plotly.newPlot('grafico', data);
-            */
-            /*
-            // Teste
-
-            var trace0 = {
-                type: 'bar',
-                x: vetorLimites,
-                y: vetorFreqTotal,
-                //width: [1001, 1001, 1001],
-                xbins: {
-                    start: vetorLimites[0],
-                    size: vetorLimites,
-                    end: vetorLimites[vetorLimites.length - 1],
-                }
-            }
-            var layout = {
-                barmode: 'group',
-                bargap: 0.15,
-                bargroupgap: 0.1
-            }
-
-            
-
-            var data = [trace0]
-
-            Plotly.newPlot('grafico', data, layout);
-
-            */
-
-
-
-            
-            let dados = [{
-                x: vetorTeste,
-                y: vetorFreqTotal,
-                hoverinfo: 'label+percent',
-                type: 'bar',
-                xbins: {
-                    start: vetorLimites[0],
-                    size: vetorLimites,
-                },
-                ybins: {
-                    start: vetorFreqTotal[0],
-                    size: vetorFreqTotal,
-                }
-            }];
-
-            let layout = {
-                title: '<i><b>' + nomeVariavel.value + '<b><i>',
-                titlefont: {
-                    size: 15,
-                    color: 'rgb(0, 0, 0)'
-                },
-                height: 400,
-                width: 500,
-                xaxis: {
-                    title: nomeVariavel.value,
-                    color: 'rgb(0, 0, 0)'
-                },
-                yaxis: {
-                    title: 'Frequência Relativa (%)',
-                    color: 'rgb(0, 0, 0)'
-                }
-            };
-
-            Plotly.newPlot('grafico', dados, layout)
-
             // Chart.js
-
 
             const chart = new Chart(histograma, {
             type: 'bar',
             data: {
-                labels: vetorLimites,
+                labels: vetorVarLimites,
                 datasets: [{
-                label: 'Number of Arrivals',
+                label: nomeVariavel.value,
                 data: vetorFreqTotal,
-                backgroundColor: 'green',
+                backgroundColor: 'blue',
                 }]
             },
             options: {
                 scales: {
-                /*xAxes: [{
-                    display: false,
-                    barPercentage: 1,
-                    ticks: {
-                        max: 3,
-                    }
-                }, {
+                xAxes: [{
                     display: true,
+                    barPercentage: 1.3,
+                }, {
+                    display: false,
                     ticks: {
                         autoSkip: false,
-                        max: 7,
                     }
-                }]*///,
+                }],
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
