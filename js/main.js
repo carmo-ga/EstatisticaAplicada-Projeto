@@ -8,6 +8,7 @@ const tipoVariavel = document.querySelector('#tipoVariavel')
 const freqSimples = document.querySelector('#freqSimples')
 const linhaTotal = document.querySelector('#linhaTotal')
 const cabecalhoTabela = document.querySelector('#cabecalhoTabela')
+const rodapeTabela = document.querySelector('#rodapeTabela')
 const freqRelativa = document.querySelector('#freqRelativa')
 const freqAcumulada = document.querySelector('#freqAcumulada')
 const freqAcumuladaPerc = document.querySelector('#freqAcumuladaPerc')
@@ -15,7 +16,7 @@ const resultMedia = document.querySelector('#media')
 const resultModa = document.querySelector('#moda')
 const resultMediana = document.querySelector('#mediana')
 const radAmostra = document.querySelector('#radAmostra')
-const radPopulacao = document.querySelector('#populacao')
+const radPopulacao = document.querySelector('#radPopulacao')
 const resultDesvioPadrao = document.querySelector('#resultDesvioPadrao')
 const resultCoefVariacao = document.querySelector('#resultCoefVariacao')
 const medidaSeparatriz = document.querySelector('#medidaSeparatriz')
@@ -101,11 +102,25 @@ function exibeMedSeparatriz() {
     console.log(valorIndex)
 }
 
+// Função para criação do cabeçalho da tabela
+function criaCabecalhoTabela() {
+    tituloTabela.innerHTML = nomeVariavel.value
+    cabecalhoTabela.appendChild(tituloTabela)
+
+    freqSimples.innerHTML = "Freq. Simples"
+    cabecalhoTabela.appendChild(freqSimples)
+
+    freqRelativa.innerHTML = "Freq. Relativa (%)"
+    cabecalhoTabela.appendChild(freqRelativa)
+
+    freqAcumulada.innerHTML = "Freq. Acumulada"
+    cabecalhoTabela.appendChild(freqAcumulada)
+
+    freqAcumuladaPerc.innerHTML = "Freq. Acumulada (%)"
+    cabecalhoTabela.appendChild(freqAcumuladaPerc)
+}
+
 // Função para cálculo das Medidas Separatrizes das variáveis qualitativa nominal, ordinal e quantitativa discreta
-
-//calcMedSepNOD(somaTotal(vetorTotal), vetorDados)
-
-
 function calcMedSepNOD(somaTotalNOD, vetDadosNOD) {
     let posicaoQKDP = 0,
         simboloQKDP = ""
@@ -153,21 +168,18 @@ function calcMedSepNOD(somaTotalNOD, vetDadosNOD) {
             percentil.value.focus()
         }
     }
-    //let resul
+    
     if(simboloQKDP !== "") {
         console.log({posicaoQKDP})
         if(posicaoQKDP == 0) {
             resultMedSeparatriz.innerHTML = simboloQKDP + vetDadosNOD[posicaoQKDP]
             console.log({posicaoQKDP, simboloQKDP, somaTotalNOD})
-            console.log(vetDadosNOD[posicaoQKDP])
         }
         else {
             resultMedSeparatriz.innerHTML = simboloQKDP + vetDadosNOD[posicaoQKDP - 1]
             console.log({posicaoQKDP, simboloQKDP, somaTotalNOD, vetDadosNOD})
-            console.log(vetDadosNOD[posicaoQKDP - 1])
         }
     }
-    //return resul
 }
 
 function somaTotal(vetor) {
@@ -193,51 +205,37 @@ function exibirManual() {
     let valido = true
 
     let stringManual = dadoManual.value
-    console.log(stringManual)
+    let vetorDados = []
+    if(stringManual !== "") {
+        vetorDados = stringManual.split(';')
 
-    let vetorDados = stringManual.split(';')
-
-    for(let i = 0; i < vetorDados.length; i++) {
-        vetorDados[i] = vetorDados[i].trim()
-    }
-
-    if(nomeVariavel.value == '') {
-        alert('Informe o nome da variável.')
-        nomeVariavel.focus()
-        valido = false
-    }
-    else if(tipoVariavel.selectedIndex <= 0) {
-        alert('Selecione o tipo de variável.')
-        tipoVariavel.focus()
-        valido = false
-    }
-
-
-    if(valido == true) {
-
-        tituloTabela.innerHTML = nomeVariavel.value
-        cabecalhoTabela.appendChild(tituloTabela)
-
-        freqSimples.innerHTML = "Freq. Simples"
-        cabecalhoTabela.appendChild(freqSimples)
-
-        freqRelativa.innerHTML = "Freq. Relativa (%)"
-        cabecalhoTabela.appendChild(freqRelativa)
-
-        freqAcumulada.innerHTML = "Freq. Acumulada"
-        cabecalhoTabela.appendChild(freqAcumulada)
-
-        freqAcumuladaPerc.innerHTML = "Freq. Acumulada (%)"
-        cabecalhoTabela.appendChild(freqAcumuladaPerc)
-        /*
-        function somaTotal(vetor) {
-            let soma = 0
-            for(let i in vetor) {
-                    soma += vetor[i]
-            }
-            return soma
+        // Descarta eventuais espaços nas strings
+        for(let i = 0; i < vetorDados.length; i++) {
+            vetorDados[i] = vetorDados[i].trim()
         }
-        */
+
+        if(nomeVariavel.value == '') {
+            alert('Informe o nome da variável.')
+            nomeVariavel.focus()
+            valido = false
+        }
+        else if(tipoVariavel.selectedIndex <= 0) {
+            alert('Selecione o tipo de variável.')
+            tipoVariavel.focus()
+            valido = false
+        }
+    }
+    else {
+        alert('Preencha os campos solicitados.')
+        dadoManual.focus()
+        valido = false
+    }
+
+    if(valido === true) {
+    
+        criaCabecalhoTabela()
+
+        // QUALITATIVA NOMINAL E ORDINAL
         if(tipoVariavel.selectedIndex == 1 || tipoVariavel.selectedIndex == 2) {
             divMedidasDispersao.style.display = "none"
             vetorDados.sort()
@@ -256,7 +254,6 @@ function exibirManual() {
                 }
             }
             console.log('Vetor Variável: ' + vetorVariavel)
-
 
             let vetorTotal = [],
                 vetorFreqTotal = []
@@ -304,10 +301,13 @@ function exibirManual() {
                 linha.appendChild(celulaFreqAcum)
                 linha.appendChild(celulaFreqAcumPer)
             }
+            
+            let linhaTotal = document.createElement('tr')
+            rodapeTabela.appendChild(linhaTotal)
 
-            let total = document.createElement('td')
-            total.innerHTML = "Total"
-            linhaTotal.appendChild(total)
+            let textoTotal = document.createElement('td')
+            textoTotal.innerHTML = "Total"
+            linhaTotal.appendChild(textoTotal)
             
             let totalDados = document.createElement('td')
             totalDados.innerHTML = somaTotal(vetorTotal)
@@ -526,8 +526,11 @@ function exibirManual() {
             }
         
             let linhaTotal = document.createElement('tr')
-            linhaTotal.innerHTML = "Total"
-            corpoTabela.appendChild(linhaTotal)
+            rodapeTabela.appendChild(linhaTotal)
+
+            let textoTotal = document.createElement('td')
+            textoTotal.innerHTML = "Total"
+            linhaTotal.appendChild(textoTotal)
             
             let total = document.createElement('td')
             total.innerHTML = somaTotal(vetorTotal)
@@ -810,8 +813,11 @@ function exibirManual() {
             console.log('Versão final: ' + vetorLimites)
 
             let linhaTotal = document.createElement('tr')
-            linhaTotal.innerHTML = "Total"
-            corpoTabela.appendChild(linhaTotal)
+            rodapeTabela.appendChild(linhaTotal)
+
+            let textoTotal = document.createElement('td')
+            textoTotal.innerHTML = "Total"
+            linhaTotal.appendChild(textoTotal)
             
             let total = document.createElement('td')
             total.innerHTML = somaTotal(vetorTotal)

@@ -12,7 +12,7 @@
     <body>
 
         <header class="header">
-            <div class="container">
+            <div class="menu">
                 <nav class="nav">
 
                     <ul class="nav-list">
@@ -29,15 +29,15 @@
         </header>
 
         <main>
-            <div class="container">
+            <div class="titulo">
                 <div class="heading">
                     <h1 class="title">Estatística Descritiva</h1>
                 </div>
             </div>
 
-            <section>
-                <div class="container"></div>
-                    <div class="upload">
+            <section class="dados">
+                <div class="container">
+                    <div class="upload interna">
                         <label>Importar Dados</label>
                         <input type="file" class="importarArquivo" accept=".csv, .xlsx, .xlsm">
                         <!--  <button class="importarArquivo">Salvar</button>   -->
@@ -45,24 +45,24 @@
                 </div>
 
                 <div class="container">
-                    <div class="manual">
+                    <div class="manual interna">
                         <label>Inserir Dados</label>
                         <input type="text" id="inserirManual" class="inserirManual" placeholder="Inserir Dados Manualmente">
-                        <small>Os dados devem ser separados por ponto e vírgula(;)</small>
+                        <small class="notaDadosManual">Os dados devem ser separados por ponto e vírgula(;)</small>
                     </div>
                 </div>
 
                 <div class="container">
-                    <div class="nomeVariavel">
+                    <div class="nomeVariavel interna">
                         <label>Nome da Variável</label>
-                        <input type="text" id="nomeVariavel" class="nomeVariavel" placeholder="Inserir Nome da Variável">
+                        <input type="text" id="nomeVariavel" placeholder="Inserir Nome da Variável">
                     </div>
                 </div>
 
                 <div class="container">
-                    <div class="tipoVariavel">
+                    <div class="tiposVariaveis interna">
                         <label>Tipo de Variável</label>
-                        <select id="tipoVariavel">
+                        <select id="tipoVariavel" class="tipoVariavel">
                             <option>(Selecione)</option>
                             <option>Qualitativa Nominal</option>
                             <option>Qualitativa Ordinal</option>
@@ -73,25 +73,32 @@
                 </div>
 
                 <div class="container">
-                    <div class="amostraPopulacao">
-                        <input type="radio" id="radAmostra" name="radAmostPop" class="amostra">
-                        <label for="radAmostra">Amostra</label>
+                    <div class="amostraPopulacao interna">
+                        <div class="amostra">
+                            <input type="radio" id="radAmostra" name="radAmostPop">
+                            <label for="radAmostra">Amostra</label>
+                        </div>
 
-                        <input type="radio" id="radPopulacao" name="radAmostPop" class="populacao">
-                        <label for="radPopulacao">População</label>
+                        <div class="populacao">
+                            <input type="radio" id="radPopulacao" name="radAmostPop">
+                            <label for="radPopulacao">População</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="container">
-                    <div class="calcular">
-                        <button id="botaoCalcular" class="calcular">Calcular</button>
+                    <div class="calcular interna">
+                        <button id="botaoCalcular" class="btnCalcular">Calcular</button>
                     </div>
                 </div>
+            </section>
+
+            <section>
 
                 <div class="container">
-                    <div class="exibirTabela">
+                    <div class="exibirTabela interna">
                         <table id="tabela" class="tabela" style="display: none">
-                            <thead id="cabecalhoTabela">
+                            <thead id="cabecalhoTabela" class="cabecalhoTabela">
                                 <tr>
                                     <th id="tituloTabela"></th>
                                 </tr>
@@ -114,8 +121,8 @@
                             </tbody>
 
                             <tfoot id="rodapeTabela" class="rodapeTabela">
-                                <tr id="linhaTotal" class="total">
-
+                                <tr id="linhaTotal" class="linhaTotal">
+                                    
                                 </tr>
                             </tfoot>
                         </table>
@@ -123,76 +130,91 @@
                 </div>
 
                 <div class="container">
-                    <div>
-                        <h1>Medidas de Tendência Central</h1>
-                    </div>
-                    <div class="media" id="media">
-                        
-                    </div>
-
-                    <div class="mediana" id="mediana">
-
-                    </div>
-
-                    <div class="moda" id="moda">
-                        
+                    <div class="medidasTendCentral interna">
+                        <div class="tituloResultado">
+                            <h1>Medidas de Tendência Central</h1>
+                        </div>
+                        <div class="exibeResultado">
+                            <div class="media" id="media">
+                                
+                            </div>
+        
+                            <div class="mediana" id="mediana">
+        
+                            </div>
+        
+                            <div class="moda" id="moda">
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="container" id="divMedidasDispersao">
-                    <div>
-                        <h1>Medidas de Dispersão</h1>
-                    </div>
-                    <div class="desvioPadrao" id="resultDesvioPadrao">
-                        
-                    </div>
-
-                    <div class="coefVariacao" id="resultCoefVariacao">
-
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div>
-                        <h1>Medidas Separatrizes</h1>
-                    </div>
-                    <div class="medidasSeparatriz" id="medidasSeparatriz">
-                        <label>Medida Separatriz</label>
-                        <select id="medidaSeparatriz">
-                            <option>(Selecione)</option>
-                            <option>Quartil</option>
-                            <option>Quintil</option>
-                            <option>Decil</option>
-                            <option>Percentil</option>
-                        </select>
-                    </div>
-
-                    <label>Partes</label>
-
-                    <div class="medidas" id="medidas">
-                        <select id="medidaQKD">
-                            <option>(Selecione)</option>
-                        </select>
-
-                        <input id="percentil" type="number" min="1" max="100">
-
-                        <div id="resultMedSeparatriz">
-
+                    <div class="interna">
+                        <div class="tituloResultado">
+                            <h1>Medidas de Dispersão</h1>
                         </div>
-
+                        <div class="exibeResultado">
+                            <div class="desvioPadrao" id="resultDesvioPadrao">
+                            
+                            </div>
+        
+                            <div class="coefVariacao" id="resultCoefVariacao">
+        
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="container">
-                    <div id="grafico">
+                    <div class="interna">
+                        <div class="tituloResultado">
+                            <h1>Medidas Separatrizes</h1>
+                        </div>
+                        <div class="medidasSeparatriz">
+                            <div class="tipoMedidaSeparatriz line" id="tipoMedidaSeparatriz">
+                                <label class="lblMedSep">Medida Separatriz</label>
+                                <select id="medidaSeparatriz">
+                                    <option>(Selecione)</option>
+                                    <option>Quartil</option>
+                                    <option>Quintil</option>
+                                    <option>Decil</option>
+                                    <option>Percentil</option>
+                                </select>
+                            </div>
+    
+                            <div class="medidas line" id="medidas">
+                                <label class="lblValMedSep">Partes</label>
+                                <select id="medidaQKD">
+                                    <option>(Selecione)</option>
+                                </select>
+    
+                                <input id="percentil" type="number" min="1" max="100" class="row2">
+                            </div>
+                            <div class="exibeResultado">
+                                <div id="resultMedSeparatriz">
+    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="interna">
+                        <div id="grafico">
                         
+                        </div>
                     </div>
                 </div>
 
                 <div class="container">
-                    <canvas id="histograma" max-width="400px" height="300"></canvas>
-                    
+                    <div class="inter">
+                        <canvas id="histograma" max-width="400px" height="300"></canvas>
+                    </div>                    
                 </div>
+
             </section>
         </main>
 
