@@ -21,6 +21,7 @@ const resultDesvioPadrao = document.querySelector('#resultDesvioPadrao')
 const resultCoefVariacao = document.querySelector('#resultCoefVariacao')
 const medidaSeparatriz = document.querySelector('#medidaSeparatriz')
 const divMedidasDispersao = document.querySelector('#divMedidasDispersao')
+const lblValMedSep = document.querySelector('#lblValMedSep')
 const medidaQKD = document.querySelector('#medidaQKD')
 const percentil = document.querySelector('#percentil')
 const resultMedSeparatriz = document.querySelector('#resultMedSeparatriz')
@@ -28,8 +29,9 @@ const grafico = document.querySelector('#grafico')
 const chart = document.querySelector('#histograma').getContext('2d')
 
 function iniciar() {
-    medidaQKD.style.visibility = 'hidden'
-    percentil.style.visibility = 'hidden'
+    lblValMedSep.style.display = 'none'
+    medidaQKD.style.display = 'none'
+    percentil.style.display = 'none'
     radAmostra.checked = true
 }
 
@@ -39,13 +41,15 @@ function exibeMedSeparatriz() {
 
     if(valorIndex <= 0) {
         resultMedSeparatriz.innerHTML = ""
-        medidaQKD.style.visibility = 'hidden'
-        percentil.style.visibility = 'hidden'
+        lblValMedSep.style.display = 'none'
+        medidaQKD.style.display = 'none'
+        percentil.style.display = 'none'
 
     }
     else if(valorIndex == 1) {
-        percentil.style.visibility = 'hidden'
-        medidaQKD.style.visibility = 'visible'
+        lblValMedSep.style.display = 'inline-block'        
+        percentil.style.display = 'none'
+        medidaQKD.style.display = 'inline-block'
         medidaQKD.innerText = ""
         resultMedSeparatriz.innerHTML = ""
 
@@ -60,8 +64,9 @@ function exibeMedSeparatriz() {
         }
     }
     else if(valorIndex == 2) {
-        percentil.style.visibility = 'hidden'
-        medidaQKD.style.visibility = 'visible'
+        lblValMedSep.style.display = 'inline-block'
+        percentil.style.display = 'none'
+        medidaQKD.style.display = 'inline-block'
         medidaQKD.innerText = ""
 
         let primeiro = document.createElement('option')
@@ -77,8 +82,9 @@ function exibeMedSeparatriz() {
         }
     }
     else if(valorIndex == 3) {
-        percentil.style.visibility = 'hidden'
-        medidaQKD.style.visibility = 'visible'
+        lblValMedSep.style.display = 'inline-block'
+        percentil.style.display = 'none'
+        medidaQKD.style.display = 'inline-block'
         medidaQKD.innerText = ""
         resultMedSeparatriz.innerHTML = ""
 
@@ -94,9 +100,12 @@ function exibeMedSeparatriz() {
         }
     }
     else if(valorIndex == 4) {
-        medidaQKD.style.visibility = 'hidden'
-        percentil.style.visibility = 'visible' 
-        resultMedSeparatriz.innerHTML = ""                       
+        lblValMedSep.style.display = 'inline-block'
+        medidaQKD.style.display = 'none'
+        percentil.style.display = 'inline-block' 
+        resultMedSeparatriz.innerHTML = ""
+        percentil.value = ""
+        percentil.focus()            
     }
 
     console.log(valorIndex)
@@ -242,12 +251,7 @@ function exibirManual() {
             vetorDados.sort()
             console.log(vetorDados)
 
-            let celulaVariavel,
-                celulaFreqSim,
-                celulaFreqRelativa,
-                celulaFreqAcum,
-                celulaFreqAcumPer,
-                vetorVariavel = [],
+            let vetorVariavel = [],
                 percentualTotal = 0
             for(let i = 0; i < vetorDados.length; i++) {
                 if(vetorDados[i] !== vetorDados[i + 1]) {
@@ -866,7 +870,6 @@ function exibirManual() {
 
                 // Verifica se existe a Frequência Absoluta Acumulada anterior
                 if(i === 0) {
-                    alert('Não tem Fac')
                     freqAcAnterior = 0
                 }
                 else {
@@ -900,7 +903,6 @@ function exibirManual() {
 
                 // Verifica se existe a Frequência Absoluta Acumulada anterior
                 if(i === 0) {
-                    alert('Não tem Fac')
                     freqAcAnterior = 0
                 }
                 else {
@@ -908,7 +910,6 @@ function exibirManual() {
                 }
 
                 limiteInferior = vetorLimites[i]
-                console.log('vetorTotal ' + vetorTotal)
                 fiMediana = vetorTotal[i]
                 aux = ((vetorDados.length / 2) - freqAcAnterior) / fiMediana
                 mediana = limiteInferior + (aux * intervalo)
@@ -974,7 +975,6 @@ function exibirManual() {
 
                 // Verifica se existe a Frequência Absoluta Acumulada anterior
                 if(posicaoLinha === 0) {
-                    alert('Não tem Fac')
                     freqAcAntMedSep = 0
                 }
                 else {
@@ -1061,46 +1061,36 @@ function exibirManual() {
 
 
             // GRÁFICO
-            /*
-            console.log('Vetor da freq. para ser usado no gráfico ' + vetorFreqTotal)
-            console.log('Vetor de labels para ser usado no gráfico ' + vetorMediaIC)
-            console.log('Start: ' +  vetorLimites[0])
-            console.log('Size: ' +  vetorLimites.length)
-            console.log('end: ' +  vetorLimites[vetorLimites.length -  1])
-            console.log('Vetor grafico: ' +  vetorLimites)
-            console.log('Vetor teste: ' +  vetorTeste)
-            */
-
+           
             // Chart.js
-
             const chart = new Chart(histograma, {
-            type: 'bar',
-            data: {
-                labels: vetorVarLimites,
-                datasets: [{
-                label: nomeVariavel.value,
-                data: vetorFreqTotal,
-                backgroundColor: 'blue',
-                }]
-            },
-            options: {
-                scales: {
-                xAxes: [{
-                    display: true,
-                    barPercentage: 1.3,
-                }, {
-                    display: false,
-                    ticks: {
-                        autoSkip: false,
+                type: 'bar',
+                data: {
+                    labels: vetorVarLimites,
+                    datasets: [{
+                    label: nomeVariavel.value,
+                    data: vetorFreqTotal,
+                    backgroundColor: 'blue',
+                    }]
+                },
+                options: {
+                    scales: {
+                    xAxes: [{
+                        display: true,
+                        barPercentage: 1.3,
+                    }, {
+                        display: false,
+                        ticks: {
+                            autoSkip: false,
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                     }
-                }],
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
                 }
-            }
             });
         } 
         // FIM DA QUANTITATIVA CONTÍNUA

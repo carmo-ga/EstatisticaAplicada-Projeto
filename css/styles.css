@@ -37,10 +37,10 @@ section {
     padding: 0rem 0;
     width: 70%;
     margin: 2rem auto;
-    border-right: 3px solid rgba(0,128,0,.5);
-    border-left: 3px solid rgba(0,128,0,.5);
-    border-bottom: 3px solid rgba(0,128,0,.5);
-    border-top: 3px solid rgba(0,128,0,.5);
+    border-right: 2px solid rgba(0,128,0,.3);
+    border-left: 2px solid rgba(0,128,0,.3);
+    border-bottom: 2px solid rgba(0,128,0,.3);
+    border-top: 2px solid rgba(0,128,0,.3);
     /*background-color: var(--green-outro);*/
 }
 
@@ -86,7 +86,6 @@ section {
     width: 90%;
     margin: 0 auto;
     justify-content: center;
-    
 }
 
 input[type=text] {
@@ -111,13 +110,16 @@ select {
 
 .title {
     text-transform: uppercase;
-    font-size: 4.5rem;
-    letter-spacing: 2px;
+    font-size: 4rem;
+    letter-spacing: 3px;
+    color: #004516;
+    padding: 1rem;
 }
 
 /* Upload de Dados ------------- */
 .upload {
-    padding: 1rem 0;
+    padding-top: 4rem;
+    padding-bottom: 1rem;
 }
 
 /* Inserção manual de Dados ---- */
@@ -239,7 +241,8 @@ select {
 
 /* Botão Calcular -------------- */
 .calcular {
-    padding: 1rem 0;
+    padding-top: 2rem;
+    padding-bottom: 5rem;
 }
 
 .btnCalcular {
@@ -293,6 +296,7 @@ th {
     border-bottom: 1px solid #004516;
 }
 
+
 /* Resultados das Medidas de Tendência Central, Medidas de Dispersão
 e Medidas Separatrizes */
 .tituloResultado {
@@ -300,7 +304,9 @@ e Medidas Separatrizes */
     justify-content: center;
     border-width: 20px;
     border-bottom: 2px solid #004516;
-    padding-top: 2rem;
+    padding-top: 4rem;
+    color: green;
+    letter-spacing: 2px;
 }
 
 .exibeResultado {
@@ -324,12 +330,70 @@ e Medidas Separatrizes */
     padding-right: 6rem;
     padding-top: 1rem;
     text-align: center;
-    vertical-align: center;
-
 }
 
 .line {
     display: inline-flex;
+}
+
+.tipoMedidaSeparatriz {
+    margin-right: 3rem;
+}
+
+/* Label Medida Separatriz -------- */
+.lblMedSep {
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.medidaSeparatriz {
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: green;
+    outline: none;
+}
+
+.medidaSeparatriz:hover {
+    border-width: 1px;
+    border-style: solid;
+    border-color: green;
+    outline: none;
+}
+
+/* Label do Valor da Medida Separatriz ------ */
+.lblValMedSep {
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.medidaQKD {
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: green;
+    outline: none;
+    align-items: center;
+}
+
+.medidaQKD:hover {
+    border-width: 2px;
+    border-style: solid;
+    border-color: green;
+    outline: none; 
+}
+
+.percentil {
+    border-width: 0px 0px 2px 0px;
+    border-style: solid;
+    border-color: green;
+    outline: none;
+    padding-left: 2rem;
+}
+
+.percentil:hover {
+    border-width: 1px;
+    border-style: solid;
+    border-color: green;
+    outline: none; 
 }
 
 .histograma {
