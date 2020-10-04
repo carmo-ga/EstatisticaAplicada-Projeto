@@ -34,9 +34,8 @@ ul {
 }
 
 section {
-    padding: 0rem 0;
     width: 70%;
-    margin: 2rem auto;
+    margin: 0 auto;
     border-right: 2px solid rgba(0,128,0,.3);
     border-left: 2px solid rgba(0,128,0,.3);
     border-bottom: 2px solid rgba(0,128,0,.3);
@@ -68,17 +67,13 @@ section {
     display: flex;
 }
 
-.upload label, .upload input,
+.upload label,
 .manual label, .manual input, .manual small,
 .nomeVariavel label, .nomeVariavel input,
 .tiposVariaveis label, .tiposVariaveis select,
 .calcular button {
     width: 80%;
     margin-left: 8rem;
-}
-
-.upload {
-    justify-content: center;
 }
 
 /* Div que contém os agrupamentos dos elementos ----- */
@@ -120,6 +115,76 @@ select {
 .upload {
     padding-top: 4rem;
     padding-bottom: 1rem;
+}
+
+.lblInput {
+    justify-content: space-between;
+    padding: 0rem 0rem 0rem .6rem;
+    display: inline;
+    font-size: 1.6rem !important;
+    align-items: center;
+    color: grey !important; 
+    cursor: pointer;
+    
+    border-width: 1px;
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 1px;
+    border-style: solid;
+    border-color: green;
+}
+
+.lblInput:hover {    
+    border-width: 1px;
+    border-left: 1px;
+    border-top: 1px;
+    border-right: 1px;
+    border-bottom: 1px;
+    border-style: solid;
+    border-color: green;
+}
+
+/* Esconder o botão do input ---- */
+.importarArquivo::-webkit-file-upload-button {
+    /*visibility: hidden;*/
+    display: none;
+}
+
+.importarArquivo {
+    /*visibility: hidden;*/
+    outline: none;
+    border: none;
+    display: inline-flex;
+    margin-left: 2rem;
+}
+
+.importarArquivo::before {
+    content: "Selecionar";
+    justify-content: center;
+    display: inline-flex;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    width: 100%;
+    height: 3.5rem;
+    padding: .6rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: green;
+    outline: none;
+    cursor: pointer;
+    background-color: #dbead5;
+    color: #005221;
+    letter-spacing: 2px;
+}
+
+.importarArquivo:hover::before {
+    background-color: #a8cc99;
+    border-top: 0px;
+    border-right: 0px;
 }
 
 /* Inserção manual de Dados ---- */
@@ -239,6 +304,11 @@ select {
     text-transform: uppercase;
 }
 
+/* Disable radio button -------- */
+/*.disabled {
+    visibility: hidden;
+}*/
+
 /* Botão Calcular -------------- */
 .calcular {
     padding-top: 2rem;
@@ -321,7 +391,6 @@ e Medidas Separatrizes */
     padding-top: 1rem;
     text-align: center;
     vertical-align: center;
-    
 }
 
 /* Medidas separatrizes ---------- */

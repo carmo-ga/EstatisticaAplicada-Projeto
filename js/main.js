@@ -1,3 +1,4 @@
+const inputArquivo = document.querySelector('#inputArquivo')
 const dadoManual = document.querySelector('#inserirManual')
 const botaoCalcular = document.querySelector('#botaoCalcular')
 const nomeVariavel = document.querySelector('#nomeVariavel')
@@ -28,13 +29,82 @@ const resultMedSeparatriz = document.querySelector('#resultMedSeparatriz')
 const grafico = document.querySelector('#grafico')
 const chart = document.querySelector('#histograma').getContext('2d')
 
+let houveUpload = false
+let vetorDados = []
+// Upload de arquivo
+inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
+
+    const leitorCSV = new FileReader()  // Ler arquivo
+
+    leitorCSV.onload = function() { // Chama callback com o conteúdo do arquivo assim que a leitura terminar
+
+        let vetorArquivo = []
+
+        const linhas = leitorCSV.result.split('\n')
+        console.log(linhas)
+
+        vetorArquivo = linhas
+
+        let contador = 0
+        if(vetorArquivo === "" || vetorArquivo == null || vetorArquivo.length <= 1) {
+            console.log('Vetor sem dados')
+        }
+        else {
+
+            let titulo = vetorArquivo.shift()
+            //dadoManual.value = vetorArquivo
+            dadoManual.readOnly = true
+            nomeVariavel.value = titulo
+            nomeVariavel.readOnly = true
+
+            console.log('VetorArquivo ' + vetorArquivo)
+
+            for(let i = 0; i < vetorArquivo.length; i++) {
+                if(vetorArquivo[i] != '' && vetorArquivo[i] != null && vetorArquivo[i] != undefined && vetorArquivo[i].length != 0) {
+
+                    let numero = parseFloat(vetorArquivo[i].replace(',', '.'))
+                    console.log(numero)
+                    if(!isNaN(numero)) {
+                        vetorDados.push(numero)
+                    }
+                    else {
+                        contador++
+                    }          
+                }
+            }
+        }
+
+        if(contador == vetorArquivo.length - 1) {
+            console.log('Vetor de string')
+            vetorDados = vetorArquivo.filter(elem => elem)
+        }
+
+        console.log({vetorArquivo})
+        console.log(vetorDados)
+        console.log({contador})
+
+        // Variável de controle
+        houveUpload = true
+    }
+    leitorCSV.readAsText(inputArquivo.files[0]) // Lê arquivo como texto e especifica o arquivo a ser lido
+}, false)
+
+
 function iniciar() {
     lblValMedSep.style.display = 'none'
     medidaQKD.style.display = 'none'
     percentil.style.display = 'none'
     radAmostra.checked = true
 }
-
+/*
+function changeTipoVariavel() {
+    if(tipoVariavel.selectedIndex === 1 || tipoVariavel.selectedIndex === 2) {
+        radAmostra.className = 'disabled'
+        radPopulacao.className = 'disabled'
+        console.log('Deu certo')
+    }
+}
+*/
 function exibeMedSeparatriz() {
 
     let valorIndex = medidaSeparatriz.selectedIndex
@@ -214,31 +284,43 @@ function exibirManual() {
 
     let valido = true
 
-    let stringManual = dadoManual.value
-    let vetorDados = []
-    if(stringManual !== "") {
-        vetorDados = stringManual.split(';')
+    // Se o vetor de dados tiver vazio, faz isso aqui
+    if(houveUpload === false) {
+        
+        // Inserção Manual
+        let stringManual = dadoManual.value
+        let vetorDados = []
+        if(stringManual !== "") {
+            vetorDados = stringManual.split(';')
 
-        // Descarta eventuais espaços nas strings
-        for(let i = 0; i < vetorDados.length; i++) {
-            vetorDados[i] = vetorDados[i].trim()
+            // Descarta eventuais espaços nas strings
+            for(let i = 0; i < vetorDados.length; i++) {
+                vetorDados[i] = vetorDados[i].trim()
+            }
+
+            if(nomeVariavel.value == '') {
+                alert('Informe o nome da variável.')
+                nomeVariavel.focus()
+                valido = false
+            }
+            else if(tipoVariavel.selectedIndex <= 0) {
+                alert('Selecione o tipo de variável.')
+                tipoVariavel.focus()
+                valido = false
+            }
         }
-
-        if(nomeVariavel.value == '') {
-            alert('Informe o nome da variável.')
-            nomeVariavel.focus()
+        else {
+            alert('Preencha os campos solicitados.')
+            dadoManual.focus()
             valido = false
         }
-        else if(tipoVariavel.selectedIndex <= 0) {
+    }
+    else if(houveUpload === true) {
+        if(tipoVariavel.selectedIndex <= 0) {
             alert('Selecione o tipo de variável.')
             tipoVariavel.focus()
             valido = false
         }
-    }
-    else {
-        alert('Preencha os campos solicitados.')
-        dadoManual.focus()
-        valido = false
     }
 
     if(valido === true) {
@@ -456,21 +538,22 @@ function exibirManual() {
         // QUANTITATIVA DISCRETA ----------------------------------
         if(tipoVariavel.selectedIndex == 3) {
 
-            
-            for(let i = 0; i < vetorDados.length; i++) {
+            if(houveUpload === false) {
+                for(let i = 0; i < vetorDados.length; i++) {
 
-                if(vetorDados[i].indexOf(',')) {
-                    vetorDados[i] = vetorDados[i].replace(",", ".")
-                    vetorDados[i] = parseFloat(vetorDados[i])
-                }
-                else {
-                    vetorDados[i] = parseInt(vetorDados[i])
+                    if(vetorDados[i].indexOf(',')) {
+                        vetorDados[i] = vetorDados[i].replace(",", ".")
+                        vetorDados[i] = parseFloat(vetorDados[i])
+                    }
+                    else {
+                        vetorDados[i] = parseInt(vetorDados[i])
+                    }
                 }
             }
             
             vetorDados.sort(function(a, b) {
-                return a - b;
-            });
+                return a - b
+            })
 
             console.log(vetorDados)
 
@@ -679,15 +762,18 @@ function exibirManual() {
 
         // QUANTITATIVA CONTÍNUA ------------------------------------
         if(tipoVariavel.selectedIndex == 4) {
-                                        
-            for(let i = 0; i < vetorDados.length; i++) {
+            
+            if(houveUpload === false) {
+            
+                for(let i = 0; i < vetorDados.length; i++) {
 
-                if(vetorDados[i].indexOf(',')) {
-                    vetorDados[i] = vetorDados[i].replace(",", ".")
-                    vetorDados[i] = parseFloat(vetorDados[i])
-                }
-                else {
-                    vetorDados[i] = parseInt(vetorDados[i])
+                    if(vetorDados[i].indexOf(',')) {
+                        vetorDados[i] = vetorDados[i].replace(",", ".")
+                        vetorDados[i] = parseFloat(vetorDados[i])
+                    }
+                    else {
+                        vetorDados[i] = parseInt(vetorDados[i])
+                    }
                 }
             }
 
@@ -988,11 +1074,6 @@ function exibirManual() {
                 resultMedSeparatriz.innerHTML = simbolo + valMedSep.toFixed(2)
                 console.log({posicaoMedSep, posicaoLinha, limiteInfMedSep, freqAcAntMedSep, intervalo, fiMedSep, auxMedSep, valMedSep})
             }
-            /*
-            if(posicaoQ !== 0) {
-                console.log({posicaoQ})
-                resultMedSeparatriz.innerHTML = 'Q<sub>'+medidaQKD.selectedIndex+'</sub>: ' + vetorDados[posicaoQ - 1]
-            } */
 
 
             // MODA
@@ -1100,6 +1181,7 @@ function exibirManual() {
 }
 window.onload = iniciar()
 medidaSeparatriz.addEventListener('change', exibeMedSeparatriz)
+//tipoVariavel.addEventListener('change', changeTipoVariavel)
 //medidaQKD.addEventListener('change', calcMedSepNOD)
 //percentil.addEventListener('change', calcMedSepNOD)
 botaoCalcular.addEventListener('click', exibirManual)
