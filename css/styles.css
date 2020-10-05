@@ -48,6 +48,10 @@ section {
     justify-content: center;
 }
 
+.sectionResultados {
+    justify-content: center;
+}
+
 /* Geral */
 .container {
     width: 100%;
@@ -341,14 +345,14 @@ select {
     text-align: center;
     font-size: 1.7rem;
     justify-content: center;
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 .tabela {
     display: inline-block;
     border-collapse: collapse;
     justify-content: center;
-    padding: 10px 10px 5px 10px;
+    padding: 2rem;
 }
 
 th {
@@ -383,6 +387,7 @@ e Medidas Separatrizes */
     display: flex;
     justify-content: center;
     font-size: 1.9rem;
+    padding-top: 1rem;
 }
 
 .exibeResultado div {
@@ -465,7 +470,7 @@ e Medidas Separatrizes */
     outline: none; 
 }
 
-.histograma {
+.grafico {
     padding: 5rem;
     width: 50%;
     height: 90%;

@@ -65,10 +65,10 @@
                         <label>Tipo de Variável</label>
                         <select id="tipoVariavel" class="tipoVariavel">
                             <option>(Selecione)</option>
-                            <option>Qualitativa Nominal</option>
+                            <!--<option>Qualitativa Nominal</option>
                             <option>Qualitativa Ordinal</option>
                             <option>Quantitativa Discreta</option>
-                            <option>Quantitativa Contínua</option>
+                            <option>Quantitativa Contínua</option>-->
                         </select>
                     </div>
                 </div>
@@ -94,11 +94,15 @@
                 </div>
             </section>
 
-            <section>
+            <section id="exibeResultados" class="sectionResultados">
 
                 <div class="container">
                     <div class="exibirTabela interna">
-                        <table id="tabela" class="tabela" style="display: none">
+                        <div class="tituloResultado">
+                            <h1>Tabela</h1>
+                        </div>
+
+                        <table id="tabela" class="tabela">
                             <thead id="cabecalhoTabela" class="cabecalhoTabela">
                                 <tr>
                                     <th id="tituloTabela"></th>
@@ -204,27 +208,20 @@
 
                 <div class="container">
                     <div class="interna">
-                        <div id="grafico">
-                        
+                        <div class="tituloResultado">
+                            <h1>Representação Gráfica</h1>
                         </div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="interna">
-                        <canvas id="histograma" class="histograma" max-width="300px" height="250px"></canvas>
+                        <canvas id="grafico" class="grafico" max-width="300px" height="250px"></canvas>
                     </div>                    
                 </div>
 
             </section>
         </main>
 
-        <script src="./js/plotly.min.js">//https://cdn.plot.ly/plotly-latest.min.js</script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script src="./js/chart.js"></script>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script> 
-        <script type="text/javascript"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script> 
 
         <script type="text/javascript" src="./js/main.js"></script>
 

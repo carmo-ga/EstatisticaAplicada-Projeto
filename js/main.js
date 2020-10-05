@@ -1,3 +1,4 @@
+const exibeResultados = document.querySelector('#exibeResultados')
 const inputArquivo = document.querySelector('#inputArquivo')
 const dadoManual = document.querySelector('#inserirManual')
 const botaoCalcular = document.querySelector('#botaoCalcular')
@@ -26,11 +27,10 @@ const lblValMedSep = document.querySelector('#lblValMedSep')
 const medidaQKD = document.querySelector('#medidaQKD')
 const percentil = document.querySelector('#percentil')
 const resultMedSeparatriz = document.querySelector('#resultMedSeparatriz')
-const grafico = document.querySelector('#grafico')
-const chart = document.querySelector('#histograma').getContext('2d')
+const grafico = document.querySelector('#grafico').getContext('2d')
 
 let houveUpload = false
-let vetorDados = []
+let vetorDadosUpload = []
 // Upload de arquivo
 inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
 
@@ -47,12 +47,13 @@ inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
 
         let contador = 0
         if(vetorArquivo === "" || vetorArquivo == null || vetorArquivo.length <= 1) {
-            console.log('Vetor sem dados')
+            alert('Informe os dados.')
         }
         else {
 
+            vetorDadosUpload = []
             let titulo = vetorArquivo.shift()
-            //dadoManual.value = vetorArquivo
+            dadoManual.value = ""
             dadoManual.readOnly = true
             nomeVariavel.value = titulo
             nomeVariavel.readOnly = true
@@ -63,9 +64,8 @@ inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
                 if(vetorArquivo[i] != '' && vetorArquivo[i] != null && vetorArquivo[i] != undefined && vetorArquivo[i].length != 0) {
 
                     let numero = parseFloat(vetorArquivo[i].replace(',', '.'))
-                    console.log(numero)
                     if(!isNaN(numero)) {
-                        vetorDados.push(numero)
+                        vetorDadosUpload.push(numero)
                     }
                     else {
                         contador++
@@ -76,12 +76,43 @@ inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
 
         if(contador == vetorArquivo.length - 1) {
             console.log('Vetor de string')
-            vetorDados = vetorArquivo.filter(elem => elem)
+            vetorDadosUpload = vetorArquivo.filter(elem => elem)
+
+            tipoVariavel.innerHTML = ""
+
+            let selecione = document.createElement('option')
+            selecione.innerText = "(Selecione)"
+            tipoVariavel.appendChild(selecione)
+
+            let nominal = document.createElement('option')
+            nominal.innerText = "Qualitativa Nominal"
+            tipoVariavel.appendChild(nominal)
+
+            let ordinal = document.createElement('option')
+            ordinal.innerText = "Qualitativa Ordinal"
+            tipoVariavel.appendChild(ordinal)
+        }
+        else {
+            tipoVariavel.innerHTML = ""
+
+            let selecione = document.createElement('option')
+            selecione.innerText = "(Selecione)"
+            tipoVariavel.appendChild(selecione)
+
+            let discreta = document.createElement('option')
+            discreta.innerText = "Quantitativa Discreta"
+            tipoVariavel.appendChild(discreta)
+
+            let continua = document.createElement('option')
+            continua.innerText = "Quantitativa Contínua"
+            tipoVariavel.appendChild(continua)
         }
 
         console.log({vetorArquivo})
-        console.log(vetorDados)
+        console.log(vetorDadosUpload)
         console.log({contador})
+
+        //grafico.clearRect(0, 0, grafico.width, grafico.height)
 
         // Variável de controle
         houveUpload = true
@@ -95,7 +126,29 @@ function iniciar() {
     medidaQKD.style.display = 'none'
     percentil.style.display = 'none'
     radAmostra.checked = true
+    exibeResultados.style.display = 'none'
+    tabela.innerHTML = ""
+    tabela.style.display = 'none'
 }
+
+// Função para gerar cores aleatoriamente
+function gerarCor(vetor) {
+    let letras = '0123456789ABCDEF',
+        cor = '#',
+        j = 0,
+        cores = []
+    do {
+        for (let i = 0; i < 6; i++) {
+            cor += letras[Math.floor(Math.random() * 16)]
+        }
+        cores.push(cor)
+        cor = '#'
+        j++
+    } while (j < vetor.length)
+    return cores
+}
+
+
 /*
 function changeTipoVariavel() {
     if(tipoVariavel.selectedIndex === 1 || tipoVariavel.selectedIndex === 2) {
@@ -105,6 +158,37 @@ function changeTipoVariavel() {
     }
 }
 */
+
+// Mudança no input do dado manual
+function inputDadoManual() {
+
+    alert('Mudou o input do dado manual')
+
+    nomeVariavel.value = ""
+    tipoVariavel.innerHTML = ""
+    nomeVariavel.focus()
+
+    let selecione = document.createElement('option')
+    selecione.innerText = "(Selecione)"
+    tipoVariavel.appendChild(selecione)
+
+    let nominal = document.createElement('option')
+    nominal.innerText = "Qualitativa Nominal"
+    tipoVariavel.appendChild(nominal)
+
+    let ordinal = document.createElement('option')
+    ordinal.innerText = "Qualitativa Ordinal"
+    tipoVariavel.appendChild(ordinal)
+
+    let discreta = document.createElement('option')
+    discreta.innerText = "Quantitativa Discreta"
+    tipoVariavel.appendChild(discreta)
+
+    let continua = document.createElement('option')
+    continua.innerText = "Quantitativa Contínua"
+    tipoVariavel.appendChild(continua)
+}
+
 function exibeMedSeparatriz() {
 
     let valorIndex = medidaSeparatriz.selectedIndex
@@ -197,6 +281,8 @@ function criaCabecalhoTabela() {
 
     freqAcumuladaPerc.innerHTML = "Freq. Acumulada (%)"
     cabecalhoTabela.appendChild(freqAcumuladaPerc)
+
+    tabela.appendChild(cabecalhoTabela)
 }
 
 // Função para cálculo das Medidas Separatrizes das variáveis qualitativa nominal, ordinal e quantitativa discreta
@@ -280,16 +366,17 @@ function exibirManual() {
     resultMedSeparatriz.innerHTML = ""
     resultDesvioPadrao.innerHTML = ""
     resultCoefVariacao.innerHTML = ""
-    chart.innerHTML = ""
+    grafico.innerHTML = ""
 
     let valido = true
-
-    // Se o vetor de dados tiver vazio, faz isso aqui
+    let vetorDados = []
     if(houveUpload === false) {
         
+        alert('É manual')
+        console.log(tipoVariavel.value)
         // Inserção Manual
         let stringManual = dadoManual.value
-        let vetorDados = []
+        //let vetorDados = []
         if(stringManual !== "") {
             vetorDados = stringManual.split(';')
 
@@ -321,14 +408,20 @@ function exibirManual() {
             tipoVariavel.focus()
             valido = false
         }
+        else {
+            vetorDados = vetorDadosUpload
+        }
     }
 
     if(valido === true) {
+
+        exibeResultados.style.display = 'block'
+        tabela.style.display = 'inline-block'
     
         criaCabecalhoTabela()
 
-        // QUALITATIVA NOMINAL E ORDINAL
-        if(tipoVariavel.selectedIndex == 1 || tipoVariavel.selectedIndex == 2) {
+        // QUALITATIVA NOMINAL E ORDINAL -----------------------------------
+        if(tipoVariavel.value == "Qualitativa Nominal" || tipoVariavel.value == "Qualitativa Ordinal") {
             divMedidasDispersao.style.display = "none"
             vetorDados.sort()
             console.log(vetorDados)
@@ -389,6 +482,8 @@ function exibirManual() {
                 linha.appendChild(celulaFreqAcumPer)
             }
             
+            tabela.appendChild(corpoTabela)
+
             let linhaTotal = document.createElement('tr')
             rodapeTabela.appendChild(linhaTotal)
 
@@ -405,6 +500,8 @@ function exibirManual() {
             let totalPercentual = document.createElement('td')
             totalPercentual.innerHTML = percentualTotal.toFixed(2) + '%'
             linhaTotal.appendChild(totalPercentual)
+
+            tabela.appendChild(rodapeTabela)
 
             $(corpoTabela).sortable()
 
@@ -513,32 +610,34 @@ function exibirManual() {
             // MEDIDAS SEPARATRIZES ----------------------
             calcMedSepNOD(somaTotal(vetorTotal), vetorDados)
 
-            // GRÁFICO    
-            let dados = [{
-                values: vetorFreqTotal,
-                labels: vetorVariavel,
-                hoverinfo: 'label+percent',
-                type: 'pie'
-            }]
-
-            let layout = {
-                title: '<i><b>' + nomeVariavel.value + '<b><i>',
-                titlefont: {
-                    size: 15,
-                    color: 'rgb(0, 0, 0)'
+            // GRÁFICO
+            new Chart(grafico, {
+                type: 'pie',
+                data: {
+                    labels: vetorVariavel,
+                    datasets: [{
+                        label: vetorVariavel,
+                        data: vetorFreqTotal,
+                        backgroundColor: gerarCor(vetorVariavel)
+                    }]
                 },
-                height: 400,
-                width: 500
-            };
-
-            Plotly.newPlot('grafico', dados, layout)
+                options: {
+                    title: {
+                        display: true,
+                        text: nomeVariavel.value,
+                        fontColor: "black",
+                        fontSize: 20
+                    }
+                }
+            })
         }
 
 
-        // QUANTITATIVA DISCRETA ----------------------------------
-        if(tipoVariavel.selectedIndex == 3) {
+        // QUANTITATIVA DISCRETA -------------------------------------------------
+        if(tipoVariavel.value == "Quantitativa Discreta") {
 
             if(houveUpload === false) {
+                alert('Transformar em números')
                 for(let i = 0; i < vetorDados.length; i++) {
 
                     if(vetorDados[i].indexOf(',')) {
@@ -547,10 +646,11 @@ function exibirManual() {
                     }
                     else {
                         vetorDados[i] = parseInt(vetorDados[i])
+                        console.log(i)
                     }
                 }
             }
-            
+
             vetorDados.sort(function(a, b) {
                 return a - b
             })
@@ -613,6 +713,8 @@ function exibirManual() {
                 linha.appendChild(celulaFreqAcumPer)
             }
         
+            tabela.appendChild(corpoTabela)
+
             let linhaTotal = document.createElement('tr')
             rodapeTabela.appendChild(linhaTotal)
 
@@ -627,6 +729,8 @@ function exibirManual() {
             let totalPercentual = document.createElement('td')
             totalPercentual.innerHTML = Math.round(percentualTotal) + '%'
             linhaTotal.appendChild(totalPercentual)
+
+            tabela.appendChild(rodapeTabela)
             
             // MÉDIA PONDERADA SIMPLES
             let somaMedia = 0
@@ -729,39 +833,36 @@ function exibirManual() {
             calcMedSepNOD(somaTotal(vetorTotal), vetorDados)
 
             // GRÁFICO
-            console.log('Vetor da freq. para ser usado no gráfico ' + vetorFreqTotal)
-            console.log('Vetor de labels para ser usado no gráfico ' + vetorVariavel)
-
-            let dados = [{
-                x: vetorVariavel,
-                y: vetorFreqTotal,
-                hoverinfo: 'label+percent',
-                type: 'bar'
-            }];
-
-            let layout = {
-                title: '<i><b>' + nomeVariavel.value + '<b><i>',
-                titlefont: {
-                    size: 15,
-                    color: 'rgb(0, 0, 0)'
+            new Chart(grafico, {
+                type: 'bar',
+                data: {
+                    labels: vetorVariavel,
+                    datasets: [{
+                        //label: nomeVariavel.value,
+                        data: vetorFreqTotal,
+                        backgroundColor: gerarCor(vetorVariavel)
+                    }]
                 },
-                height: 400,
-                width: 500,
-                xaxis: {
-                    title: nomeVariavel.value,
-                    color: 'rgb(0, 0, 0)'
-                },
-                yaxis: {
-                    title: 'Frequência Relativa (%)',
-                    color: 'rgb(0, 0, 0)'
+                options: {
+                    legend: {display: false},
+                    title: {
+                        display: true,
+                        text: nomeVariavel.value,
+                        fontColor: "black",
+                        fontSize: 20
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            barPercentage: 1,
+                        }]
+                    }
                 }
-            };
-
-            Plotly.newPlot('grafico', dados, layout)
+            })
         } 
 
-        // QUANTITATIVA CONTÍNUA ------------------------------------
-        if(tipoVariavel.selectedIndex == 4) {
+        // QUANTITATIVA CONTÍNUA -----------------------------------------------
+        if(tipoVariavel.value == "Quantitativa Contínua") {
             
             if(houveUpload === false) {
             
@@ -784,7 +885,7 @@ function exibirManual() {
             console.log('Vetor Dados: ' + vetorDados)
 
             // AMPLITUDE TOTAL DA SEQUÊNCIA (MAIOR NÚMERO DA DISTRIBUIÇÃO - MENOR NÚMERO DA DISTRIBUIÇÃO)
-            let amplitude = (vetorDados[vetorDados.length - 1]) - vetorDados[0]
+            let amplitude = Math.round((vetorDados[vetorDados.length - 1]) - vetorDados[0])
             console.log(amplitude) 
 
             // QUANTIDADE DE CLASSES (QUANTIDADE DE LINHAS)
@@ -798,22 +899,29 @@ function exibirManual() {
             let intervalo,
                 qtLinhas,
                 controle = false
+
+            Math.round(amplitude)
+            console.log({amplitude})
             while(controle === false) {
 
                 amplitude = amplitude + 1
+                alert('Incrementei a amplitude' + amplitude)
 
                 if(amplitude % k === 0) {
-                    intervalo = (amplitude) / k
+                    alert('Amplitude é K')
+                    intervalo = amplitude / k
                     qtLinhas = k
                     controle = true
                 }
                 else if(amplitude % kMenos1 === 0) {
-                    intervalo = (amplitude) / kMenos1
+                    alert('Amplitude é KMenos1')
+                    intervalo = amplitude / kMenos1
                     qtLinhas = kMenos1
                     controle = true
                 }
                 else if(amplitude % kMenos1 === 0) {
-                    intervalo = (amplitude) / kMais1
+                    alert('Amplitude é KMais1')
+                    intervalo = amplitude / kMais1
                     qtLinhas = kMais1
                     controle = true
                 }                                
@@ -903,6 +1011,8 @@ function exibirManual() {
                 inferior = superior
             }
 
+            tabela.appendChild(corpoTabela)
+
             console.log(vetorVarLimites)
 
             vetorLimites.push(inferior)
@@ -922,6 +1032,8 @@ function exibirManual() {
             let totalPercentual = document.createElement('td')
             totalPercentual.innerHTML = percentualTotal.toFixed(2) + '%'
             linhaTotal.appendChild(totalPercentual)
+
+            tabela.appendChild(rodapeTabela)
             
             // MÉDIA PONDERA SIMPLES
             let prodSum = 0
@@ -1139,44 +1251,38 @@ function exibirManual() {
             console.log({coefVariacao, media})
 
 
-
-
             // GRÁFICO
-           
-            // Chart.js
-            const chart = new Chart(histograma, {
+            new Chart(grafico, {
                 type: 'bar',
                 data: {
                     labels: vetorVarLimites,
                     datasets: [{
-                    label: nomeVariavel.value,
-                    data: vetorFreqTotal,
-                    backgroundColor: 'blue',
+                        data: vetorFreqTotal,
+                        backgroundColor: gerarCor(vetorVarLimites)
                     }]
                 },
                 options: {
-                    scales: {
-                    xAxes: [{
+                    legend: {display: false},
+                    title: {
                         display: true,
-                        barPercentage: 1.3,
-                    }, {
-                        display: false,
-                        ticks: {
-                            autoSkip: false,
-                        }
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+                        text: nomeVariavel.value,
+                        fontColor: "black",
+                        fontSize: 20
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            barPercentage: 1.25,
+                        }]
                     }
                 }
-            });
+            })
         } 
         // FIM DA QUANTITATIVA CONTÍNUA
 
-        tabela.style="display: normal"                        
+        dadoManual.readOnly = false
+        nomeVariavel.readOnly = false
+        houveUpload = false
     }
 }
 window.onload = iniciar()
@@ -1185,3 +1291,4 @@ medidaSeparatriz.addEventListener('change', exibeMedSeparatriz)
 //medidaQKD.addEventListener('change', calcMedSepNOD)
 //percentil.addEventListener('change', calcMedSepNOD)
 botaoCalcular.addEventListener('click', exibirManual)
+dadoManual.addEventListener('change', inputDadoManual)
