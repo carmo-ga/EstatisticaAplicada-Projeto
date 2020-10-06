@@ -39,7 +39,7 @@
                 <div class="container">
                     <div class="upload interna">
                         <label>Importar Dados</label>
-                        <label class="lblInput">Selecione um arquivo
+                        <label id="lblInput" class="lblInput">Selecione um arquivo
                             <input type="file" id="inputArquivo" class="importarArquivo" accept=".csv">
                         </label>
                     </div>
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="container">
-                    <div class="amostraPopulacao interna">
+                    <div id="amostraPopulacao" class="amostraPopulacao interna">
                         <div class="amostra">
                             <input type="radio" id="radAmostra" name="radAmostPop">
                             <label for="radAmostra">Amostra</label>
@@ -177,8 +177,8 @@
                         <div class="tituloResultado">
                             <h1>Medidas Separatrizes</h1>
                         </div>
-                        <div class="medidasSeparatriz">
-                            <div class="tipoMedidaSeparatriz line" id="tipoMedidaSeparatriz">
+                        <div class="medidasSeparatrizes">
+                            <div class="tipoMedidaSeparatriz" id="tipoMedidaSeparatriz">
                                 <label class="lblMedSep">Medida Separatriz:</label>
                                 <select id="medidaSeparatriz" class="medidaSeparatriz">
                                     <option>(Selecione)</option>
@@ -189,7 +189,7 @@
                                 </select>
                             </div>
     
-                            <div class="medidas line" id="medidas">
+                            <div class="medidas" id="medidas">
                                 <label id="lblValMedSep" class="lblValMedSep">Partes:</label>
                                 <select id="medidaQKD" class="medidaQKD">
                                     <option>(Selecione)</option>
@@ -197,10 +197,8 @@
     
                                 <input id="percentil" type="number" min="1" max="100" class="percentil">
                             </div>
-                            <div class="exibeResultado">
-                                <div id="resultMedSeparatriz">
-    
-                                </div>
+                            <div id="resultMedSeparatriz" class="exibeResultMedSep">
+                               
                             </div>
                         </div>
                     </div>
@@ -215,6 +213,12 @@
                     </div>                    
                 </div>
 
+            </section>
+
+            <section class="footer">
+                <div class="interna">
+
+                </div>
             </section>
         </main>
 

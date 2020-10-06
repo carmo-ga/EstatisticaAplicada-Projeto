@@ -1,5 +1,6 @@
 const exibeResultados = document.querySelector('#exibeResultados')
 const inputArquivo = document.querySelector('#inputArquivo')
+//const lblInput = document.querySelector('#lblInput')
 const dadoManual = document.querySelector('#inserirManual')
 const botaoCalcular = document.querySelector('#botaoCalcular')
 const nomeVariavel = document.querySelector('#nomeVariavel')
@@ -17,6 +18,7 @@ const freqAcumuladaPerc = document.querySelector('#freqAcumuladaPerc')
 const resultMedia = document.querySelector('#media')
 const resultModa = document.querySelector('#moda')
 const resultMediana = document.querySelector('#mediana')
+const divAmostraPop = document.querySelector('#amostraPopulacao')
 const radAmostra = document.querySelector('#radAmostra')
 const radPopulacao = document.querySelector('#radPopulacao')
 const resultDesvioPadrao = document.querySelector('#resultDesvioPadrao')
@@ -113,6 +115,7 @@ inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
         console.log({contador})
 
         //grafico.clearRect(0, 0, grafico.width, grafico.height)
+        console.log(inputArquivo.files[0].name)
 
         // Variável de controle
         houveUpload = true
@@ -127,6 +130,7 @@ function iniciar() {
     percentil.style.display = 'none'
     radAmostra.checked = true
     exibeResultados.style.display = 'none'
+    divMedidasDispersao.style.display = 'none'
     tabela.innerHTML = ""
     tabela.style.display = 'none'
 }
@@ -149,20 +153,34 @@ function gerarCor(vetor) {
 }
 
 
-/*
+// Mudança do tipo de variável
 function changeTipoVariavel() {
-    if(tipoVariavel.selectedIndex === 1 || tipoVariavel.selectedIndex === 2) {
-        radAmostra.className = 'disabled'
-        radPopulacao.className = 'disabled'
-        console.log('Deu certo')
+
+    if(tipoVariavel.value == "Qualitativa Nominal" || tipoVariavel.value == "Qualitativa Ordinal") {
+        divAmostraPop.style.display = "none"
+        divMedidasDispersao.style.display = 'none'
+    }
+    else if(tipoVariavel.value == "Quantitativa Discreta" || tipoVariavel.value == "Quantitativa Contínua") {
+        divAmostraPop.style = "display: normal"
+        divMedidasDispersao.style = "display: normal"
+    }
+    else {
+        exibeResultados.style.display = 'none'
+        cabecalhoTabela.innerHTML = ""
+        corpoTabela.innerHTML = ""
+        rodapeTabela.innerHTML = ""
+        resultMedia.innerHTML = ""
+        resultModa.innerHTML = ""
+        resultMediana.innerHTML = ""
+        resultMedSeparatriz.innerHTML = ""
+        resultDesvioPadrao.innerHTML = ""
+        resultCoefVariacao.innerHTML = ""
     }
 }
-*/
+
 
 // Mudança no input do dado manual
 function inputDadoManual() {
-
-    alert('Mudou o input do dado manual')
 
     nomeVariavel.value = ""
     tipoVariavel.innerHTML = ""
@@ -187,6 +205,8 @@ function inputDadoManual() {
     let continua = document.createElement('option')
     continua.innerText = "Quantitativa Contínua"
     tipoVariavel.appendChild(continua)
+
+    houveUpload = false
 }
 
 function exibeMedSeparatriz() {
@@ -287,6 +307,8 @@ function criaCabecalhoTabela() {
 
 // Função para cálculo das Medidas Separatrizes das variáveis qualitativa nominal, ordinal e quantitativa discreta
 function calcMedSepNOD(somaTotalNOD, vetDadosNOD) {
+    console.log(somaTotalNOD)
+    console.log(vetDadosNOD)
     let posicaoQKDP = 0,
         simboloQKDP = ""
     if(medidaSeparatriz.selectedIndex === 0) {
@@ -372,7 +394,6 @@ function exibirManual() {
     let vetorDados = []
     if(houveUpload === false) {
         
-        alert('É manual')
         console.log(tipoVariavel.value)
         // Inserção Manual
         let stringManual = dadoManual.value
@@ -388,16 +409,18 @@ function exibirManual() {
             if(nomeVariavel.value == '') {
                 alert('Informe o nome da variável.')
                 nomeVariavel.focus()
+                exibeResultados.style.display = 'none'
                 valido = false
             }
             else if(tipoVariavel.selectedIndex <= 0) {
                 alert('Selecione o tipo de variável.')
                 tipoVariavel.focus()
+                exibeResultados.style.display = 'none'
                 valido = false
             }
         }
         else {
-            alert('Preencha os campos solicitados.')
+            alert('Informe os dados.')
             dadoManual.focus()
             valido = false
         }
@@ -637,7 +660,6 @@ function exibirManual() {
         if(tipoVariavel.value == "Quantitativa Discreta") {
 
             if(houveUpload === false) {
-                alert('Transformar em números')
                 for(let i = 0; i < vetorDados.length; i++) {
 
                     if(vetorDados[i].indexOf(',')) {
@@ -899,28 +921,21 @@ function exibirManual() {
             let intervalo,
                 qtLinhas,
                 controle = false
-
-            Math.round(amplitude)
-            console.log({amplitude})
             while(controle === false) {
 
                 amplitude = amplitude + 1
-                alert('Incrementei a amplitude' + amplitude)
 
                 if(amplitude % k === 0) {
-                    alert('Amplitude é K')
                     intervalo = amplitude / k
                     qtLinhas = k
                     controle = true
                 }
                 else if(amplitude % kMenos1 === 0) {
-                    alert('Amplitude é KMenos1')
                     intervalo = amplitude / kMenos1
                     qtLinhas = kMenos1
                     controle = true
                 }
                 else if(amplitude % kMenos1 === 0) {
-                    alert('Amplitude é KMais1')
                     intervalo = amplitude / kMais1
                     qtLinhas = kMais1
                     controle = true
@@ -1282,13 +1297,13 @@ function exibirManual() {
 
         dadoManual.readOnly = false
         nomeVariavel.readOnly = false
-        houveUpload = false
+        //houveUpload = false
     }
 }
 window.onload = iniciar()
 medidaSeparatriz.addEventListener('change', exibeMedSeparatriz)
-//tipoVariavel.addEventListener('change', changeTipoVariavel)
-//medidaQKD.addEventListener('change', calcMedSepNOD)
-//percentil.addEventListener('change', calcMedSepNOD)
+tipoVariavel.addEventListener('change', changeTipoVariavel)
+medidaQKD.addEventListener('change', exibirManual)
+percentil.addEventListener('change', exibirManual)
 botaoCalcular.addEventListener('click', exibirManual)
 dadoManual.addEventListener('change', inputDadoManual)
