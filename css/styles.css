@@ -158,6 +158,33 @@ a {
     font-size: 2.1rem;
 }
 
+.submenu {
+    position: absolute;
+    display: none;
+}
+
+.nav-item:hover .submenu {
+    display: inherit;
+}
+
+.submenu .nav-item {
+    margin: 0px;
+}
+
+.submenu .nav-item:not(:last-child) {
+    border-bottom: 1px solid #fff;
+}
+
+.submenu .nav-link {
+    font-size: 1.9rem;
+}
+
+.submenu .nav-link:hover {
+    border: none;
+    font-size: 1.95rem;
+    background-color: #7b995d;
+}
+
 /* Título da Página ------------- */
 .heading {
     display: flex;

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+
+        <!--<link rel="stylesheet" type="text/css" href="./css/styles.css"> -->
+        <link rel="stylesheet" type="text/css" href="./css/probabilidade.css">
+        <title>Probabilidade</title>
+    </head>
+
+    <body>
+
+        <header class="header">
+            <div class="menu">
+                <nav class="nav">
+
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./estatistica_descritiva.html" class="nav-link">Estatística Descritiva</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./probabilidade.html" class="nav-link">Probabilidade</a>
+                            <ul class="submenu">
+                                <li class="nav-item">
+                                    <a href="./distribuicao_binomial.html" class="nav-link">Distribuição Binomial</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="./distribuicao_normal.html" class="nav-link">Distribuição Normal</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="./distribuicao_uniforme.html" class="nav-link">Distribuição Uniforme</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="titulo">
+                <div class="heading">
+                    <h1 class="title">Distribuição Binomial</h1>
+                </div>
+            </div>
+
+            <section class="dados">
+                <div class="container">
+                    <div class="amostra interna">
+                        <label>Tamanho da Amostra</label>
+                        <input type="number" id="amostra" placeholder="Informe o Tamanho da Amostra">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="teste interna">
+                        <div class="sucesso">
+                            <label>Probabilidade de Sucesso</label>
+                            <input type="number" id="sucesso" placeholder="Informe a Probabilidade de Sucesso">
+                            <small class="notaInput">Informe o valor percentual.</small>
+                        </div>
+                        <div class="fracasso">
+                            <label>Probabilidade de Fracasso</label>
+                            <input type="number" id="fracasso" placeholder="Informe a Probabilidade de Fracasso">
+                            <small class="notaInput">Informe o valor percentual.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="eventos interna">
+                        <label>Eventos</label>
+                        <input type="number" id="eventos" placeholder="Informe o(s) Evento(s)">
+                        <small class="notaInput">Os dados devem ser separados por ponto e vírgula(;)</small>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="calcular interna">
+                        <button id="btnCalcBinomial" class="btnCalcBinomial">Calcular</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="exibeResultados" class="sectionResultados">
+
+                <div class="container">
+                    <div class="interna">
+                        <div class="tituloResultado">
+                            <h1>Medidas Separatrizes</h1>
+                        </div>
+                        <div class="medidasSeparatrizes">
+                            <div class="tipoMedidaSeparatriz" id="tipoMedidaSeparatriz">
+                                <label class="lblMedSep">Medida Separatriz:</label>
+                            </div>
+    
+                            <div class="medidas" id="medidas">
+                                <label id="lblValMedSep" class="lblValMedSep">Partes:</label>
+                                <select id="medidaQKD" class="medidaQKD">
+                                    <option>(Selecione)</option>
+                                </select>
+    
+                                <input id="percentil" type="number" min="1" max="100" class="percentil">
+                            </div>
+                            <div id="resultMedSeparatriz" class="exibeResultMedSep">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="footer">
+                <div class="interna">
+
+                </div>
+            </section>
+        </main>
+
+    </body>
+</html>
