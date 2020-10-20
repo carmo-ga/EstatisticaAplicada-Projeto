@@ -54,7 +54,7 @@
                 <div class="container">
                     <div class="amostra interna">
                         <label>Tamanho da Amostra</label>
-                        <input type="number" id="amostra" placeholder="Informe o Tamanho da Amostra">
+                        <input type="number" id="amostraSize" placeholder="Informe o Tamanho da Amostra">
                     </div>
                 </div>
 
@@ -76,7 +76,7 @@
                 <div class="container">
                     <div class="eventos interna">
                         <label>Eventos</label>
-                        <input type="number" id="eventos" placeholder="Informe o(s) Evento(s)">
+                        <input type="text" id="eventos" placeholder="Informe o(s) Evento(s)">
                         <small class="notaInput">Os dados devem ser separados por ponto e vírgula(;)</small>
                     </div>
                 </div>
@@ -93,24 +93,12 @@
                 <div class="container">
                     <div class="interna">
                         <div class="tituloResultado">
-                            <h1>Medidas Separatrizes</h1>
+                            <h1>Resultados</h1>
                         </div>
-                        <div class="medidasSeparatrizes">
-                            <div class="tipoMedidaSeparatriz" id="tipoMedidaSeparatriz">
-                                <label class="lblMedSep">Medida Separatriz:</label>
-                            </div>
-    
-                            <div class="medidas" id="medidas">
-                                <label id="lblValMedSep" class="lblValMedSep">Partes:</label>
-                                <select id="medidaQKD" class="medidaQKD">
-                                    <option>(Selecione)</option>
-                                </select>
-    
-                                <input id="percentil" type="number" min="1" max="100" class="percentil">
-                            </div>
-                            <div id="resultMedSeparatriz" class="exibeResultMedSep">
-                               
-                            </div>
+                        <div class="exibeResultado">
+                            <div class="probabilidade" id="exibeProbabilidade">Probabilidade: 31.86%</div>
+                            <div class="mediaBinomial" id="exibeMediaBinomial">Média: 0.52</div>
+                            <div class="desvioPBinomial" id="exibeDPBinomial">Desvio Padrão: 0.71</div>
                         </div>
                     </div>
                 </div>
@@ -118,11 +106,11 @@
             </section>
 
             <section class="footer">
-                <div class="interna">
-
-                </div>
+                <div class="interna"></div>
             </section>
         </main>
 
+        <script type="text/javascript" src="./js/dist_binomial.js"></script>
+        
     </body>
 </html>

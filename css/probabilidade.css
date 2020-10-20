@@ -77,15 +77,12 @@ section {
 }
 
 .amostra label, .amostra input,
-/*.sucesso label, .sucesso input, .sucesso small,
-.fracasso label, .fracasso input, .fracasso small,*/
 .eventos label, .eventos input, .eventos small,
 .calcular .btnCalcBinomial {
     width: 80%;
     margin-left: 8rem;
 }
 
-/*.amostra, .sucesso, .fracasso, .eventos {*/
 .amostra, .teste, .eventos {
     padding: 1rem 0;
 }
@@ -98,18 +95,18 @@ section {
 }
 
 /* Input Number */
-input[type='number'] {
+input[type='number'], input[type='text'] {
     border-width: 0px 0px 1px 0px;
     border-style: solid;
     border-color: green;
     outline: none;
-    padding: .6rem;
+    padding: 0rem .6rem;
     height: 3.5rem;
     width: 80%;
     font-size: 1.7rem;
 }
 
-input[type='number']:hover {
+input[type='number']:hover, input[type='text']:hover {
     border-width: 1px;
     border-style: solid;
     border-color: green;
@@ -289,4 +286,33 @@ a {
     display: flex;
     justify-content: left;
     padding-right: 8rem;
+}
+
+/* Resultados -------- */
+.tituloResultado {
+    display: flex;
+    justify-content: center;
+    border-width: 20px;
+    border-bottom: 2px solid #004516;
+    padding-top: 4.5rem;
+    color: green;
+    letter-spacing: 2px;
+}
+
+.exibeResultado {
+    display: flex;
+    justify-content: center;
+    font-size: 1.9rem;
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+}
+
+.exibeResultado div {
+    padding-left: 2rem;
+    padding-right: 6rem;
+    padding-top: 1rem;
+    justify-content: center;
+    text-align: center;
+    vertical-align: center;
+    font-size: 2rem;
 }
