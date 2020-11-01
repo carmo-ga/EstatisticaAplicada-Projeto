@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
 
-        <!-- <link rel="stylesheet" type="text/css" href="./css/styles.css"> -->
+        <link rel="icon" href="./images/favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="./css/probabilidade.css">
         <title>Probabilidade</title>
     </head>
 
@@ -37,7 +38,6 @@
                             </ul>
                         </li>
                     </ul>
-
                 </nav>
             </div>
         </header>
@@ -45,24 +45,35 @@
         <main>
             <div class="titulo">
                 <div class="heading">
-                    <h1 class="title">Probabilidade</h1>
+                    <h1 class="title">Distribuição Normal</h1>
                 </div>
             </div>
 
             <section class="dados">
+
                 <div class="container">
-                    <div class="manual interna">
-                        <label>Inserir Dados</label>
-                        <input type="text" id="inserirManual" class="inserirManual" placeholder="Inserir Dados Manualmente">
-                        <small class="notaDadosManual">Os dados devem ser separados por ponto e vírgula(;)</small>
+                    <div class="mediaNormal interna">
+                        <label>Média</label>
+                        <input type="number" id="mediaNormal" placeholder="Informe o valor da média">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="desvioPadraoNormal interna">
+                        <label>Desvio Padrão</label>
+                        <input type="number" id="desvioPadraoNormal" placeholder="Informe o desvio padrão">
                     </div>
                 </div>
 
                 <div class="container">
                     <div class="calcular interna">
-                        <button id="botaoCalcular" class="btnCalcular">Calcular</button>
+                        <button id="btnCalcNormal" class="btnCalcNormal">Calcular</button>
                     </div>
                 </div>
+                <div class="container">
+                    <button id="btnTeste" class="btnTeste">Calcular</button>
+                </div>
+
             </section>
 
             <section id="exibeResultados" class="sectionResultados">
@@ -70,24 +81,10 @@
                 <div class="container">
                     <div class="interna">
                         <div class="tituloResultado">
-                            <h1>Medidas Separatrizes</h1>
+                            <h1>Resultado</h1>
                         </div>
-                        <div class="medidasSeparatrizes">
-                            <div class="tipoMedidaSeparatriz" id="tipoMedidaSeparatriz">
-                                <label class="lblMedSep">Medida Separatriz:</label>
-                            </div>
-    
-                            <div class="medidas" id="medidas">
-                                <label id="lblValMedSep" class="lblValMedSep">Partes:</label>
-                                <select id="medidaQKD" class="medidaQKD">
-                                    <option>(Selecione)</option>
-                                </select>
-    
-                                <input id="percentil" type="number" min="1" max="100" class="percentil">
-                            </div>
-                            <div id="resultMedSeparatriz" class="exibeResultMedSep">
-                               
-                            </div>
+                        <div class="exibeResultado">
+                            <div id="exibeProbabilidadeNormal">Probabilidade: 50.86%</div>
                         </div>
                     </div>
                 </div>
@@ -95,9 +92,7 @@
             </section>
 
             <section class="footer">
-                <div class="interna">
-
-                </div>
+                <div class="interna"></div>
             </section>
         </main>
 
