@@ -24,7 +24,7 @@
                             <a href="./estatistica_descritiva.html" class="nav-link">Estatística Descritiva</a>
                         </li>
                         <li class="nav-item">
-                            <a href="./probabilidade.html" class="nav-link">Probabilidade</a>
+                            <a href="#" class="nav-link">Probabilidade</a>
                             <ul class="submenu">
                                 <li class="nav-item">
                                     <a href="./distribuicao_binomial.html" class="nav-link">Distribuição Binomial</a>
@@ -66,12 +66,34 @@
                 </div>
 
                 <div class="container">
+                    <div class="escolherValor interna">
+                        <div class="escolherValorSelect">
+                            <label>Escolher Valor</label>
+                            <select id="escolherValor">
+                                <option>(Selecione)</option>
+                                <option>Menor que</option>
+                                <option>Entre</option>
+                                <option>Maior que</option>
+                            </select>
+                        </div>
+
+                        <div class="valores">
+                            <div>
+                                <input type="number" id="inputMenor" class="menor" placeholder="Menor que">
+                                <input type="number" id="inputMaior" class="maior" placeholder="Maior que">
+                            </div>
+                            <div id="grupoValoresEntre" class="grupoValoresEntre">
+                                <input type="number" id="inputValorInicial" class="valInicial" placeholder="Valor Inicial">
+                                <input type="number" id="inputValorFinal" placeholder="Valor Final">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
                     <div class="calcular interna">
                         <button id="btnCalcNormal" class="btnCalcNormal">Calcular</button>
                     </div>
-                </div>
-                <div class="container">
-                    <button id="btnTeste" class="btnTeste">Calcular</button>
                 </div>
 
             </section>
@@ -96,5 +118,132 @@
             </section>
         </main>
 
+
+
+        <script>
+            const mediaNormal = document.querySelector('#mediaNormal')
+            const desvioPadraoNormal = document.querySelector('#desvioPadraoNormal')
+            const botaoCalcNormal = document.querySelector('#btnCalcNormal')
+
+            const escolherValor = document.querySelector('#escolherValor')
+            const inputMenor = document.querySelector('#inputMenor')
+            const inputMaior = document.querySelector('#inputMaior')
+            const inputValorInicial = document.querySelector('#inputValorInicial')
+            const inputValorFinal = document.querySelector('#inputValorFinal')
+            const divEntre = document.querySelector('#grupoValoresEntre')
+
+            const exibeProbabilidade = document.querySelector('#exibeProbabilidadeNormal')
+
+            function iniciar() {
+                inputMenor.style.display = 'none'
+                inputMaior.style.display = 'none'
+                inputValorInicial.style.display = 'none'
+                inputValorFinal.style.display = 'none'
+                divEntre.style.display = 'none'
+                exibeProbabilidade.innerHTML = ""
+            }
+
+            function escolherValoresSelect() {
+                if(escolherValor.value == '(Selecione)') {
+                    inputMenor.style.display = 'none'
+                    inputMaior.style.display = 'none'
+                    inputValorInicial.style.display = 'none'
+                    inputValorFinal.style.display = 'none'
+                    divEntre.style.display = 'none'
+                }
+                else if(escolherValor.value == "Menor que") {
+                    inputMenor.style = "display: normal"
+                    inputMenor.focus()
+                    inputMaior.style.display = 'none'
+                    inputValorInicial.style.display = 'none'
+                    inputValorFinal.style.display = 'none'
+                    divEntre.style.display = 'none'
+                }
+                else if(escolherValor.value == "Maior que") {
+                    inputMenor.style.display = 'none'
+                    inputValorInicial.style.display = 'none'
+                    inputValorFinal.style.display = 'none'
+                    inputMaior.style = "display: normal"
+                    inputMaior.focus()
+                    divEntre.style.display = 'none'
+                }
+                else if(escolherValor.value == "Entre") {
+                    inputMenor.style.display = 'none'
+                    inputMaior.style.display = 'none'
+                    inputValorInicial.style = "display: normal"
+                    inputValorFinal.style = "display: normal"
+                    divEntre.style = "display: normal"
+                    inputValorInicial.focus()
+                }
+            }
+
+            function validarDados() {
+                let valido = true
+
+                if(mediaNormal.value <= 0) {
+                    alert('Informe um valor de média válido.')
+                    valido = false
+                    mediaNormal.focus()
+                }
+                else if(desvioPadraoNormal.value <= 0) {
+                    alert('Informe um valor de desvio padrão válido.')
+                    valido = false
+                    desvioPadraoNormal.focus()
+                }
+                else if(escolherValor.value == "Menor que" && inputMenor.value == "") {
+                    alert('Informe um valor válido.')
+                    valido = false
+                    inputMenor.focus()
+                }
+                else if(escolherValor.value == "Maior que" && inputMaior.value == "") {
+                    alert('Informe um valor válido.')
+                    valido = false
+                    inputMaior.focus()
+                }
+
+                // Fazer a verificação dos valores que estão entre
+
+                if(valido === true) {
+                    let media = Number(mediaNormal.value)
+                    let desvioPadrao = Number(desvioPadraoNormal.value)
+                    let escoreBruto = []
+
+                    switch(escolherValor.value) {
+                        case "Menor que":
+                            escoreBruto = [Number(inputMenor.value)]
+                            console.log(escoreBruto)
+                            break
+                        case "Maior que":
+                            escoreBruto = [Number(inputMaior.value)]
+                            console.log(escoreBruto)
+                            break
+                        case "Entre":
+                            escoreBruto = [Number(inputValorInicial.value), Number(inputValorFinal.value)]
+                            console.log(escoreBruto)
+                            break
+                    }
+                
+                    calcularProbabNormal(media, desvioPadrao, escoreBruto)
+                }
+            }
+
+            function calcularProbabNormal(media, desvioPadrao, escoreBruto) {
+                let zEscore, zEscorePrimeiro, zEscoreSegundo
+                if(escoreBruto.length == 1) {
+                    zEscore = (escoreBruto[0] - media) / desvioPadrao
+                    exibeProbabilidade.innerHTML = zEscore.toFixed(2)
+                }
+                else if(escoreBruto.length == 2) {
+                    zEscorePrimeiro = (escoreBruto[0] - media) / desvioPadrao
+                    zEscoreSegundo = (escoreBruto[1] - media) / desvioPadrao
+                    exibeProbabilidade.innerHTML = (Math.abs(zEscorePrimeiro)).toFixed(2) + " e " + (Math.abs(zEscoreSegundo)).toFixed(2)
+                }
+            }
+
+            window.onload = iniciar()
+            botaoCalcNormal.addEventListener("click", validarDados)
+            escolherValor.addEventListener('change', escolherValoresSelect)
+
+        </script>
     </body>
 </html>

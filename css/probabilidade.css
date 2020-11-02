@@ -81,6 +81,7 @@ section {
 .calcular .btnCalcBinomial,
 .mediaNormal label, .mediaNormal input,
 .desvioPadraoNormal label, .desvioPadraoNormal input,
+.escolherValor,
 .calcular .btnCalcNormal {
     width: 80%;
     margin-left: 8rem;
@@ -297,6 +298,54 @@ a {
     padding-right: 8rem;
 }
 
+/* Distribuição Normal ----------------------- */
+.escolherValor {
+    display: flex;
+    position: relative;
+    padding-top: 1rem;
+    margin-left: 1rem;
+}
+
+.escolherValorSelect {
+    width: 20%;
+    margin-left: 7rem;
+}
+
+.escolherValorSelect select {
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: green;
+    outline: none;
+    padding: 0rem .6rem;
+    height: 3.5rem;
+    font-size: 1.7rem;
+}
+
+.escolherValorSelect select:hover {
+    border-width: 1px;
+    border-style: solid;
+    border-color: green;
+    outline: none;
+}
+
+.valores .menor, .valores .maior {
+    margin-top: 2.5rem;
+    width: 49rem;
+    margin-bottom: 0rem;
+}
+
+
+.grupoValoresEntre {
+    display: flex;
+    margin-top: 2.5rem;
+    justify-content: space-between;
+    margin-bottom: 0rem;
+}
+
+.valInicial {
+    margin-right: 3rem;
+}
+    
 /* Resultados -------- */
 .tituloResultado {
     display: flex;

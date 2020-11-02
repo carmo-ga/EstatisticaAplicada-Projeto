@@ -1,3 +1,5 @@
+/* ---------------  CORRIGIR ----------------------------
+
 const mediaNormal = document.querySelector('#mediaNormal')
 const desvioPadrao = document.querySelector('#desvioPadraoNormal')
 const botaoCalcNormal = document.querySelector('#btnCalcNormal')
@@ -17,3 +19,4 @@ function desenvolveCalculos() {
 botaoCalcNormal.addEventListener('click', desenvolveCalculos())
 
 botaoTeste.addEventListener('click', desenvolveCalculos)
+*/
