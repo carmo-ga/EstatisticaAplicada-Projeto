@@ -256,6 +256,10 @@ a {
     background-color: #a8cc99;
 }
 
+.btnCalcNormal {
+    margin-top: 1.5rem;
+}
+
 .btnCalcNormal:hover {
     background-color: #a8cc99;
 }
@@ -311,6 +315,10 @@ a {
     margin-left: 7rem;
 }
 
+.escolherValorSelect label{
+    margin-bottom: .5rem;
+}
+
 .escolherValorSelect select {
     border-width: 0px 0px 1px 0px;
     border-style: solid;
@@ -329,7 +337,7 @@ a {
 }
 
 .valores .menor, .valores .maior {
-    margin-top: 2.5rem;
+    margin-top: 3rem;
     width: 49rem;
     margin-bottom: 0rem;
 }
@@ -337,7 +345,7 @@ a {
 
 .grupoValoresEntre {
     display: flex;
-    margin-top: 2.5rem;
+    margin-top: 3rem;
     justify-content: space-between;
     margin-bottom: 0rem;
 }

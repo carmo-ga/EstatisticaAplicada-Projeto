@@ -7,7 +7,11 @@ const btnCalcBinomial = document.querySelector('#btnCalcBinomial')
 const exibeProbabilidade = document.querySelector('#exibeProbabilidade')
 const exibeMedia = document.querySelector('#exibeMediaBinomial')
 const exibeDP = document.querySelector('#exibeDPBinomial')
+const sectionExibeResultados = document.querySelector('#exibeResultados')
 
+function iniciar() {
+    sectionExibeResultados.style.display = 'none'
+}
 
 /* Validação do Input da Probabilidade de Sucesso -------- */
 function sucessoChange() {
@@ -165,10 +169,12 @@ function validarDados() {
         sucessoProb = Number(sucesso.value)
         fracassoProb = Number(fracasso.value)
 
+        sectionExibeResultados.style = "display: normal"
         calcularBinomial(amostra, sucessoProb, fracassoProb, vetEventos)
     }
 }
 
+window.onload = iniciar()
 btnCalcBinomial.addEventListener('click', validarDados)
 sucesso.addEventListener('change', sucessoChange)
 fracasso.addEventListener('change', fracassoChange)
