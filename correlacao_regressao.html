@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+
+        <link rel="icon" href="./images/favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="./css/correlacao_regressao.css">
+        <title>Probabilidade</title>
+    </head>
+
+    <body>
+
+        <header class="header">
+            <div class="menu">
+                <nav class="nav">
+
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./estatistica_descritiva.html" class="nav-link">Estatística Descritiva</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Probabilidade</a>
+                            <ul class="submenu">
+                                <li class="nav-item">
+                                    <a href="./distribuicao_binomial.html" class="nav-link">Distribuição Binomial</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="./distribuicao_normal.html" class="nav-link">Distribuição Normal</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="./distribuicao_uniforme.html" class="nav-link">Distribuição Uniforme</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./correlacao_regressao.html" class="nav-link">Correlação e Regressão</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="titulo">
+                <div class="heading">
+                    <h1 class="title">Correlação e Regressão</h1>
+                </div>
+            </div>
+
+            <section class="dados">
+
+                <div class="container">
+                    <div class="nomesVariaveis interna">
+                        <div class="inputNomeVarX">
+                            <label>Nome da Variável Independente</label>
+                            <input type="text" id="inputNomeVarX" placeholder="Informe o nome da variável do eixo x">
+                        </div>
+                        <div class="inputNomeVarY">
+                            <label>Nome da Variável Dependente</label>
+                            <input type="text" id="inputNomeVarY" placeholder="Informe o nome da variável do eixo y">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container">
+                    <div class="dadosEixoX interna">
+                        <label>Valores da Variável Independente (x)</label>
+                        <input type="text" id="inputDadosEixoX" placeholder="Dados referentes à variável do eixo x">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="dadosEixoY interna">
+                        <label>Valores da Variável Dependente (y)</label>
+                        <input type="text" id="inputDadosEixoY" placeholder="Dados referentes à variável do eixo y">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="calcular interna">
+                        <button id="btnCalcCorrelacao" class="btnCalcCorrelacao">Calcular</button>
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="exibeResultadosCorrelacao" class="sectionResultados">
+
+                <div class="container">
+                    <div class="interna">
+                        <div class="tituloResultado">
+                            <h1>Correlação</h1>
+                        </div>
+                        <div class="exibeResultado">
+                            <div class="resultCoefCorrelacao" id="resultCoefCorrelacao"></div>
+                            <div class="classificacao" id="classificacao"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="interna">
+                        <div class="tituloResultado tituloRegressao">
+                            <h1>Regressão</h1>
+                        </div>
+                        <div class="exibeResultado">
+                            <div class="resultadoRegressao" id="resultadoRegressao"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="regressao interna">
+                        <div class="eixoRegressao">
+                            <label>Escolha a variável</label>
+                            <select id="eixoRegressao">
+                                <option>(Selecione)</option>
+                                <option>X</option>
+                                <option>Y</option>
+                            </select>
+                        </div>
+                        <div id="divValorRegressao" class="valorEixoRegressao">
+                            <label>Valor</label>
+                            <input type="number" id="valorEixoRegressao" placeholder="Valor para cálculo">
+                        </div>
+                        <div id="divResultEquacaoRegressao" class="resultEquacaoRegressao exibeResultado">
+                            <div class="resultadoEquacaoRegressao" id="resultEquacaoRegressao"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="interna">
+                        <div class="tituloResultado">
+                            <h1>Representação Gráfica</h1>
+                        </div>
+                        <canvas id="chartDispersao" class="chart" max-width="300px" height="250px"></canvas>
+                    </div>                    
+                </div>
+
+            </section>
+
+            <section class="footer">
+                <div class="interna"></div>
+            </section>
+        </main>
+
+        <script src="./js/chart.js"></script>
+        <script type="text/javascript" src="./js/correlacao_regressao.js"></script>
+    </body>
+</html>

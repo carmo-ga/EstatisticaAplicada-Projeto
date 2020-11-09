@@ -76,22 +76,11 @@ section {
     display: flex;
 }
 
-.amostra label, .amostra input,
-.eventos label, .eventos input, .eventos small,
-.calcular .btnCalcBinomial,
-.mediaNormal label, .mediaNormal input,
-.desvioPadraoNormal label, .desvioPadraoNormal input,
-.escolherValor,
-.calcular .btnCalcNormal,
-.valorMinimoUniforme label, .valorMinimoUniforme input,
-.valorMaximoUniforme label, .valorMaximoUniforme input,
-.calcular .btnCalcUniforme {
+.dadosEixoX label, .dadosEixoX input,
+.dadosEixoY label, .dadosEixoY input,
+.calcular .btnCalcCorrelacao {
     width: 80%;
     margin-left: 8rem;
-}
-
-.amostra, .grupoSucessoFracasso, .eventos, .mediaNormal, .desvioPadraoNormal {
-    padding: 1rem 0;
 }
 
 /* Div que contém os agrupamentos dos elementos ----- */
@@ -101,8 +90,8 @@ section {
     justify-content: center;
 }
 
-/* Input Number */
-input[type='number'], input[type='text'] {
+/* Input type Text e Number */
+input[type='text'], input[type='number'], select {
     border-width: 0px 0px 1px 0px;
     border-style: solid;
     border-color: green;
@@ -113,7 +102,7 @@ input[type='number'], input[type='text'] {
     font-size: 1.7rem;
 }
 
-input[type='number']:hover, input[type='text']:hover {
+input[type='text']:hover, input[type='number']:hover, select:hover {
     border-width: 1px;
     border-style: solid;
     border-color: green;
@@ -123,11 +112,6 @@ input[type='number']:hover, input[type='text']:hover {
 .notaInput {
     display: flex;
     margin-top: 2px;
-    font-size: 1.5rem;
-}
-
-select {
-    padding: .6rem;
     font-size: 1.5rem;
 }
 
@@ -237,9 +221,7 @@ a {
     padding-bottom: 5rem;
 }
 
-.btnCalcBinomial,
-.btnCalcNormal,
-.btnCalcUniforme {
+.btnCalcCorrelacao {
     padding: .6rem;
     width: 100%;
     height: 3.5rem;
@@ -254,112 +236,41 @@ a {
     background-color: #dbead5;
     color: #005221;
     letter-spacing: 2px;
-}
-
-.btnCalcBinomial:hover {
-    background-color: #a8cc99;
-}
-
-.btnCalcNormal:hover {
-    background-color: #a8cc99;
-}
-
-.btnCalcUniforme:hover {
-    background-color: #a8cc99;
-}
-
-.btnCalcNormal, .btnCalcUniforme {
     margin-top: 1.5rem;
 }
 
-/* Amostra e Média - Topo das Páginas ---------- */
-.amostra, .mediaNormal, .valorMinimoUniforme {
+.btnCalcCorrelacao:hover {
+    background-color: #a8cc99;
+}
+
+/* Input Nome das Variáveis - Topo da Página ---------- */
+.nomesVariaveis {
+    display: flex;
+    justify-content: space-between;
     padding-top: 4rem;
     padding-bottom: 1rem;
+    margin-bottom: 0rem;
 }
 
-/* Agrupamento das Probabilidades de Sucesso e Fracasso ----------- */
-.grupoSucessoFracasso div {
-    width: 50%;
+.inputNomeVarX {
     margin-left: 8rem;
-}
-
-.grupoSucessoFracasso .fracasso input {
-    width: 32rem;
-}
-
-.grupoSucessoFracasso .sucesso input {
-    width: 32rem;
-}
-
-.sucesso {
-    display: inline;
-    margin: 0px;
-}
-
-.grupoSucessoFracasso .fracasso {
-    display: inline;
-    margin: 0px;
-    width: 40rem;
-    padding-left: 2rem;
-}
-
-.grupoSucessoFracasso {
-    display: flex;
-    justify-content: left;
-    padding-right: 8rem;
-}
-
-/* Distribuição Normal ----------------------- */
-.escolherValor {
-    display: flex;
-    position: relative;
-    padding-top: 1rem;
-    margin-left: 1rem;
-}
-
-.escolherValorSelect {
-    width: 20%;
-    margin-left: 7rem;
-}
-
-.escolherValorSelect label{
-    margin-bottom: .5rem;
-}
-
-.escolherValorSelect select {
-    border-width: 0px 0px 1px 0px;
-    border-style: solid;
-    border-color: green;
-    outline: none;
-    padding: 0rem .6rem;
-    height: 3.5rem;
-    font-size: 1.7rem;
-}
-
-.escolherValorSelect select:hover {
-    border-width: 1px;
-    border-style: solid;
-    border-color: green;
-    outline: none;
-}
-
-.valores .menor, .valores .maior {
-    margin-top: 3rem;
-    width: 49rem;
-    margin-bottom: 0rem;
-}
-
-
-.grupoValoresEntre {
-    display: flex;
-    margin-top: 3rem;
-    justify-content: space-between;
-    margin-bottom: 0rem;
-}
-
-.valInicial {
     margin-right: 3rem;
+    width: 50%;
+}
+
+.inputNomeVarY {
+    margin-right: 8rem;
+    width: 50%;
+}
+
+.inputNomeVarX input, .inputNomeVarY input {
+    width: 100%;
+}
+
+/* Inserção de dados ----------------------- */
+.dadosEixoX {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
     
 /* Resultados -------- */
@@ -389,4 +300,37 @@ a {
     text-align: center;
     vertical-align: center;
     font-size: 2rem;
+}
+
+/* Regressão ------------------- */
+.tituloRegressao {
+    padding-top: 0rem;
+}
+
+.regressao {
+    display: flex;
+    justify-content: space-between;
+}
+
+.eixoRegressao {
+    width: 30rem;
+    padding-bottom: 5rem;
+}
+
+.valorEixoRegressao {
+    width: 30rem;
+}
+
+.resultEquacaoRegressao {
+    width: 30rem;
+}
+
+.eixoRegressao label {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.valorEixoRegressao label {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
 }

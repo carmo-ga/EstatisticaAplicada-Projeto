@@ -37,6 +37,9 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="./correlacao_regressao.html" class="nav-link">Correlação e Regressão</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -106,7 +109,7 @@
                             <h1>Resultado</h1>
                         </div>
                         <div class="exibeResultado">
-                            <div id="exibeProbabilidadeNormal">Probabilidade: 50.86%</div>
+                            <div id="exibeProbabilidadeNormal"></div>
                         </div>
                     </div>
                 </div>
@@ -143,6 +146,7 @@
                 divEntre.style.display = 'none'
                 exibeProbabilidade.innerHTML = ""
                 exibeResultados.style.display = 'none'
+                mediaNormal.focus()
             }
 
             function escolherValoresSelect() {
@@ -287,7 +291,7 @@
                     console.log({probabilidade})
                 }
 
-                exibeProbabilidade.innerHTML = probabilidade.toFixed(2) + '%'
+                exibeProbabilidade.innerHTML = 'Probabilidade: ' + probabilidade.toFixed(2) + '%'
             }
 
             function localizarIndexColuna(valorEscoreColuna) {

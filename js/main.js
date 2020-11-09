@@ -172,7 +172,6 @@ function changeTipoVariavel() {
     }
 }
 
-
 // Mudança no input do dado manual
 function inputDadoManual() {
 
@@ -363,6 +362,7 @@ function calcMedSepNOD(somaTotalNOD, vetDadosNOD) {
     }
 }
 
+// Função para gerar a somatória de todos os valores de um vetor
 function somaTotal(vetor) {
     let soma = 0
     for(let i in vetor) {
@@ -377,7 +377,7 @@ function mouseGrab() {
     }
 }
 
-/* Reordenar a tabela quando o tipo de variável for Qualitativa Ordinal */
+// Reordenar a tabela quando o tipo de variável for Qualitativa Ordinal
 function reordenar() {
 
     if(tipoVariavel.value == "Qualitativa Ordinal") {
@@ -430,7 +430,7 @@ function dragend() {
     this.classList.remove('dragging')
 }
 
-/* Verifica a posição do elemento para fazer a reordenação */
+// Verifica a posição do elemento para fazer a reordenação
 function dragover(e) {
     e.preventDefault()
 
@@ -464,7 +464,7 @@ function elementoPosterior(corpoTabela, y) {
 
 }
 
-/* Depois de todas as validações, chama-se esta função */
+// Depois de todas as validações, chama-se esta função para efetivação dos cálculos
 function efetuarCalculos(vetorDados) {
     exibeResultados.style.display = 'block'
     tabela.style.display = 'inline-block'
@@ -1282,7 +1282,7 @@ function efetuarCalculos(vetorDados) {
     //exibeResultados.scrollIntoView({block: 'start', behavior:'smooth', inline:'start'})
 }
 
-/* Clique no botão calcular */
+// Clique no botão calcular
 function exibirManual() {
 
     cabecalhoTabela.innerHTML = ""

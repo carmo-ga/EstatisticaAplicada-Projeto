@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
 
         <link rel="icon" href="./images/favicon.ico"/>
-        <!-- <link rel="stylesheet" type="text/css" href="./css/styles.css"> -->
+        <link rel="stylesheet" type="text/css" href="./css/probabilidade.css">
         <title>Probabilidade</title>
     </head>
 
@@ -37,8 +37,10 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="./correlacao_regressao.html" class="nav-link">Correlação e Regressão</a>
+                        </li>
                     </ul>
-
                 </nav>
             </div>
         </header>
@@ -46,49 +48,68 @@
         <main>
             <div class="titulo">
                 <div class="heading">
-                    <h1 class="title">Probabilidade</h1>
+                    <h1 class="title">Distribuição Uniforme</h1>
                 </div>
             </div>
 
             <section class="dados">
+
                 <div class="container">
-                    <div class="manual interna">
-                        <label>Inserir Dados</label>
-                        <input type="text" id="inserirManual" class="inserirManual" placeholder="Inserir Dados Manualmente">
-                        <small class="notaDadosManual">Os dados devem ser separados por ponto e vírgula(;)</small>
+                    <div class="valorMinimoUniforme interna">
+                        <label>Limite Mínimo do Intervalo</label>
+                        <input type="number" id="valorMinimoUniforme" placeholder="Informe o valor mínimo">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="valorMaximoUniforme interna">
+                        <label>Limite Máximo do Intervalo</label>
+                        <input type="number" id="valorMaximoUniforme" placeholder="Informe o valor máximo">
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="escolherValor interna">
+                        <div class="escolherValorSelect">
+                            <label>Escolher Valor</label>
+                            <select id="escolherValorUniforme">
+                                <option>(Selecione)</option>
+                                <option>Menor que</option>
+                                <option>Entre</option>
+                                <option>Maior que</option>
+                            </select>
+                        </div>
+
+                        <div class="valores">
+                            <div>
+                                <input type="number" id="inputMenorUniforme" class="menor" placeholder="Menor que">
+                                <input type="number" id="inputMaiorUniforme" class="maior" placeholder="Maior que">
+                            </div>
+                            <div id="grupoValoresEntreUniforme" class="grupoValoresEntre">
+                                <input type="number" id="inputValorInicialUniforme" class="valInicial" placeholder="Valor Inicial">
+                                <input type="number" id="inputValorFinalUniforme" placeholder="Valor Final">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="container">
                     <div class="calcular interna">
-                        <button id="botaoCalcular" class="btnCalcular">Calcular</button>
+                        <button id="btnCalcUniforme" class="btnCalcUniforme">Calcular</button>
                     </div>
                 </div>
+
             </section>
 
-            <section id="exibeResultados" class="sectionResultados">
+            <section id="exibeResultadosUniforme" class="sectionResultados">
 
                 <div class="container">
                     <div class="interna">
                         <div class="tituloResultado">
-                            <h1>Medidas Separatrizes</h1>
+                            <h1>Resultado</h1>
                         </div>
-                        <div class="medidasSeparatrizes">
-                            <div class="tipoMedidaSeparatriz" id="tipoMedidaSeparatriz">
-                                <label class="lblMedSep">Medida Separatriz:</label>
-                            </div>
-    
-                            <div class="medidas" id="medidas">
-                                <label id="lblValMedSep" class="lblValMedSep">Partes:</label>
-                                <select id="medidaQKD" class="medidaQKD">
-                                    <option>(Selecione)</option>
-                                </select>
-    
-                                <input id="percentil" type="number" min="1" max="100" class="percentil">
-                            </div>
-                            <div id="resultMedSeparatriz" class="exibeResultMedSep">
-                               
-                            </div>
+                        <div class="exibeResultado">
+                            <div id="exibeProbabilidadeUniforme"></div>
                         </div>
                     </div>
                 </div>
@@ -96,11 +117,10 @@
             </section>
 
             <section class="footer">
-                <div class="interna">
-
-                </div>
+                <div class="interna"></div>
             </section>
         </main>
 
+        <script type="text/javascript" src="./js/dist_uniforme.js"></script>
     </body>
 </html>
