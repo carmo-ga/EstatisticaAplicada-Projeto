@@ -475,7 +475,7 @@ function efetuarCalculos(vetorDados) {
     if(tipoVariavel.value == "Qualitativa Nominal" || tipoVariavel.value == "Qualitativa Ordinal") {
         divMedidasDispersao.style.display = "none"
         vetorDados.sort()
-        console.log(vetorDados)
+        console.log({vetorDados})
 
         let vetorVariavel = [],
             percentualTotal = 0

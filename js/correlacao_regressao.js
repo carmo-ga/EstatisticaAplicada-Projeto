@@ -204,27 +204,63 @@ function gerarGrafico(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY) {
         data: {
             labels: nomeVarX,
             datasets: [{
-                label: vetorEixoX,
-                data: [{
-                    x: [vetorEixoX],
-                    y: [vetorEixoY]
-                }],
-                backgroundColor: 'green'
+                data: gerarObjetos(vetorEixoX, vetorEixoY),
+                backgroundColor: 'green',
+                fill: false,
+                tension: 0,
+                showLine: true
             }]
         },
         options: {
+            legend: {
+                display: false
+            },
             title: {
-                display: true,
-                text: nomeVarY,
-                fontColor: "black",
-                fontSize: 20
+                display: false,
+            },
+            scales: {
+                responsive: true,
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        fontColor: 'black',
+                        fontSize: 14,
+                        labelString: nomeVarX
+                    }
+                }],
+                yAxes: [ {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        fontColor: 'black',
+                        fontSize: 14,
+                        labelString: nomeVarY
+                    }
+                }]
             }
         }
     })
 }
 
+// Gerar objetos com cada coordenada
+function gerarObjetos(vetorEixoX, vetorEixoY) {
+    let coordenadas = {}
+    let x
+    let y
+    let pontos = []
 
-window.onload = iniciar()
+    for(let i = 0; i < vetorEixoX.length; i++) {
+        x = vetorEixoX[i]
+        y = vetorEixoY[i]
+        coordenadas = {x , y}
+        pontos.push(coordenadas)
+    }
+    return pontos
+}
+
+
+//window.onload = iniciar()
 inputNomeVarX.addEventListener('keyup', alterarNomeVariavelX)
 inputNomeVarY.addEventListener('keyup', alterarNomeVariavelY)
 btnCalcCorrelacao.addEventListener('click', validarDados)

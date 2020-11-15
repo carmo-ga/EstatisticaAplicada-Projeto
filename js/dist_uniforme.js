@@ -11,6 +11,8 @@ const divEntreUniforme = document.querySelector('#grupoValoresEntreUniforme')
 
 const exibeResultadosUniforme = document.querySelector('#exibeResultadosUniforme')
 const exibeProbabilidadeUniforme = document.querySelector('#exibeProbabilidadeUniforme')
+const exibeMediaUniforme = document.querySelector('#exibeMediaUniforme')
+const exibeDesvioPadraoUniforme = document.querySelector('#exibeDesvioPadraoUniforme')
 
 function iniciar() {
     inputMenorUniforme.style.display = 'none'
@@ -19,6 +21,8 @@ function iniciar() {
     inputValorFinalUniforme.style.display = 'none'
     divEntreUniforme.style.display = 'none'
     exibeProbabilidadeUniforme.innerHTML = ""
+    exibeMediaUniforme.innerHTML = ""
+    exibeDesvioPadraoUniforme.innerHTML = ""
     exibeResultadosUniforme.style.display = 'none'
     valorMinimoUniforme.focus()
 }
@@ -31,6 +35,8 @@ function escolherOpcaoSelect() {
         inputValorFinalUniforme.style.display = 'none'
         divEntreUniforme.style.display = 'none'
         exibeProbabilidadeUniforme.innerHTML = ""
+        exibeMediaUniforme.innerHTML = ""
+        exibeDesvioPadraoUniforme.innerHTML = ""
     }
     else if(escolherValorUniforme.value == "Menor que") {
         inputMenorUniforme.style = "display: normal"
@@ -41,6 +47,8 @@ function escolherOpcaoSelect() {
         inputValorFinalUniforme.style.display = 'none'
         divEntreUniforme.style.display = 'none'
         exibeProbabilidadeUniforme.innerHTML = ""
+        exibeMediaUniforme.innerHTML = ""
+        exibeDesvioPadraoUniforme.innerHTML = ""
     }
     else if(escolherValorUniforme.value == "Maior que") {
         inputMenorUniforme.style.display = 'none'
@@ -51,6 +59,8 @@ function escolherOpcaoSelect() {
         inputMaiorUniforme.focus()
         divEntreUniforme.style.display = 'none'
         exibeProbabilidadeUniforme.innerHTML = ""
+        exibeMediaUniforme.innerHTML = ""
+        exibeDesvioPadraoUniforme.innerHTML = ""
     }
     else if(escolherValorUniforme.value == "Entre") {
         inputMenorUniforme.style.display = 'none'
@@ -62,9 +72,12 @@ function escolherOpcaoSelect() {
         divEntreUniforme.style = "display: normal"
         inputValorInicialUniforme.focus()
         exibeProbabilidadeUniforme.innerHTML = ""
+        exibeMediaUniforme.innerHTML = ""
+        exibeDesvioPadraoUniforme.innerHTML = ""
     }
 }
 
+// Validação dos dados de entrada
 function validarDados() {
     let valido = true
     let limiteMinimo = Number(valorMinimoUniforme.value)
@@ -120,7 +133,6 @@ function validarDados() {
         valorMinimoUniforme.focus()
     }
 
-
     if(valido === true) {
         let a = limiteMinimo
         let b = limiteMaximo
@@ -145,14 +157,21 @@ function validarDados() {
     }
 }
 
+// Calcular o resultado da probabilidade
 function calcularProbabUniforme(a, b, pontoIntervalo) {
-    let probabilidade, diferenca
+    let media = (b + a) / 2
+    
+    let diferenca = calcularDistancia(a, b, pontoIntervalo)
 
-    diferenca = calcularDistancia(a, b, pontoIntervalo)
+    let probabilidade = ((1 / (b - a)) * diferenca) * 100
 
-    probabilidade = ((1 / (b - a)) * diferenca) * 100
+    let variancia = (Math.pow((b - a), 2)) / 12
 
-    exibeProbabilidadeUniforme.innerHTML = probabilidade.toFixed(2) + '%'
+    let desvioPadrao = Math.sqrt(variancia)
+
+    exibeMediaUniforme.innerHTML = 'Média: ' + media
+    exibeProbabilidadeUniforme.innerHTML = 'Probabilidade: ' + probabilidade.toFixed(2) + '%'
+    exibeDesvioPadraoUniforme.innerHTML = 'Desvio Padrão: ' + desvioPadrao.toFixed(2)
 }
 
 function calcularDistancia(a, b, pontoIntervalo) {
