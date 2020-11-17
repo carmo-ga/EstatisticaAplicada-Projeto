@@ -12,6 +12,7 @@ const divEntre = document.querySelector('#grupoValoresEntre')
 const exibeResultados = document.querySelector('#exibeResultados')
 const exibeProbabilidade = document.querySelector('#exibeProbabilidadeNormal')
 
+// Função responsável pelas características da página após ser (re)carregada
 function iniciar() {
     inputMenor.style.display = 'none'
     inputMaior.style.display = 'none'
@@ -65,6 +66,7 @@ function escolherValoresSelect() {
     }
 }
 
+// Função responsável pela validação dos dados inseridos
 function validarDados() {
     let valido = true
 
@@ -104,16 +106,12 @@ function validarDados() {
         inputValorFinal.focus()
     }
     else if(escolherValor.value == "Entre" && valorInicial >= valorFinal) {
-        console.log({valorInicial, valorFinal})
         alert('Informe um intervalo válido.')
         valido = false
         inputValorInicial.focus()
     }
 
-
-    // Fazer a verificação dos valores que estão entre
-
-    if(valido === true) {
+    if(valido === true) {  // Dados válidos - Atribuir valores e prosseguir para os cálculos
         let media = Number(mediaNormal.value)
         let desvioPadrao = Number(desvioPadraoNormal.value)
         let escoreBruto = []
@@ -121,15 +119,12 @@ function validarDados() {
         switch(escolherValor.value) {
             case "Menor que":
                 escoreBruto = [Number(menorQue)]
-                console.log(escoreBruto)
                 break
             case "Maior que":
                 escoreBruto = [Number(maiorQue)]
-                console.log(escoreBruto)
                 break
             case "Entre":
                 escoreBruto = [valorInicial, valorFinal]
-                console.log(escoreBruto)
                 break
         }
         exibeResultados.style = "display: normal"
@@ -137,6 +132,7 @@ function validarDados() {
     }
 }
 
+// Efetuar cálculos
 function calcularProbabNormal(media, desvioPadrao, escoreBruto, menorQue, maiorQue, valorInicial, valorFinal) {
     let zEscore, zEscorePrimeiro, zEscoreSegundo, area, indexColuna, indexLinha, probabilidade
     if(escoreBruto.length == 1) {
@@ -148,8 +144,6 @@ function calcularProbabNormal(media, desvioPadrao, escoreBruto, menorQue, maiorQ
         area = consultarTabela(indexColuna, indexLinha)
 
         probabilidade = calcularProbabilidade(area, media, menorQue, maiorQue)
-
-        console.log({indexColuna, indexLinha, area})
     }
     else if(escoreBruto.length == 2) {
         zEscorePrimeiro = (escoreBruto[0] - media) / desvioPadrao
@@ -165,25 +159,26 @@ function calcularProbabNormal(media, desvioPadrao, escoreBruto, menorQue, maiorQ
         areaSegundo = consultarTabela(indexColunaSegundo, indexLinhaSegundo)
 
         probabilidade = calcularProbabEntre(areaPrimeiro, areaSegundo, media, valorInicial, valorFinal)
-
-        console.log({indexColunaPrimeiro, indexLinhaPrimeiro, areaPrimeiro})
-        console.log({indexColunaSegundo, indexLinhaSegundo, areaSegundo})
-        console.log({probabilidade})
     }
 
     exibeProbabilidade.innerHTML = 'Probabilidade: ' + probabilidade.toFixed(2) + '%'
 }
 
+/*  Função para extrair apenas o índice da coluna a ser localizado na tabela. É composto pelo algarismo que vem antes da vírgula,
+    a própria vírgula e o algarismo que está imediatamente após a vírgula. */
 function localizarIndexColuna(valorEscoreColuna) {
     let indexColuna = Number((Math.abs(valorEscoreColuna)).toFixed(2).substr(0, 3))
     return indexColuna
 }
 
+/*  Função para extrair apenas o índice da linha a ser localizada na tabela.
+    É composto pelo algarismo que ocupa a segunda casa após a vírgula.  */
 function localizarIndexLinha(valorEscoreLinha) {
     let indexLinha = Number((Math.abs(valorEscoreLinha)).toFixed(2).substr(3))
     return indexLinha
 }
 
+// Calcular a probabilidade considerando os intervalos "Menor que" e "Maior que"
 function calcularProbabilidade(area, media, menorQue, maiorQue) {
     let prob
 
@@ -205,6 +200,7 @@ function calcularProbabilidade(area, media, menorQue, maiorQue) {
     return prob
 }
 
+// Calcular a probabilidade considerando o intervalo "Entre"
 function calcularProbabEntre(areaPrimeiro, areaSegundo, media, valorInicial, valorFinal) {
     let probEntre
 
@@ -226,7 +222,9 @@ function calcularProbabEntre(areaPrimeiro, areaSegundo, media, valorInicial, val
     return probEntre
 }
 
+// Função que localiza e retorna, com base no escore Z já calculado, o valor correspondente à área sob a curva normal
 function consultarTabela(indexColuna, indexLinha) {
+    // Tabela de Probabilidades da Curva Normal Reduzida
     const tabela = [
         [0.0, 0.0000, 0.0040, 0.0080, 0.0120, 0.0160, 0.0199, 0.0239, 0.0279, 0.0319, 0.0359],
         [0.1, 0.0398, 0.0438, 0.0478, 0.0517, 0.0557, 0.0596, 0.0636, 0.0675, 0.0714, 0.0753],
@@ -272,21 +270,33 @@ function consultarTabela(indexColuna, indexLinha) {
         [3.8, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999, 0.4999],
         [3.9, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000, 0.5000]
     ]
-    
+        
     let valor
-    if(indexColuna > 3.9) {
+    if(indexColuna > 3.9) {   // Valor de escore Z maior que 3,9
         valor = 0.5
     }
     else {
+        /*
         for(let i = 0; i < tabela.length; i++) {
             if(((tabela[i])[0]) == indexColuna) {
                 valor = ((tabela[i])[indexLinha + 1])
             }
         }
+        */
+        valor = buscaSequencial(tabela, indexColuna, indexLinha)  // Chamada do algoritmo de busca OBRIGATÓRIO
     }
     return valor
 }
 
+// Uso OBRIGATÓRIO de um algoritmo de busca
+function buscaSequencial(lista, indexColuna, indexLinha) {
+    for(let i = 0; i < lista.length; i++) {
+        // Valor da coluna encontrado: retorna a valor encontrado na coordenada (indexColuna, indexLinha)
+        if(lista[i][0] === indexColuna) return lista[i][indexLinha + 1]
+    }
+}
+
+// Atribuição dos eventos
 window.onload = iniciar()
 botaoCalcNormal.addEventListener("click", validarDados)
 escolherValor.addEventListener('change', escolherValoresSelect)

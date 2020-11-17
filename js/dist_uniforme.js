@@ -14,6 +14,7 @@ const exibeProbabilidadeUniforme = document.querySelector('#exibeProbabilidadeUn
 const exibeMediaUniforme = document.querySelector('#exibeMediaUniforme')
 const exibeDesvioPadraoUniforme = document.querySelector('#exibeDesvioPadraoUniforme')
 
+// Função responsável pelas características da página após ser (re)carregada
 function iniciar() {
     inputMenorUniforme.style.display = 'none'
     inputMaiorUniforme.style.display = 'none'
@@ -133,7 +134,7 @@ function validarDados() {
         valorMinimoUniforme.focus()
     }
 
-    if(valido === true) {
+    if(valido === true) {   // Dados válidos - Atribuir valores e prosseguir para os cálculos
         let a = limiteMinimo
         let b = limiteMaximo
         let pontoIntervalo = []
@@ -141,15 +142,12 @@ function validarDados() {
         switch(escolherValorUniforme.value) {
             case "Menor que":
                 pontoIntervalo = [valorMenor]
-                console.log(pontoIntervalo)
                 break
             case "Maior que":
                 pontoIntervalo = [valorMaior]
-                console.log(pontoIntervalo)
                 break
             case "Entre":
                 pontoIntervalo = [valorInicial, valorFinal]
-                console.log(pontoIntervalo)
                 break
         }
         exibeResultadosUniforme.style = "display: normal"
@@ -174,6 +172,7 @@ function calcularProbabUniforme(a, b, pontoIntervalo) {
     exibeDesvioPadraoUniforme.innerHTML = 'Desvio Padrão: ' + desvioPadrao.toFixed(2)
 }
 
+// Calcular o valor da distância entre os pontos a e b
 function calcularDistancia(a, b, pontoIntervalo) {
     let distancia
     if(escolherValorUniforme.value == "Menor que") {
@@ -188,6 +187,7 @@ function calcularDistancia(a, b, pontoIntervalo) {
     return distancia
 }
 
+// Atribuição dos eventos
 window.onload = iniciar()
 btnCalcUniforme.addEventListener('click', validarDados)
 escolherValorUniforme.addEventListener('change', escolherOpcaoSelect)

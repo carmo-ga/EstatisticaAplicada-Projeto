@@ -142,7 +142,6 @@ a {
     display: flex;
     flex-direction: row;
     align-items: center;
-    /*justify-content: center;*/
     margin: 0 auto;
 }
 
@@ -341,3 +340,15 @@ a {
     padding-top: 5rem;
     padding-bottom: 5rem;
 }
+
+
+/* Media queries -------------------------
+@media screen and (min-width: 1030px) {  /* Acima de 1040px
+    section {
+        background-color: blue;
+    }
+
+    .nav-item {
+        margin-right: 0rem;
+    }
+}*/

@@ -17,6 +17,7 @@ const divValorRegressao = document.querySelector('#divValorRegressao')
 const divResultEquacaoRegressao = document.querySelector('#divResultEquacaoRegressao')
 const chartDispersao = document.querySelector('#chartDispersao').getContext('2d')
 
+// Função responsável pelas características da página após ser (re)carregada
 function iniciar() {
     secaoexibeResultados.style.display = 'none'
     divValorRegressao.style.display = 'none'
@@ -96,7 +97,7 @@ function validarDados() {
         inputDadosEixoY.focus()
     }
     
-    if(valido === true) {
+    if(valido === true) {   // Dados válidos - Atribuir valores e prosseguir para os cálculos
         secaoexibeResultados.style = 'display: normal'
         let nomeVarX = inputNomeVarX.value
         let nomeVarY = inputNomeVarY.value
@@ -105,13 +106,14 @@ function validarDados() {
     }
 }
 
+// Validação dos valores de entrada das variáveis
 function validarVetor(vetorEntrada) {
     let vetorValidado = []
     
     // Descarta eventuais espaços e valores não númericos
     for(let i = 0; i < vetorEntrada.length; i++) {
         vetorEntrada[i] = vetorEntrada[i].trim()
-
+        // Verifica se há elementos vazios ou não númericos
         if(vetorEntrada[i] !== "" && (!isNaN(vetorEntrada[i]))) {
             vetorValidado.push(Number(vetorEntrada[i]))
         }
@@ -120,7 +122,7 @@ function validarVetor(vetorEntrada) {
 }
 
 let a, b // Variáveis globais
-function  calcularCorrelacaoRegressao(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY) {
+function  calcularCorrelacaoRegressao(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY) {   // Efetuar cálculos
     let somaX = somatorio(vetorEixoX)
     let somaY = somatorio(vetorEixoY)
     let somaXY = 0
@@ -131,9 +133,6 @@ function  calcularCorrelacaoRegressao(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY
     let denominador = 0
     let r = 0
     let classificacao = ''
-    // Regressão
-    //let a = 0
-    //let b = 0
     let y = somaY / vetorEixoX.length
     let x = somaX / vetorEixoX.length
 
@@ -154,7 +153,7 @@ function  calcularCorrelacaoRegressao(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY
 
     classificacao = classificarCorrelacao(r)
 
-    // Regressão ----------------------------------
+    // Cálculo da Regressão ----------------------------------
     a = numerador / ((vetorEixoX.length * somaX2) - (somaX * somaX))
     b = y - (a * x)
 
@@ -163,11 +162,7 @@ function  calcularCorrelacaoRegressao(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY
     resultadoRegressao.innerHTML = 'Equação:  y = ' + a.toFixed(3) + 'x + ' + b.toFixed(3)
 
     gerarGrafico(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY)
-
-    console.log({somaX, somaY, somaXY, somaX2, somaY2})
-    console.log({numerador, denominador, r, classificacao, a, b})
 }
-
 
 // Função para somar todos os valores do vetor
 function somatorio(vetorSoma) {
@@ -243,7 +238,7 @@ function gerarGrafico(vetorEixoX, vetorEixoY, nomeVarX, nomeVarY) {
     })
 }
 
-// Gerar objetos com cada coordenada
+// Gerar vetor de objetos que contém cada coordenada. São os pontos a serem exibidos no gráfico
 function gerarObjetos(vetorEixoX, vetorEixoY) {
     let coordenadas = {}
     let x
@@ -259,8 +254,8 @@ function gerarObjetos(vetorEixoX, vetorEixoY) {
     return pontos
 }
 
-
-//window.onload = iniciar()
+// Atribuição dos eventos
+window.onload = iniciar()
 inputNomeVarX.addEventListener('keyup', alterarNomeVariavelX)
 inputNomeVarY.addEventListener('keyup', alterarNomeVariavelY)
 btnCalcCorrelacao.addEventListener('click', validarDados)

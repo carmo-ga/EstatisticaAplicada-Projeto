@@ -9,6 +9,7 @@ const exibeMedia = document.querySelector('#exibeMediaBinomial')
 const exibeDP = document.querySelector('#exibeDPBinomial')
 const sectionExibeResultados = document.querySelector('#exibeResultados')
 
+// Função responsável pelas características da página após ser (re)carregada
 function iniciar() {
     sectionExibeResultados.style.display = 'none'
 }
@@ -36,18 +37,6 @@ function fracassoChange() {
     }
 }
 
-/* Definição de dados que podem ser inseridos no input 'Eventos' ---------- */
-function teclasEventos(e) {
-    /*
-    tecla = e.keyCode
-    if (tecla >= 48 && tecla <= 57) {
-        return true
-    }
-    else {
-        return false
-    }*/
-}
-
 /* Calcular fatorial ---------- */
 function calcularFatorial(numero) {
     let fatorial = 1
@@ -59,7 +48,6 @@ function calcularFatorial(numero) {
 
 /* Calcular a combinação entre n e k ------- */
 function calcularCombinacao(m, p) {
-    console.log({m, p})
     let combinacao = 1
     if(m == p) {
         combinacao = 1
@@ -75,38 +63,32 @@ function calcularCombinacao(m, p) {
     return combinacao
 }
 
-/* Exibir resultados */
+// Exibir resultados
 function exibeResultados(prob, media, desvioPadrao) {
     exibeProbabilidade.innerHTML = 'Probabilidade: ' + prob.toFixed(2) + '%'
     exibeMedia.innerHTML = 'Média: ' + media.toFixed(2)
     exibeDP.innerHTML = 'Desvio Padrão: ' + desvioPadrao.toFixed(2)
 }
 
-/* Calcular os valores */
+// Efetuar cálculos
 function calcularBinomial(n, p, q, vetorK) {
-    p = p / 100
-    q = q / 100
+    p = p / 100   // Probabilidade de sucesso
+    q = q / 100   // Probabilidade de fracasso
     let resultadoFinal = 0
 
     let resultCombinacao, pElevadoK, qElevadoNK, aux, resultPercentual, mediaBinomial, varianciaBinomial, desvioPadraoBinomial
 
-    console.log({n, p, q, vetorK})
-
-    /* Considera cada um dos elementos do vetor de eventos */
+    // Considera cada um dos elementos do vetor de eventos
     for(let i = 0; i < vetorK.length; i++) {
         resultCombinacao = calcularCombinacao(n, vetorK[i])
-        console.log({resultCombinacao})
 
         pElevadoK = Math.pow(p, vetorK[i])
-        console.log({pElevadoK})
 
         qElevadoNK = Math.pow(q, n - vetorK[i])
-        console.log({qElevadoNK})
 
         aux = resultCombinacao * pElevadoK
 
         resultPercentual = aux * qElevadoNK * 100
-        console.log({resultPercentual})
 
         resultadoFinal += resultPercentual
     }
@@ -116,12 +98,11 @@ function calcularBinomial(n, p, q, vetorK) {
     varianciaBinomial = n * p * q
 
     desvioPadraoBinomial = Math.sqrt(varianciaBinomial)
-    
-    console.log({resultadoFinal, mediaBinomial, varianciaBinomial, desvioPadraoBinomial})
 
     exibeResultados(resultadoFinal, mediaBinomial, desvioPadraoBinomial)
 }
 
+// Função responsável pela validação dos dados inseridos
 function validarDados() {
     let valido = true
     let vetEventos = []
@@ -148,6 +129,7 @@ function validarDados() {
         eventos.focus()
     }
     else if(valorEventos !== "") {
+        // Separando os eventos a cada ponto e vírgula e atribuindo o elemento ao vetor 
         vetEventos = valorEventos.split(';')
 
         // Descarta eventuais espaços nas strings
@@ -155,16 +137,16 @@ function validarDados() {
             vetEventos[i] = vetEventos[i].trim()
 
             if(vetEventos[i].indexOf(',')) {
-                vetEventos[i] = vetEventos[i].replace(",", ".")
+                vetEventos[i] = vetEventos[i].replace(",", ".")  // Números decimais
                 vetEventos[i] = parseFloat(vetEventos[i])
             }
             else {
-                vetEventos[i] = parseInt(vetEventos[i])
+                vetEventos[i] = parseInt(vetEventos[i])  // Números inteiros
             }
         }
     }
 
-    if(valido === true) {
+    if(valido === true) {  // Dados válidos - Prosseguir para os cálculos
         amostra = Number(amostraSize.value)
         sucessoProb = Number(sucesso.value)
         fracassoProb = Number(fracasso.value)
@@ -174,8 +156,8 @@ function validarDados() {
     }
 }
 
+// Atribuição dos eventos
 window.onload = iniciar()
 btnCalcBinomial.addEventListener('click', validarDados)
 sucesso.addEventListener('change', sucessoChange)
 fracasso.addEventListener('change', fracassoChange)
-eventos.addEventListener('keypress', teclasEventos)

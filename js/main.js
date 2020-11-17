@@ -42,41 +42,36 @@ inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
         let vetorArquivo = []
 
         const linhas = leitorCSV.result.split('\n')
-        console.log(linhas)
 
         vetorArquivo = linhas
 
         let contador = 0
-        if(vetorArquivo === "" || vetorArquivo == null || vetorArquivo.length <= 1) {
+        if(vetorArquivo === "" || vetorArquivo == null || vetorArquivo.length <= 1) {  // Verifica se o arquivo (vetor) está vazio
             alert('Informe os dados.')
         }
         else {
-
             vetorDadosUpload = []
-            let titulo = vetorArquivo.shift()
+            let titulo = vetorArquivo.shift() // Atribuição do nome da variável
             dadoManual.value = ""
             dadoManual.readOnly = true
             nomeVariavel.value = titulo
             nomeVariavel.readOnly = true
 
-            console.log('VetorArquivo ' + vetorArquivo)
-
             for(let i = 0; i < vetorArquivo.length; i++) {
                 if(vetorArquivo[i] != '' && vetorArquivo[i] != null && vetorArquivo[i] != undefined && vetorArquivo[i].length != 0) {
 
                     let numero = parseFloat(vetorArquivo[i].replace(',', '.'))
-                    if(!isNaN(numero)) {
-                        vetorDadosUpload.push(numero)
+                    if(!isNaN(numero)) {      
+                        vetorDadosUpload.push(numero)   // São dados númericos
                     }
                     else {
-                        contador++
+                        contador++   // Não são dados númericos
                     }          
                 }
             }
         }
 
         if(contador == vetorArquivo.length - 1) {
-            console.log('Vetor de string')
             vetorDadosUpload = vetorArquivo.filter(elem => elem)
 
             tipoVariavel.innerHTML = ""
@@ -109,15 +104,13 @@ inputArquivo.addEventListener('change', function(evento) { // Carregou arquivo
             tipoVariavel.appendChild(continua)
         }
 
-        console.log({contador})
-
         // Variável de controle
         houveUpload = true
     }
     leitorCSV.readAsText(inputArquivo.files[0]) // Lê arquivo como texto e especifica o arquivo a ser lido
 }, false)
 
-
+// Função responsável pelas características da página após ser (re)carregada
 function iniciar() {
     lblValMedSep.style.display = 'none'
     medidaQKD.style.display = 'none'
@@ -147,7 +140,7 @@ function gerarCor(vetor) {
 }
 
 
-// Mudança do tipo de variável
+// Mudança do select Tipo de Variável
 function changeTipoVariavel() {
 
     if(tipoVariavel.value == "Qualitativa Nominal" || tipoVariavel.value == "Qualitativa Ordinal") {
@@ -172,7 +165,7 @@ function changeTipoVariavel() {
     }
 }
 
-// Mudança no input do dado manual
+// Mudança no input para inserir dados manualmente. Gera o select do Tipo de Variável
 function inputDadoManual() {
 
     nomeVariavel.value = ""
@@ -202,6 +195,7 @@ function inputDadoManual() {
     houveUpload = false
 }
 
+// Alteração no select do tipo de Medida Separatriz. Exibe o campo para informar o valor a ser calculado.
 function exibeMedSeparatriz() {
 
     let valorIndex = medidaSeparatriz.selectedIndex
@@ -274,8 +268,6 @@ function exibeMedSeparatriz() {
         percentil.value = ""
         percentil.focus()            
     }
-
-    console.log(valorIndex)
 }
 
 // Função para criação do cabeçalho da tabela
@@ -300,8 +292,6 @@ function criaCabecalhoTabela() {
 
 // Função para cálculo das Medidas Separatrizes das variáveis qualitativa nominal, ordinal e quantitativa discreta
 function calcMedSepNOD(somaTotalNOD, vetDadosNOD) {
-    console.log(somaTotalNOD)
-    console.log(vetDadosNOD)
     let posicaoQKDP = 0,
         simboloQKDP = ""
     if(medidaSeparatriz.selectedIndex === 0) {
@@ -350,19 +340,16 @@ function calcMedSepNOD(somaTotalNOD, vetDadosNOD) {
     }
     
     if(simboloQKDP !== "") {
-        console.log({posicaoQKDP})
         if(posicaoQKDP == 0) {
             resultMedSeparatriz.innerHTML = simboloQKDP + vetDadosNOD[posicaoQKDP]
-            console.log({posicaoQKDP, simboloQKDP, somaTotalNOD})
         }
         else {
             resultMedSeparatriz.innerHTML = simboloQKDP + vetDadosNOD[posicaoQKDP - 1]
-            console.log({posicaoQKDP, simboloQKDP, somaTotalNOD, vetDadosNOD})
         }
     }
 }
 
-// Função para gerar a somatória de todos os valores de um vetor
+// Função para gerar o somatório de todos os valores de um vetor
 function somaTotal(vetor) {
     let soma = 0
     for(let i in vetor) {
@@ -451,7 +438,6 @@ function elementoPosterior(corpoTabela, y) {
     return elementos.reduce((proximo, child) => {
         const limites = child.getBoundingClientRect()
         const distancia = y - limites.top - limites.height / 2
-        //console.log(distancia)
 
         if(distancia < 0 && distancia > proximo.distancia) {
             return {distancia: distancia, element: child}
@@ -471,11 +457,12 @@ function efetuarCalculos(vetorDados) {
 
     criaCabecalhoTabela()
 
-    // QUALITATIVA NOMINAL E ORDINAL -----------------------------------
+    // PROCESSOS REFERENTES ÀS VARIÁVEIS QUALITATIVA NOMINAL E ORDINAL -----------------------------------
     if(tipoVariavel.value == "Qualitativa Nominal" || tipoVariavel.value == "Qualitativa Ordinal") {
         divMedidasDispersao.style.display = "none"
-        vetorDados.sort()
-        console.log({vetorDados})
+        //vetorDados.sort()       
+
+        quickSort(vetorDados)   // Chamada do algoritmo de ordenação OBRIGATÓRIO
 
         let vetorVariavel = [],
             percentualTotal = 0
@@ -484,7 +471,6 @@ function efetuarCalculos(vetorDados) {
                 vetorVariavel.push(vetorDados[i])
             }
         }
-        console.log('Vetor Variável: ' + vetorVariavel)
 
         let vetorTotal = [],
             vetorFreqTotal = []
@@ -517,10 +503,10 @@ function efetuarCalculos(vetorDados) {
             celulaVariavel.innerHTML = vetorVariavel[i]
             celulaFreqSim.innerHTML = cont
             celulaFreqRelativa.innerHTML = freqRelativa.toFixed(2) + '%'
-            // FREQUÊNCIA ACUMULADA
+            // CÁLCULO DA FREQUÊNCIA ACUMULADA
             celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
 
-            // FREQUÊNCIA ACUMULADA PERCENTUAL
+            // CÁLCULO DA FREQUÊNCIA ACUMULADA PERCENTUAL
             celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal).toFixed(2) + '%'
 
             corpoTabela.appendChild(linha)
@@ -530,7 +516,7 @@ function efetuarCalculos(vetorDados) {
             linha.appendChild(celulaFreqAcum)
             linha.appendChild(celulaFreqAcumPer)
         }
-        
+        // Construindo a tabela
         tabela.appendChild(corpoTabela)
 
         let linhaTotal = document.createElement('tr')
@@ -544,22 +530,19 @@ function efetuarCalculos(vetorDados) {
         totalDados.innerHTML = somaTotal(vetorTotal)
         linhaTotal.appendChild(totalDados)
 
-        console.log(somaTotal(vetorTotal))
-
         let totalPercentual = document.createElement('td')
         totalPercentual.innerHTML = percentualTotal.toFixed(2) + '%'
         linhaTotal.appendChild(totalPercentual)
 
         tabela.appendChild(rodapeTabela)
 
-        // MEDIANA
+        // CÁLCULO DA MEDIANA
         let mediana,
             mediana1,
             mediana2,
             posicao = 0
         if((vetorDados.length % 2) === 0) {
             posicao = vetorDados.length / 2
-            console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
             mediana1 = vetorDados[posicao - 1]
             mediana2 = vetorDados[posicao]
 
@@ -568,54 +551,47 @@ function efetuarCalculos(vetorDados) {
             }
             else {
                 mediana = mediana1 + " e " + mediana2
-            }
-            console.log(posicao)  
-            console.log('Mediana 2: ' + mediana2)                          
+            }                        
         }
         else {
             posicao = ((vetorDados.length - 1) / 2)
-            console.log('É ímpar. Posição: ' + posicao)
             mediana = vetorDados[posicao]
         }
 
         resultMediana.innerHTML = 'Mediana: ' + mediana
 
-        // MODA
-        console.log(vetorTotal)
-
+        // CÁLCULO DA MODA
         let moda = false
+        // Verifica se existe moda
         for(let j = 1; j < vetorTotal.length; j++) {
             if(vetorTotal[0] !== vetorTotal[j]) {
                 moda = true
                 break
             }
         }
-        console.log({moda})
 
-        if(moda === true) {
+        if(moda === true) {    // Existe moda
             let maior = vetorTotal[0]
             for(let i = 1; i < vetorTotal.length; i++) {
                 if(vetorTotal[i] > maior) {
                     maior = vetorTotal[i]
                 }
             } 
-            console.log(maior)
+
             let vetorModa = []
             for(let i = 0; i < vetorTotal.length; i++) {
                 if(vetorTotal[i] === maior) {
                     vetorModa.push(vetorVariavel[i])
                 }
             }
-            console.log({maior, vetorModa})
-            
             resultModa.innerHTML = 'Moda: ' + vetorModa
         }
         else {
-            resultModa.innerHTML = 'Moda: Amodal'                                
+            resultModa.innerHTML = 'Moda: Amodal'     // Não existe moda                             
         }
 
-        // MEDIDAS SEPARATRIZES ----------------------
-        calcMedSepNOD(somaTotal(vetorTotal), vetorDados)
+        // CÁLCULO DAS MEDIDAS SEPARATRIZES ----------------------
+        calcMedSepNOD(somaTotal(vetorTotal), vetorDados)   // Chamada da função que efetua os cálculos
 
         // GRÁFICO
         new Chart(grafico, {
@@ -640,19 +616,18 @@ function efetuarCalculos(vetorDados) {
     }
 
 
-    // QUANTITATIVA DISCRETA -------------------------------------------------
+    // PROCESSOS REFERENTES À VARIÁVEL QUANTITATIVA DISCRETA -------------------------------------------------
     if(tipoVariavel.value == "Quantitativa Discreta") {
 
-        if(houveUpload === false) {
+        if(houveUpload === false) {   // Dados inseridos manualmente
             for(let i = 0; i < vetorDados.length; i++) {
 
-                if(vetorDados[i].indexOf(',')) {
+                if(vetorDados[i].indexOf(',')) {  // Números decimais
                     vetorDados[i] = vetorDados[i].replace(",", ".")
                     vetorDados[i] = parseFloat(vetorDados[i])
                 }
                 else {
-                    vetorDados[i] = parseInt(vetorDados[i])
-                    console.log(i)
+                    vetorDados[i] = parseInt(vetorDados[i])  // Números inteiros
                 }
             }
         }
@@ -660,8 +635,6 @@ function efetuarCalculos(vetorDados) {
         vetorDados.sort(function(a, b) {
             return a - b
         })
-
-        console.log(vetorDados)
 
         let vetorVariavel = [],
             percentualTotal = 0,
@@ -671,7 +644,6 @@ function efetuarCalculos(vetorDados) {
                 vetorVariavel.push(vetorDados[i])
             }
         }
-        console.log('Vetor Variável: ' + vetorVariavel)
 
         let vetorTotal = [],
             vetorFreqTotal = []
@@ -689,7 +661,7 @@ function efetuarCalculos(vetorDados) {
 
             vetorTotal.push(cont)
 
-            // FREQUÊNCIA RELATIVA
+            // CÁLCULO DA FREQUÊNCIA RELATIVA
             let freqRelativa = (cont / vetorDados.length) * 100
             percentualTotal = percentualTotal + freqRelativa
 
@@ -704,11 +676,11 @@ function efetuarCalculos(vetorDados) {
             celulaVariavel.innerHTML = vetorVariavel[i]
             celulaFreqSim.innerHTML = cont
             celulaFreqRelativa.innerHTML = freqRelativa.toFixed(2) + '%'
-            // FREQUÊNCIA ACUMULADA
+            // CÁLCULO DA FREQUÊNCIA ACUMULADA
             celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
             vetorFac.push(somaTotal(vetorTotal))
 
-            // FREQUÊNCIA ACUMULADA PERCENTUAL
+            // CÁLCULO DA FREQUÊNCIA ACUMULADA PERCENTUAL
             celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal).toFixed(2) + '%'
 
             corpoTabela.appendChild(linha)
@@ -718,7 +690,7 @@ function efetuarCalculos(vetorDados) {
             linha.appendChild(celulaFreqAcum)
             linha.appendChild(celulaFreqAcumPer)
         }
-    
+        // Construindo a tabela
         tabela.appendChild(corpoTabela)
 
         let linhaTotal = document.createElement('tr')
@@ -738,7 +710,7 @@ function efetuarCalculos(vetorDados) {
 
         tabela.appendChild(rodapeTabela)
         
-        // MÉDIA PONDERADA SIMPLES
+        // CÁLCULO DA MÉDIA PONDERADA SIMPLES
         let somaMedia = 0
         for(let i = 0; i < vetorVariavel.length; i++) {
             somaMedia += vetorVariavel[i] * vetorTotal[i]
@@ -749,14 +721,13 @@ function efetuarCalculos(vetorDados) {
         resultMedia.innerHTML = 'Média: ' + media.toFixed(2)
 
 
-        // MEDIANA
+        // CÁLCULO DA MEDIANA
         let mediana1,
             mediana2,
             mediana,
             posicao = 0
         if((vetorDados.length % 2) === 0) {
             posicao = vetorDados.length / 2
-            console.log('É par. Posição: ' + posicao + ' e ' + (posicao + 1))
             mediana1 = vetorDados[posicao - 1]
             mediana2 = vetorDados[posicao]
 
@@ -765,47 +736,43 @@ function efetuarCalculos(vetorDados) {
             }
             else {
                 mediana = mediana1 + " e " + mediana2
-            }
-            console.log({posicao})                            
+            }                            
         }
         else {
             posicao = ((vetorDados.length - 1) / 2)
-            console.log('É ímpar. Posição: ' + posicao)
             mediana = vetorDados[posicao]
         }
 
         resultMediana.innerHTML = 'Mediana: ' + mediana 
         
-        // MODA
+        // CÁLCULO DA MODA
         let moda = false
+        // Verifica se existe moda
         for(let j = 1; j < vetorTotal.length; j++) {
             if(vetorTotal[0] !== vetorTotal[j]) {
                 moda = true
                 break
             }
         }
-        console.log({moda})
 
-        if(moda === true) {
+        if(moda === true) {    // Existe moda
             let maior = vetorTotal[0]
             for(let i = 1; i < vetorTotal.length; i++) {
                 if(vetorTotal[i] > maior) {
                     maior = vetorTotal[i]
                 }
             } 
-            console.log(maior)
+
             let vetorModa = []
             for(let i = 0; i < vetorTotal.length; i++) {
                 if(vetorTotal[i] === maior) {
                     vetorModa.push(vetorVariavel[i])
                 }
             }
-            console.log({maior, vetorModa})
-            
             resultModa.innerHTML = 'Moda: ' + vetorModa
         }
         else {
-            resultModa.innerHTML = 'Moda: Amodal'           
+            resultModa.innerHTML = 'Moda: Amodal'   // Não existe moda        
         }
 
         // CÁLCULO DO DESVIO PADRÃO
@@ -818,22 +785,19 @@ function efetuarCalculos(vetorDados) {
         if(radAmostra.checked === true) {
             let amostra = somaTotal(vetorTotal) - 1
             desvioPadrao = Math.sqrt(somatoria / amostra)
-            console.log({amostra, somatoria, desvioPadrao})
         }
         else {
             let populacao = somaTotal(vetorTotal)
             desvioPadrao = Math.sqrt(somatoria / populacao)
-            console.log({populacao, somatoria, desvioPadrao})
         }
         resultDesvioPadrao.innerHTML = "Desvio Padrão: " + desvioPadrao.toFixed(2)
 
         // CÁLCULO DO COEFICIENTE DE VARIAÇÃO
         let coefVariacao = (desvioPadrao / media) * 100
         resultCoefVariacao.innerHTML = "Coeficiente de Variação: " + coefVariacao.toFixed(2) + "%"
-        console.log({coefVariacao, media})
 
 
-        // MEDIDAS SEPARATRIZES ----------------------  
+        // CÁLCULO DAS MEDIDAS SEPARATRIZES ----------------------  
         calcMedSepNOD(somaTotal(vetorTotal), vetorDados)
 
         // GRÁFICO
@@ -865,7 +829,7 @@ function efetuarCalculos(vetorDados) {
         })
     } 
 
-    // QUANTITATIVA CONTÍNUA -----------------------------------------------
+    // PROCESSOS REFERENTES À VARIÁVEL QUANTITATIVA CONTÍNUA -----------------------------------------------
     if(tipoVariavel.value == "Quantitativa Contínua") {
         
         if(houveUpload === false) {
@@ -884,20 +848,15 @@ function efetuarCalculos(vetorDados) {
 
         vetorDados.sort(function(a, b) {
             return a - b;
-        });
-
-        console.log('Vetor Dados: ' + vetorDados)
+        })
 
         // AMPLITUDE TOTAL DA SEQUÊNCIA (MAIOR NÚMERO DA DISTRIBUIÇÃO - MENOR NÚMERO DA DISTRIBUIÇÃO)
-        let amplitude = Math.round((vetorDados[vetorDados.length - 1]) - vetorDados[0])
-        console.log(amplitude) 
+        let amplitude = Math.round((vetorDados[vetorDados.length - 1]) - vetorDados[0]) 
 
         // QUANTIDADE DE CLASSES (QUANTIDADE DE LINHAS)
         let k = Math.trunc(Math.sqrt(vetorDados.length)), // Raiz quadrada de n, n é a quantidade total pesquisada
             kMenos1 = k - 1,
             kMais1 = k + 1
-    
-        console.log(kMenos1, k, kMais1)
 
         // INTERVALO DE CLASSE = AMPLITUDE + 1(PELO MENOS) / QUANTIDADE DE CLASSES                            
         let intervalo,
@@ -923,8 +882,6 @@ function efetuarCalculos(vetorDados) {
                 controle = true
             }                                
         }
-        console.table({amplitude, qtLinhas, intervalo})
-        console.log(vetorDados)
 
 
         let vetorVariavel = []
@@ -933,7 +890,6 @@ function efetuarCalculos(vetorDados) {
                 vetorVariavel.push(vetorDados[i])
             }
         }
-        console.log('Vetor Variável: ' + vetorVariavel)
 
         let inferior = vetorDados[0],
             vetorTotal = [],
@@ -990,14 +946,14 @@ function efetuarCalculos(vetorDados) {
 
             linha.appendChild(celulaFreqRelativa)
 
-            // FREQUÊNCIA ACUMULADA
+            // SOMATÓRIO DA FREQUÊNCIA ACUMULADA
             let celulaFreqAcum = document.createElement('td')
             celulaFreqAcum.innerHTML = somaTotal(vetorTotal)
             vetorFac.push(somaTotal(vetorTotal))
             
             linha.appendChild(celulaFreqAcum)
 
-            // FREQUÊNCIA ACUMULADA PERCENTUAL
+            // SOMATÓRIO DA FREQUÊNCIA ACUMULADA PERCENTUAL
             let celulaFreqAcumPer = document.createElement('td')
             celulaFreqAcumPer.innerHTML = somaTotal(vetorFreqTotal).toFixed(2) + '%'
 
@@ -1007,13 +963,10 @@ function efetuarCalculos(vetorDados) {
 
             inferior = superior
         }
-
+        // Construindo a tabela
         tabela.appendChild(corpoTabela)
 
-        console.log(vetorVarLimites)
-
         vetorLimites.push(inferior)
-        console.log('Versão final: ' + vetorLimites)
 
         let linhaTotal = document.createElement('tr')
         rodapeTabela.appendChild(linhaTotal)
@@ -1032,7 +985,7 @@ function efetuarCalculos(vetorDados) {
 
         tabela.appendChild(rodapeTabela)
         
-        // MÉDIA PONDERA SIMPLES
+        // CÁLCULO DA MÉDIA PONDERA SIMPLES
         let prodSum = 0
         let media = 0
         for(let i = 0; i < vetorMediaIC.length; i++) {
@@ -1043,7 +996,7 @@ function efetuarCalculos(vetorDados) {
 
         resultMedia.innerHTML = 'Média: ' + media.toFixed(2)
 
-        // MEDIANA
+        // CÁLCULO DA MEDIANA
         let mediana,
             limiteInferior,
             freqAcAnterior,
@@ -1052,12 +1005,10 @@ function efetuarCalculos(vetorDados) {
         if((vetorDados.length % 2) === 0) {
             let posicao2 = vetorDados.length / 2,
                 posicao1 = posicao2 - 1
-            console.log('É par. Posição: ' + posicao1 + ' e ' + (posicao2))
 
             let i
             for(i = 0; i < vetorFac.length; i++) {
                 if(posicao1 <= vetorFac[i]) {
-                    console.log('Está na posição ' + i)
                     break
                 }
             }
@@ -1073,24 +1024,18 @@ function efetuarCalculos(vetorDados) {
             // Determina o limite inferior da classe da mediana
             limiteInferior = vetorLimites[i]
 
-            console.log('vetorTotal ' + vetorTotal)
             // Determina a Frequência Absoluta da Mediana 
             fiMediana = vetorTotal[i]
             aux = ((vetorDados.length / 2) - freqAcAnterior) / fiMediana
             mediana = limiteInferior + (aux * intervalo)
-            console.log({i, limiteInferior, freqAcAnterior, intervalo, fiMediana, aux, mediana})
         }
         else {
             let posicao = ((vetorDados.length - 1) / 2)
-            console.log('É ímpar. Posição.')
             mediana = vetorDados[posicao]
-            console.log({posicao, mediana})
-
 
             let i
             for(i = 0; i < vetorFac.length; i++) {
                 if(posicao <= vetorFac[i]) {
-                    console.log({i})
                     break
                 }
             }
@@ -1107,14 +1052,13 @@ function efetuarCalculos(vetorDados) {
             fiMediana = vetorTotal[i]
             aux = ((vetorDados.length / 2) - freqAcAnterior) / fiMediana
             mediana = limiteInferior + (aux * intervalo)
-            console.log({limiteInferior, freqAcAnterior, intervalo, fiMediana, aux, mediana})
         }
 
         resultMediana.innerHTML = 'Mediana: ' + mediana.toFixed(2)
 
 
 
-        // MEDIDAS SEPARATRIZES ----------------------
+        // CÁLCULO DAS MEDIDAS SEPARATRIZES ----------------------
         let posicaoMedSep = 0,
             simbolo = ""                
         if(medidaSeparatriz.selectedIndex === 1) {    //   QUARTIL 
@@ -1162,7 +1106,6 @@ function efetuarCalculos(vetorDados) {
             let posicaoLinha
             for(posicaoLinha = 0; posicaoLinha < vetorFac.length; posicaoLinha++) {
                 if(Math.round(posicaoMedSep) <= vetorFac[posicaoLinha]) {
-                    console.log('Está na posição ' + posicaoLinha)
                     break
                 }
             }
@@ -1180,31 +1123,26 @@ function efetuarCalculos(vetorDados) {
             let auxMedSep = (posicaoMedSep - freqAcAntMedSep) / fiMedSep
             let valMedSep = limiteInfMedSep + auxMedSep * intervalo
             resultMedSeparatriz.innerHTML = simbolo + valMedSep.toFixed(2)
-            console.log({posicaoMedSep, posicaoLinha, limiteInfMedSep, freqAcAntMedSep, intervalo, fiMedSep, auxMedSep, valMedSep})
         }
 
 
-        // MODA
-        console.log({vetorTotal})
-
+        // CÁLCULO DA MODA
         let moda = false
+        // Verifica se existe moda
         for(let j = 1; j < vetorTotal.length; j++) {
             if(vetorTotal[0] !== vetorTotal[j]) {
                 moda = true
                 break
             }
         }
-        console.log({moda})
 
-        if(moda === true) {
-
+        if(moda === true) {  // Existe moda
             let maior = vetorTotal[0]
             for(let i = 1; i < vetorTotal.length; i++) {
                 if(vetorTotal[i] > maior) {
                     maior = vetorTotal[i]
                 }
             }
-            console.log(maior)
 
             let vetorModa = []
             for(let i = 0; i < vetorTotal.length; i++) {
@@ -1214,10 +1152,8 @@ function efetuarCalculos(vetorDados) {
             }
 
             resultModa.innerHTML = 'Moda: ' + vetorModa
-
-            console.log({vetorMediaIC, maior, vetorModa})
         }
-        else {
+        else {  // Não existe moda
             resultModa.innerHTML = 'Moda: Amodal'
         }
         
@@ -1232,19 +1168,16 @@ function efetuarCalculos(vetorDados) {
         if(radAmostra.checked === true) {
             let amostra = somaTotal(vetorTotal) - 1
             desvioPadrao = Math.sqrt(somatoria / amostra)
-            console.log({amostra, somatoria, desvioPadrao})
         }
         else {
             let populacao = somaTotal(vetorTotal)
             desvioPadrao = Math.sqrt(somatoria / populacao)
-            console.log({populacao, somatoria, desvioPadrao})
         }
         resultDesvioPadrao.innerHTML = "Desvio Padrão: " + desvioPadrao.toFixed(2)
 
         // CÁLCULO DO COEFICIENTE DE VARIAÇÃO
         let coefVariacao = (desvioPadrao / media) * 100
         resultCoefVariacao.innerHTML = "Coeficiente de Variação: " + coefVariacao.toFixed(2) + "%"
-        console.log({coefVariacao, media})
 
 
         // GRÁFICO
@@ -1346,6 +1279,27 @@ function exibirManual() {
     }
 }
 
+
+// Uso OBRIGATÓRIO de um algoritmo de ordenação
+function quickSort(vetor, inicio = 0, fim = vetor.length - 1) {
+    if(fim > inicio) {
+        let posDiv = inicio - 1
+        let posPivot = fim
+        for(let i = inicio; i < fim; i++) {
+            if(vetor[i] < vetor[posPivot]) {
+                posDiv++
+                [vetor[i], vetor[posDiv]] = [vetor[posDiv], vetor[i]]
+            }
+        }
+        posDiv++
+        [vetor[posDiv], vetor[posPivot]] = [vetor[posPivot], vetor[posDiv]]
+
+        quickSort(vetor, inicio, posDiv - 1) // Lado esquerdo (números menores que o pivot)
+        quickSort(vetor, incio = posDiv + 1, fim) // Lado direito (números maiores que o pivot)
+    }
+}
+
+// Atribuição dos eventos
 window.onload = iniciar()
 medidaSeparatriz.addEventListener('change', exibeMedSeparatriz)
 tipoVariavel.addEventListener('change', changeTipoVariavel)
