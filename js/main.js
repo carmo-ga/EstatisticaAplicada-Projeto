@@ -919,7 +919,7 @@ function efetuarCalculos(vetorDados) {
 
             vetorTotal.push(contTotal())
 
-            // FREQUÊNCIA RELATIVA
+            // CÁLCULO DA FREQUÊNCIA RELATIVA
             let freqRelativa = (contTotal() / vetorDados.length) * 100
             percentualTotal = percentualTotal + freqRelativa
 

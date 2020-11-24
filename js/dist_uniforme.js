@@ -28,6 +28,7 @@ function iniciar() {
     valorMinimoUniforme.focus()
 }
 
+// Função responsável por exibir/esconder os campos para preenchimento dos valores de intervalo
 function escolherOpcaoSelect() {
     if(escolherValorUniforme.value == '(Selecione)') {
         inputMenorUniforme.style.display = 'none'
